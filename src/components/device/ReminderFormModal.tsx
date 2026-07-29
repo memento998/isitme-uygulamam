@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AppModal } from '@/components/ui/AppModal';
 import { Button } from '@/components/ui/Button';
@@ -16,24 +16,35 @@ interface Props {
 }
 
 export function ReminderFormModal({ visible, reminder, onSave, onClose }: Props) {
-  const [enabled, setEnabled] = useState(false);
-  const [intervalText, setIntervalText] = useState('30');
+  return (
+    <AppModal
+      visible={visible}
+      title={reminder ? MAINTENANCE_TYPE_LABELS[reminder.type] : 'Hatırlatıcı'}
+      onClose={onClose}
+    >
+      {visible && reminder ? (
+        <ReminderForm key={reminder.id} reminder={reminder} onSave={onSave} />
+      ) : null}
+    </AppModal>
+  );
+}
+
+function ReminderForm({
+  reminder,
+  onSave,
+}: {
+  reminder: MaintenanceReminder;
+  onSave: Props['onSave'];
+}) {
+  const [enabled, setEnabled] = useState(reminder.enabled);
+  const [intervalText, setIntervalText] = useState(String(reminder.intervalDays));
   const [intervalError, setIntervalError] = useState<string | undefined>();
   const [saving, setSaving] = useState(false);
 
-  const isWarranty = reminder?.type === 'warranty';
-
-  useEffect(() => {
-    if (visible && reminder) {
-      setEnabled(reminder.enabled);
-      setIntervalText(String(reminder.intervalDays));
-      setIntervalError(undefined);
-      setSaving(false);
-    }
-  }, [visible, reminder]);
+  const isWarranty = reminder.type === 'warranty';
 
   const handleSave = async () => {
-    let intervalDays = reminder?.intervalDays ?? 0;
+    let intervalDays = reminder.intervalDays;
     if (!isWarranty) {
       const parsed = Number(intervalText);
       if (!Number.isInteger(parsed) || parsed < 1 || parsed > 365) {
@@ -52,11 +63,7 @@ export function ReminderFormModal({ visible, reminder, onSave, onClose }: Props)
   };
 
   return (
-    <AppModal
-      visible={visible}
-      title={reminder ? MAINTENANCE_TYPE_LABELS[reminder.type] : 'Hatırlatıcı'}
-      onClose={onClose}
-    >
+    <>
       <SwitchRow
         label="Hatırlatıcı açık"
         description="Zamanı geldiğinde bildirim gönderilir"
@@ -76,6 +83,6 @@ export function ReminderFormModal({ visible, reminder, onSave, onClose }: Props)
         />
       )}
       <Button label="Kaydet" onPress={handleSave} loading={saving} />
-    </AppModal>
+    </>
   );
 }

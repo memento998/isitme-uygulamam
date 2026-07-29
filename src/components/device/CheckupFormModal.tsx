@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AppModal } from '@/components/ui/AppModal';
 import { Button } from '@/components/ui/Button';
@@ -16,21 +16,30 @@ interface Props {
 }
 
 export function CheckupFormModal({ visible, checkup, onSave, onClose }: Props) {
-  const [title, setTitle] = useState('');
-  const [dueDate, setDueDate] = useState(todayISO());
+  return (
+    <AppModal
+      visible={visible}
+      title={checkup ? 'Kontrolü Düzenle' : 'Yeni Kontrol'}
+      onClose={onClose}
+    >
+      {/* Form, her açılışta yeniden kurularak temiz durumla başlar. */}
+      {visible ? <CheckupForm key={checkup?.id ?? 'new'} checkup={checkup} onSave={onSave} /> : null}
+    </AppModal>
+  );
+}
+
+function CheckupForm({
+  checkup,
+  onSave,
+}: {
+  checkup: Checkup | null;
+  onSave: Props['onSave'];
+}) {
+  const [title, setTitle] = useState(checkup?.title ?? '');
+  const [dueDate, setDueDate] = useState(checkup?.dueDate ?? todayISO());
   const [titleError, setTitleError] = useState<string | undefined>();
   const [dateError, setDateError] = useState<string | undefined>();
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (visible) {
-      setTitle(checkup?.title ?? '');
-      setDueDate(checkup?.dueDate ?? todayISO());
-      setTitleError(undefined);
-      setDateError(undefined);
-      setSaving(false);
-    }
-  }, [visible, checkup]);
 
   const handleSave = async () => {
     let valid = true;
@@ -56,11 +65,7 @@ export function CheckupFormModal({ visible, checkup, onSave, onClose }: Props) {
   };
 
   return (
-    <AppModal
-      visible={visible}
-      title={checkup ? 'Kontrolü Düzenle' : 'Yeni Kontrol'}
-      onClose={onClose}
-    >
+    <>
       <TextField
         label="Kontrol adı"
         value={title}
@@ -77,6 +82,6 @@ export function CheckupFormModal({ visible, checkup, onSave, onClose }: Props) {
         error={dateError}
       />
       <Button label="Kaydet" onPress={handleSave} loading={saving} />
-    </AppModal>
+    </>
   );
 }

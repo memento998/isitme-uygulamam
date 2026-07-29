@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AppModal } from '@/components/ui/AppModal';
 import { Button } from '@/components/ui/Button';
@@ -15,19 +15,24 @@ interface Props {
 }
 
 export function CompleteCheckupModal({ visible, checkup, onSave, onClose }: Props) {
+  return (
+    <AppModal
+      visible={visible}
+      title={checkup ? `"${checkup.title}" tamamlandı` : 'Kontrolü Tamamla'}
+      onClose={onClose}
+    >
+      {visible && checkup ? (
+        <CompleteForm key={checkup.id} checkup={checkup} onSave={onSave} />
+      ) : null}
+    </AppModal>
+  );
+}
+
+function CompleteForm({ checkup, onSave }: { checkup: Checkup; onSave: Props['onSave'] }) {
   const [completedAt, setCompletedAt] = useState(todayISO());
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState(checkup.note ?? '');
   const [dateError, setDateError] = useState<string | undefined>();
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (visible) {
-      setCompletedAt(todayISO());
-      setNote(checkup?.note ?? '');
-      setDateError(undefined);
-      setSaving(false);
-    }
-  }, [visible, checkup]);
 
   const handleSave = async () => {
     if (!isValidISODate(completedAt)) {
@@ -44,11 +49,7 @@ export function CompleteCheckupModal({ visible, checkup, onSave, onClose }: Prop
   };
 
   return (
-    <AppModal
-      visible={visible}
-      title={checkup ? `"${checkup.title}" tamamlandı` : 'Kontrolü Tamamla'}
-      onClose={onClose}
-    >
+    <>
       <DateField
         label="Gerçek tamamlanma tarihi"
         value={completedAt}
@@ -64,6 +65,6 @@ export function CompleteCheckupModal({ visible, checkup, onSave, onClose }: Prop
         multiline
       />
       <Button label="Tamamlandı Olarak İşaretle" onPress={handleSave} loading={saving} />
-    </AppModal>
+    </>
   );
 }

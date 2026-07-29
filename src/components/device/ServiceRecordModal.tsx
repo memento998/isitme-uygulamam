@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AppModal } from '@/components/ui/AppModal';
 import { Button } from '@/components/ui/Button';
@@ -13,23 +13,20 @@ interface Props {
 }
 
 export function ServiceRecordModal({ visible, onSave, onClose }: Props) {
+  return (
+    <AppModal visible={visible} title="Yeni Servis Kaydı" onClose={onClose}>
+      {visible ? <ServiceForm onSave={onSave} /> : null}
+    </AppModal>
+  );
+}
+
+function ServiceForm({ onSave }: { onSave: Props['onSave'] }) {
   const [date, setDate] = useState(todayISO());
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [titleError, setTitleError] = useState<string | undefined>();
   const [dateError, setDateError] = useState<string | undefined>();
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (visible) {
-      setDate(todayISO());
-      setTitle('');
-      setDescription('');
-      setTitleError(undefined);
-      setDateError(undefined);
-      setSaving(false);
-    }
-  }, [visible]);
 
   const handleSave = async () => {
     let valid = true;
@@ -55,7 +52,7 @@ export function ServiceRecordModal({ visible, onSave, onClose }: Props) {
   };
 
   return (
-    <AppModal visible={visible} title="Yeni Servis Kaydı" onClose={onClose}>
+    <>
       <DateField label="Tarih" value={date} onChange={setDate} required error={dateError} />
       <TextField
         label="İşlem"
@@ -73,6 +70,6 @@ export function ServiceRecordModal({ visible, onSave, onClose }: Props) {
         multiline
       />
       <Button label="Kaydet" onPress={handleSave} loading={saving} />
-    </AppModal>
+    </>
   );
 }
