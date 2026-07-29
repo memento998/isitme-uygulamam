@@ -56,10 +56,6 @@ export const MIN_TOUCH_SIZE = 44;
 
 export const shadow = {
   card: {
-    shadowColor: '#0F2A43',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
+    boxShadow: '0 2px 8px rgba(15, 42, 67, 0.08)',
   },
 } as const;

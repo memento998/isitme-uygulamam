@@ -6,7 +6,7 @@
  * tüm bildirimler iptal edilip güncel verilere göre yeniden kurulur.
  */
 import { Platform } from 'react-native';
-import * as Notifications from 'expo-notifications';
+import type * as NotificationsModule from 'expo-notifications';
 
 import { listAllCheckups } from '@/repositories/checkups';
 import { listDevices } from '@/repositories/devices';
@@ -15,7 +15,12 @@ import { getSettings } from '@/repositories/settings';
 import { MAINTENANCE_TYPE_LABELS } from '@/types/models';
 import { compareISO, formatDate, parseISODate, todayISO } from './date';
 
-const isSupported = Platform.OS !== 'web';
+// Web'de modülün içe aktarılması bile uyarı ürettiği için yalnızca native platformlarda yüklenir.
+const Notifications: typeof NotificationsModule | null =
+  Platform.OS === 'web'
+    ? null
+    : // eslint-disable-next-line @typescript-eslint/no-require-imports
+      (require('expo-notifications') as typeof NotificationsModule);
 
 /** Bildirim izni istenmeden önce kullanıcıya gösterilecek açıklama. */
 export const PERMISSION_EXPLANATION =
@@ -27,7 +32,7 @@ export type PermissionState = 'granted' | 'denied' | 'undetermined' | 'unsupport
 
 /** Uygulama açılışında bir kez çağrılır; bildirimlerin ön planda da görünmesini sağlar. */
 export function configureNotifications(): void {
-  if (!isSupported) return;
+  if (!Notifications) return;
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldPlaySound: false,
@@ -39,7 +44,7 @@ export function configureNotifications(): void {
 }
 
 async function ensureAndroidChannel(): Promise<void> {
-  if (Platform.OS !== 'android') return;
+  if (!Notifications || Platform.OS !== 'android') return;
   await Notifications.setNotificationChannelAsync('reminders', {
     name: 'Hatırlatmalar',
     importance: Notifications.AndroidImportance.DEFAULT,
@@ -48,7 +53,7 @@ async function ensureAndroidChannel(): Promise<void> {
 }
 
 export async function getPermissionState(): Promise<PermissionState> {
-  if (!isSupported) return 'unsupported';
+  if (!Notifications) return 'unsupported';
   const result = await Notifications.getPermissionsAsync();
   if (result.granted) return 'granted';
   return result.canAskAgain ? 'undetermined' : 'denied';
@@ -56,7 +61,7 @@ export async function getPermissionState(): Promise<PermissionState> {
 
 /** Bildirim izni ister. İzin açıklaması ekran tarafından önceden gösterilmelidir. */
 export async function requestPermission(): Promise<boolean> {
-  if (!isSupported) return false;
+  if (!Notifications) return false;
   const result = await Notifications.requestPermissionsAsync();
   return result.granted;
 }
@@ -68,6 +73,7 @@ function dateAt(iso: string, hour: number, minute: number): Date {
 }
 
 async function scheduleAt(title: string, body: string, when: Date): Promise<void> {
+  if (!Notifications) return;
   await Notifications.scheduleNotificationAsync({
     content: { title, body },
     trigger: {
@@ -83,7 +89,7 @@ async function scheduleAt(title: string, body: string, when: Date): Promise<void
  * İzin verilmemişse hiçbir şey yapmaz.
  */
 export async function syncAllNotifications(): Promise<void> {
-  if (!isSupported) return;
+  if (!Notifications) return;
   try {
     const permission = await Notifications.getPermissionsAsync();
     if (!permission.granted) return;
@@ -148,6 +154,6 @@ export async function syncAllNotifications(): Promise<void> {
 
 /** Planlanmış tüm bildirimleri iptal eder (tüm veriler silindiğinde kullanılır). */
 export async function cancelAllNotifications(): Promise<void> {
-  if (!isSupported) return;
+  if (!Notifications) return;
   await Notifications.cancelAllScheduledNotificationsAsync();
 }

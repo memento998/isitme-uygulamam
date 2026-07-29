@@ -29,95 +29,106 @@ export function DeviceCard({
   onDelete,
 }: Props) {
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={`${device.name} detayına git`} onPress={onPress}>
-      <Card style={styles.card}>
-        <View style={styles.headerRow}>
-          {device.photoUri ? (
-            <Image source={{ uri: device.photoUri }} style={styles.photo} contentFit="cover" />
+    <Card style={styles.card}>
+      <View style={styles.headerRow}>
+        {/* Kart içinde iç içe butonlardan kaçınmak için yalnızca içerik alanı tıklanabilir. */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${device.name} detayına git`}
+          onPress={onPress}
+          style={styles.pressableArea}
+        >
+          <View style={styles.headerContent}>
+            {device.photoUri ? (
+              <Image source={{ uri: device.photoUri }} style={styles.photo} contentFit="cover" />
+            ) : (
+              <View style={styles.photoPlaceholder}>
+                <MaterialCommunityIcons name="ear-hearing" size={28} color={colors.primary} />
+              </View>
+            )}
+            <View style={styles.titleContainer}>
+              <Text style={styles.name}>{device.name}</Text>
+              <Text style={styles.brand}>
+                {device.brand} {device.model}
+              </Text>
+              <View style={styles.chipRow}>
+                <View style={styles.chip}>
+                  <Text style={styles.chipText}>{EAR_SIDE_LABELS[device.earSide]}</Text>
+                </View>
+                <View style={styles.chip}>
+                  <Text style={styles.chipText}>{POWER_TYPE_LABELS[device.powerType]}</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <Text style={styles.startDate}>
+            Kullanım başlangıcı: {formatDate(device.startDate)}
+          </Text>
+
+          <View style={styles.countsRow}>
+            <View style={styles.countItem}>
+              <Text style={[styles.countValue, { color: colors.success }]}>{counts.completed}</Text>
+              <Text style={styles.countLabel}>Tamamlanan</Text>
+            </View>
+            <View style={styles.countItem}>
+              <Text style={[styles.countValue, { color: colors.primary }]}>{counts.pending}</Text>
+              <Text style={styles.countLabel}>Bekleyen</Text>
+            </View>
+            <View style={styles.countItem}>
+              <Text style={[styles.countValue, { color: colors.danger }]}>{counts.overdue}</Text>
+              <Text style={styles.countLabel}>Geciken</Text>
+            </View>
+          </View>
+
+          {nextCheckupDate ? (
+            <View style={styles.nextRow}>
+              <Ionicons name="calendar-outline" size={16} color={colors.primary} />
+              <Text style={styles.nextText}>
+                En yakın kontrol: {formatDate(nextCheckupDate)} (
+                {daysUntilLabel(nextCheckupDate, todayIso)})
+              </Text>
+            </View>
           ) : (
-            <View style={styles.photoPlaceholder}>
-              <MaterialCommunityIcons name="ear-hearing" size={28} color={colors.primary} />
+            <View style={styles.nextRow}>
+              <Ionicons name="calendar-outline" size={16} color={colors.textMuted} />
+              <Text style={[styles.nextText, { color: colors.textMuted }]}>
+                Planlanmış kontrol yok
+              </Text>
             </View>
           )}
-          <View style={styles.titleContainer}>
-            <Text style={styles.name}>{device.name}</Text>
-            <Text style={styles.brand}>
-              {device.brand} {device.model}
-            </Text>
-            <View style={styles.chipRow}>
-              <View style={styles.chip}>
-                <Text style={styles.chipText}>{EAR_SIDE_LABELS[device.earSide]}</Text>
-              </View>
-              <View style={styles.chip}>
-                <Text style={styles.chipText}>{POWER_TYPE_LABELS[device.powerType]}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.actions}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${device.name} cihazını düzenle`}
-              onPress={onEdit}
-              style={styles.iconButton}
-              hitSlop={4}
-            >
-              <Ionicons name="pencil-outline" size={20} color={colors.primary} />
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${device.name} cihazını sil`}
-              onPress={onDelete}
-              style={styles.iconButton}
-              hitSlop={4}
-            >
-              <Ionicons name="trash-outline" size={20} color={colors.danger} />
-            </Pressable>
-          </View>
+        </Pressable>
+
+        <View style={styles.actions}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${device.name} cihazını düzenle`}
+            onPress={onEdit}
+            style={styles.iconButton}
+            hitSlop={4}
+          >
+            <Ionicons name="pencil-outline" size={20} color={colors.primary} />
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${device.name} cihazını sil`}
+            onPress={onDelete}
+            style={styles.iconButton}
+            hitSlop={4}
+          >
+            <Ionicons name="trash-outline" size={20} color={colors.danger} />
+          </Pressable>
         </View>
-
-        <Text style={styles.startDate}>
-          Kullanım başlangıcı: {formatDate(device.startDate)}
-        </Text>
-
-        <View style={styles.countsRow}>
-          <View style={styles.countItem}>
-            <Text style={[styles.countValue, { color: colors.success }]}>{counts.completed}</Text>
-            <Text style={styles.countLabel}>Tamamlanan</Text>
-          </View>
-          <View style={styles.countItem}>
-            <Text style={[styles.countValue, { color: colors.primary }]}>{counts.pending}</Text>
-            <Text style={styles.countLabel}>Bekleyen</Text>
-          </View>
-          <View style={styles.countItem}>
-            <Text style={[styles.countValue, { color: colors.danger }]}>{counts.overdue}</Text>
-            <Text style={styles.countLabel}>Geciken</Text>
-          </View>
-        </View>
-
-        {nextCheckupDate ? (
-          <View style={styles.nextRow}>
-            <Ionicons name="calendar-outline" size={16} color={colors.primary} />
-            <Text style={styles.nextText}>
-              En yakın kontrol: {formatDate(nextCheckupDate)} (
-              {daysUntilLabel(nextCheckupDate, todayIso)})
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.nextRow}>
-            <Ionicons name="calendar-outline" size={16} color={colors.textMuted} />
-            <Text style={[styles.nextText, { color: colors.textMuted }]}>
-              Planlanmış kontrol yok
-            </Text>
-          </View>
-        )}
-      </Card>
-    </Pressable>
+      </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   card: { marginBottom: spacing.md },
   headerRow: { flexDirection: 'row', gap: spacing.md },
+  pressableArea: { flex: 1 },
+  headerContent: { flexDirection: 'row', gap: spacing.md },
   photo: { width: 56, height: 56, borderRadius: radius.md },
   photoPlaceholder: {
     width: 56,
