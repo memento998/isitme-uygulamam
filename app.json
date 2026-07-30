@@ -38,7 +38,8 @@
       "expo-sharing",
       "@react-native-community/datetimepicker",
       "expo-image",
-      "expo-notifications"
+      "expo-notifications",
+      "./withAndroidBuildConfig.js"
     ],
     "experiments": {
       "typedRoutes": true,
