@@ -78,6 +78,9 @@ tümü "Hayır" → sonuç: Herkes (PEGI 3 / Everyone).
 
 ## Kategori ve iletişim
 
-- Uygulama kategorisi: **Tıp** (Medical) veya **Sağlık ve Fitness** — "Tıp" önerilir
+- Uygulama kategorisi: **Verimlilik** (Productivity) önerilir; alternatif **Araçlar** (Tools).
+  Uygulama tıbbi tanı/tedavi içermediği, yalnızca hatırlatma ve cihaz bakım takibi sunduğu
+  için sağlık kategorilerine girme zorunluluğu yoktur; bu sayede Play'in sağlık uygulamalarına
+  uyguladığı ek beyan formları da gerekmez.
 - Gizlilik politikası URL'si: `docs/gizlilik-politikasi.html` dosyasını yayımlayıp URL'sini girin
   (ör. GitHub Pages: `https://memento998.github.io/isitme-uygulamam/gizlilik-politikasi.html`)
