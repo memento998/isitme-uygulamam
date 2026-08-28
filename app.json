@@ -42,6 +42,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "owner": "memento998",
+    "extra": {
+      "eas": {
+        "projectId": "83e8d982-f57c-4fa2-b809-345891c23c2d"
+      }
     }
   }
 }
