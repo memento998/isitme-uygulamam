@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 
+import { AdBanner } from '@/components/AdBanner';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { ListRow } from '@/components/ui/ListRow';
@@ -28,7 +29,8 @@ export default function MoreScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
       {feedback ? (
         <View style={styles.banner}>
           <InfoBanner text={feedback} />
@@ -112,12 +114,15 @@ export default function MoreScreen() {
         onConfirm={handleDeleteAll}
         onCancel={() => setConfirmDeleteAll(false)}
       />
-    </ScrollView>
+      </ScrollView>
+      <AdBanner />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  scroll: { flex: 1 },
   content: { padding: spacing.lg, paddingBottom: spacing.xxl, gap: spacing.lg },
   banner: { marginBottom: spacing.sm },
   group: {

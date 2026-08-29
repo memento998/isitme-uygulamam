@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { AdBanner } from '@/components/AdBanner';
 import { BarChart } from '@/components/ui/BarChart';
 import { Card } from '@/components/ui/Card';
 import { SectionHeader } from '@/components/ui/SectionHeader';
@@ -31,7 +32,8 @@ export default function StatsScreen() {
   if (error || !stats) return <ErrorView message={error ?? undefined} onRetry={reload} />;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
       <View style={styles.grid}>
         <StatCard
           icon="hardware-chip-outline"
@@ -107,7 +109,9 @@ export default function StatsScreen() {
           </View>
         )}
       </Card>
-    </ScrollView>
+      </ScrollView>
+      <AdBanner />
+    </View>
   );
 }
 
@@ -142,6 +146,7 @@ function RateRow({ label, value, isEmpty }: { label: string; value: string; isEm
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  scroll: { flex: 1 },
   content: { padding: spacing.lg, paddingBottom: spacing.xxl },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   statCard: {

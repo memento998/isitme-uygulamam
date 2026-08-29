@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AdBanner } from '@/components/AdBanner';
 import { DeviceCard } from '@/components/DeviceCard';
 import { Button } from '@/components/ui/Button';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
@@ -130,6 +131,7 @@ export default function DevicesScreen() {
         onConfirm={handleDelete}
         onCancel={() => setDeviceToDelete(null)}
       />
+      <AdBanner />
     </View>
   );
 }

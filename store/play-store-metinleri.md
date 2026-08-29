@@ -17,7 +17,7 @@ fixhear – İşitme Cihazı Takibi
 ## Tam açıklama (en fazla 4000 karakter)
 
 ```
-fixhear, işitme cihazı kullanan kişilerin cihazlarını düzenli takip edebilmesi için tasarlanmış ücretsiz ve tamamen çevrimdışı bir asistandır. Üyelik yok, reklam yok; tüm verileriniz yalnızca telefonunuzda saklanır.
+fixhear, işitme cihazı kullanan kişilerin cihazlarını düzenli takip edebilmesi için tasarlanmış ücretsiz bir asistandır. Üyelik gerektirmez; girdiğiniz tüm veriler yalnızca telefonunuzda saklanır.
 
 CİHAZLARINIZI KAYDEDİN
 • Cihaz adı, marka, model, seri numarası ve fotoğraf
@@ -44,7 +44,7 @@ SORUN GİDERME REHBERİ
 • Cihaz başına PDF özet raporu oluşturup paylaşın (kliniğinize götürün)
 
 VERİLERİNİZ SİZİN KONTROLÜNÜZDE
-• Tüm veriler yalnızca cihazınızda; internet ve hesap gerekmez
+• Girdiğiniz tüm veriler yalnızca cihazınızda; hesap gerekmez
 • JSON olarak yedekleyin ve geri yükleyin
 • Tek dokunuşla tüm verilerinizi kalıcı olarak silin
 
@@ -63,13 +63,30 @@ fixhear tıbbi tanı koymaz ve işitme uzmanınızın yerini tutmaz. Kontrol tak
 Ekran görüntüsü önerisi: Cihazlar listesi, cihaz detayı (kontrol takvimi), sorun giderme
 listesi, istatistik ekranı. Telefonda güç + ses kısma tuşlarıyla alabilirsiniz.
 
+## Reklam beyanı (Ads)
+
+- "Does your app contain ads?" → **Yes** (Google AdMob banner reklamları)
+
 ## Veri güvenliği (Data safety) formu yanıtları
 
-- "Does your app collect or share any of the required user data types?" → **No**
-  (Tüm veriler yalnızca cihazda saklanır, geliştiriciye veya üçüncü taraflara veri gitmez.)
-- "Is all of the user data collected by your app encrypted in transit?" → veri iletimi yok
+Uygulamanın kendisi veri toplamaz ancak AdMob reklam SDK'sı reklam göstermek için bazı
+verileri toplar; bu nedenle form şöyle doldurulmalıdır:
+
+- "Does your app collect or share any of the required user data types?" → **Yes**
+- Toplanan veri türleri (AdMob nedeniyle):
+  - **Device or other IDs** (cihaz/reklam kimliği) → Collected, Shared (advertising)
+  - **App activity → App interactions** → Collected, Shared (advertising)
+  - **App info and performance → Crash logs / Diagnostics** → Collected (analytics, AdMob)
+  - **Location → Approximate location** → yalnızca IP tabanlı; AdMob non-personalized modda
+    kullanıldığı için genelde beyan gerekmez, emin olmak için "Collected, Shared (advertising)"
+    işaretlenebilir
+- Her tür için: "Is this data processed ephemerally?" → No · "Required or optional?" → Required
+- "Is all of the user data collected by your app encrypted in transit?" → **Yes**
+  (AdMob HTTPS kullanır)
 - "Do you provide a way for users to request that their data is deleted?" → uygulama içi
-  "Tüm verileri sil" ile kullanıcı kendisi siler
+  "Tüm verileri sil" mevcut; AdMob verileri için Google'ın mekanizmaları geçerli
+
+Güncel resmi rehber: https://support.google.com/admob/answer/10787303
 
 ## İçerik derecelendirmesi (Content rating)
 

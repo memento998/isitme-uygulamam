@@ -33,6 +33,14 @@ export default function PrivacyScreen() {
           Bildirimler tamamen cihaz üzerinde planlanır. Bildirim içerikleri hiçbir yere
           gönderilmez.
         </Text>
+
+        <Text style={styles.heading}>Reklamlar</Text>
+        <Text style={styles.paragraph}>
+          Uygulama, Google AdMob aracılığıyla reklam gösterebilir. Reklam sunumu için Google,
+          cihaz tanımlayıcıları gibi bazı teknik verileri kendi gizlilik politikası kapsamında
+          işleyebilir; bu veriler fixhear tarafından toplanmaz. Reklamlar kişiselleştirilmemiş
+          modda istenir.
+        </Text>
       </Card>
     </ScrollView>
   );
