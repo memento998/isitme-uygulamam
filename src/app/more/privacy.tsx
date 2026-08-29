@@ -36,8 +36,9 @@ export default function PrivacyScreen() {
 
         <Text style={styles.heading}>Reklamlar</Text>
         <Text style={styles.paragraph}>
-          Uygulama, Google AdMob aracılığıyla reklam gösterebilir. Reklam sunumu için Google,
-          cihaz tanımlayıcıları gibi bazı teknik verileri kendi gizlilik politikası kapsamında
+          Uygulama, Google AdMob aracılığıyla alt bant (banner) ve uygulama açılışında bir kez
+          gösterilen geçiş (interstitial) reklamı sunabilir. Reklam sunumu için Google, cihaz
+          tanımlayıcıları gibi bazı teknik verileri kendi gizlilik politikası kapsamında
           işleyebilir; bu veriler fixhear tarafından toplanmaz. Reklamlar kişiselleştirilmemiş
           modda istenir.
         </Text>

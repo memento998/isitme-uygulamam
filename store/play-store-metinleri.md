@@ -65,7 +65,7 @@ listesi, istatistik ekranı. Telefonda güç + ses kısma tuşlarıyla alabilirs
 
 ## Reklam beyanı (Ads)
 
-- "Does your app contain ads?" → **Yes** (Google AdMob banner reklamları)
+- "Does your app contain ads?" → **Yes** (Google AdMob: alt banner + uygulama açılışında bir kez geçiş reklamı)
 
 ## Veri güvenliği (Data safety) formu yanıtları
 

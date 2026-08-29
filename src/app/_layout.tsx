@@ -3,12 +3,14 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 import { colors } from '@/constants/theme';
+import { showLaunchInterstitialOnce } from '@/services/ads';
 import { configureNotifications, syncAllNotifications } from '@/services/notifications';
 
 export default function RootLayout() {
   useEffect(() => {
     configureNotifications();
     void syncAllNotifications();
+    void showLaunchInterstitialOnce();
   }, []);
 
   return (
