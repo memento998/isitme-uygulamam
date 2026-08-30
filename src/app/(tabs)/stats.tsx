@@ -1,7 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { AdBanner } from '@/components/AdBanner';
 import { BarChart } from '@/components/ui/BarChart';
 import { Card } from '@/components/ui/Card';
 import { SectionHeader } from '@/components/ui/SectionHeader';
@@ -110,7 +109,6 @@ export default function StatsScreen() {
         )}
       </Card>
       </ScrollView>
-      <AdBanner />
     </View>
   );
 }

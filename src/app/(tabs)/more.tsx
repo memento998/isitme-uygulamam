@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 
-import { AdBanner } from '@/components/AdBanner';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { ListRow } from '@/components/ui/ListRow';
@@ -115,7 +114,6 @@ export default function MoreScreen() {
         onCancel={() => setConfirmDeleteAll(false)}
       />
       </ScrollView>
-      <AdBanner />
     </View>
   );
 }

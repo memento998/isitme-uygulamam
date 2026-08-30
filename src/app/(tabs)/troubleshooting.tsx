@@ -3,7 +3,6 @@ import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-na
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-import { AdBanner } from '@/components/AdBanner';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { EmptyState } from '@/components/ui/StateViews';
 import { colors, fontSize, radius, shadow, spacing } from '@/constants/theme';
@@ -75,7 +74,6 @@ export default function TroubleshootingScreen() {
           />
         }
       />
-      <AdBanner />
     </View>
   );
 }
