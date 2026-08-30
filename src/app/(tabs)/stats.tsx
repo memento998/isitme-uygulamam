@@ -31,7 +31,8 @@ export default function StatsScreen() {
   if (error || !stats) return <ErrorView message={error ?? undefined} onRetry={reload} />;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
       <View style={styles.grid}>
         <StatCard
           icon="hardware-chip-outline"
@@ -107,7 +108,8 @@ export default function StatsScreen() {
           </View>
         )}
       </Card>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -142,6 +144,7 @@ function RateRow({ label, value, isEmpty }: { label: string; value: string; isEm
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  scroll: { flex: 1 },
   content: { padding: spacing.lg, paddingBottom: spacing.xxl },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   statCard: {

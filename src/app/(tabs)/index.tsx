@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DeviceCard } from '@/components/DeviceCard';
 import { Button } from '@/components/ui/Button';
@@ -40,7 +39,6 @@ async function loadDeviceList(): Promise<{ items: DeviceListItem[]; today: strin
 
 export default function DevicesScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const { data, loading, error, reload } = useAsyncData(loadDeviceList);
   const [deviceToDelete, setDeviceToDelete] = useState<Device | null>(null);
   const [loadingSample, setLoadingSample] = useState(false);
@@ -74,7 +72,6 @@ export default function DevicesScreen() {
         keyExtractor={(item) => item.device.id}
         contentContainerStyle={[
           styles.listContent,
-          { paddingBottom: 96 + insets.bottom },
           data.items.length === 0 && styles.listEmpty,
         ]}
         renderItem={({ item }) => (
@@ -136,7 +133,7 @@ export default function DevicesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  listContent: { padding: spacing.lg },
+  listContent: { padding: spacing.lg, paddingBottom: 88 },
   listEmpty: { flexGrow: 1, justifyContent: 'center' },
   emptyActions: { gap: spacing.md, alignSelf: 'stretch' },
   fab: {
