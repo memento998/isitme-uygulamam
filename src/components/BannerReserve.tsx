@@ -1,12 +1,14 @@
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AdBanner } from '@/components/AdBanner';
 import { BANNER_RESERVE_HEIGHT } from '@/constants/layout';
 import { colors } from '@/constants/theme';
 
 /**
- * Alt menünün yerini almayan, sistem gezinme çubuğunun üstünde duran
- * sabit rezerv alanı. Gerçek reklam buraya daha sonra yerleştirilecek.
+ * Ana ekranların altında, sistem gezinme çubuğunun üstünde duran sabit
+ * reklam alanı. Native derlemede test/gerçek banner buraya yerleşir;
+ * web ve Expo Go'da yer boş kalır.
  */
 export function BannerReserve() {
   const insets = useSafeAreaInsets();
@@ -21,7 +23,9 @@ export function BannerReserve() {
           paddingBottom: insets.bottom,
         },
       ]}
-    />
+    >
+      <AdBanner />
+    </View>
   );
 }
 
@@ -30,5 +34,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.border,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
 });

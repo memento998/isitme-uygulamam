@@ -16,8 +16,8 @@ export interface AdsModule {
     size: string;
     requestOptions?: { requestNonPersonalizedAdsOnly?: boolean };
   }>;
-  BannerAdSize: { ANCHORED_ADAPTIVE_BANNER: string };
-  TestIds: { ADAPTIVE_BANNER: string; INTERSTITIAL: string };
+  BannerAdSize: { BANNER: string; ANCHORED_ADAPTIVE_BANNER: string };
+  TestIds: { BANNER: string; ADAPTIVE_BANNER: string; INTERSTITIAL: string };
   AdEventType: { LOADED: string; ERROR: string; CLOSED: string };
   InterstitialAd: {
     createForAdRequest: (
@@ -62,8 +62,12 @@ export function initializeAds(): Promise<boolean> {
     initializePromise = Promise.resolve(false);
     return initializePromise;
   }
-  initializePromise = ads
-    .default()
+  const mobileAds = typeof ads.default === 'function' ? ads.default() : null;
+  if (!mobileAds) {
+    initializePromise = Promise.resolve(false);
+    return initializePromise;
+  }
+  initializePromise = mobileAds
     .initialize()
     .then(() => true)
     .catch(() => false);
@@ -71,7 +75,7 @@ export function initializeAds(): Promise<boolean> {
 }
 
 export function bannerUnitId(ads: AdsModule): string {
-  return PRODUCTION_BANNER_UNIT_ID ?? ads.TestIds.ADAPTIVE_BANNER;
+  return PRODUCTION_BANNER_UNIT_ID ?? ads.TestIds.BANNER;
 }
 
 /**

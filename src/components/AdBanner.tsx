@@ -1,26 +1,23 @@
 /**
  * Alt banner reklamı. react-native-google-mobile-ads native modül gerektirdiği için
  * yalnızca EAS ile derlenen uygulamalarda çalışır; web ve Expo Go'da hiçbir şey
- * göstermez (uygulamayı bozmaz). Alt sekme menüsünün üstünde durur, menüyü kapatmaz.
+ * göstermez. 320x50 standart banner, ayrılmış 50px slota sığar.
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { colors } from '@/constants/theme';
+import { BANNER_RESERVE_HEIGHT } from '@/constants/layout';
 import { bannerUnitId, initializeAds, loadAdsModule } from '@/services/ads';
 
 export function AdBanner() {
   const ads = useMemo(() => loadAdsModule(), []);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (!ads) return;
-    void initializeAds().then((ok) => {
-      if (ok) setReady(true);
-    });
+    void initializeAds();
   }, [ads]);
 
-  if (!ads || !ready) return null;
+  if (!ads) return null;
 
   const { BannerAd, BannerAdSize } = ads;
 
@@ -28,7 +25,7 @@ export function AdBanner() {
     <View style={styles.container}>
       <BannerAd
         unitId={bannerUnitId(ads)}
-        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        size={BannerAdSize.BANNER}
         requestOptions={{ requestNonPersonalizedAdsOnly: true }}
       />
     </View>
@@ -37,7 +34,10 @@ export function AdBanner() {
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    height: BANNER_RESERVE_HEIGHT,
     alignItems: 'center',
-    backgroundColor: colors.background,
+    justifyContent: 'center',
+    overflow: 'hidden',
   },
 });
