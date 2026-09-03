@@ -43,3 +43,10 @@ describe('BannerReserve', () => {
     expect(src).toContain('<AdBanner />');
   });
 });
+
+describe('app-ads.txt', () => {
+  it('authorizes this AdMob publisher as a direct seller', () => {
+    const txt = fs.readFileSync(path.join(__dirname, '../../../docs/app-ads.txt'), 'utf8');
+    expect(txt).toContain('google.com, pub-9842945022814068, DIRECT, f08c47fec0942fa0');
+  });
+});

@@ -95,6 +95,50 @@ tümü "Hayır" → sonuç: Herkes (PEGI 3 / Everyone).
 
 ## Kategori ve iletişim
 
-- Uygulama kategorisi: **Tıp** (Medical) veya **Sağlık ve Fitness** — "Tıp" önerilir
-- Gizlilik politikası URL'si: `docs/gizlilik-politikasi.html` dosyasını yayımlayıp URL'sini girin
-  (ör. GitHub Pages: `https://memento998.github.io/isitme-uygulamam/gizlilik-politikasi.html`)
+- Uygulama kategorisi: **Verimlilik (Productivity)** — Tıp/Medical seçmeyin; ekstra sağlık incelemesi açar.
+- Gizlilik politikası URL'si (Play Console ve AdMob):
+  `https://memento998.github.io/isitme-uygulamam/gizlilik-politikasi.html`
+- Geliştirici web sitesi (Play Console > Mağaza ayarları > iletişim):
+  `https://memento998.github.io/isitme-uygulamam/`
+- Destek e-postası: `odyoden02@gmail.com`
+
+## app-ads.txt
+
+Dosya bu repoda: `docs/app-ads.txt`. GitHub Pages proje adresi:
+
+`https://memento998.github.io/isitme-uygulamam/app-ads.txt`
+
+AdMob tarayıcısı domain kökünü arar: `https://memento998.github.io/app-ads.txt`
+
+Bu kök adres için GitHub'da `memento998.github.io` adlı ayrı bir depo oluşturun, aynı `app-ads.txt` içeriğini kök dizine koyun, Pages'i açın. Play Console'daki web sitesi `memento998.github.io` içerdiği sürece tarayıcı o kök dosyayı kullanır.
+
+AdMob satırı (yalnızca AdMob kullanılıyor):
+
+```
+google.com, pub-9842945022814068, DIRECT, f08c47fec0942fa0
+```
+
+Play'de uygulama yayına alındıktan sonra AdMob > Uygulamalar > app-ads.txt > **Güncellemeleri denetle**. Doğrulama 24 saati bulabilir.
+
+## Reklam kimliği beyanı (Play Console)
+
+App content > Advertising ID: **Yes**, amaç **Advertising**.
+
+## Teste alma (sırayla)
+
+1. Bu PR'ı `main`'e birleştirin, sonra:
+   ```
+   git pull
+   npm install
+   eas build -p android --profile preview
+   ```
+   Çıkan **APK**'yı kendi telefonunuza kurun. Altta banner, açılışta bir kez geçiş reklamı.
+   Yeni reklam birimleri 1 saate kadar boş kalabilir. **Kendi reklamınıza tıklamayın.**
+2. Play'e kapalı test için:
+   ```
+   eas build -p android --profile production
+   ```
+   Çıkan **AAB**'yi Play Console > Test > Closed testing (veya Internal testing) yoluna yükleyin.
+   Yeni kişisel hesaplarda yayın öncesi kapalı test (testeri + süre) istenebilir.
+3. Play mağaza kaydına yukarıdaki gizlilik URL'si, kategori Verimlilik, Ads = Yes, Data safety formunu doldurun.
+4. Ekran görüntüsü: Cihazlar, cihaz detayı, sorun giderme, istatistik.
