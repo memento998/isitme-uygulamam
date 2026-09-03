@@ -78,6 +78,10 @@ export function bannerUnitId(ads: AdsModule): string {
   return PRODUCTION_BANNER_UNIT_ID ?? ads.TestIds.BANNER;
 }
 
+export function interstitialUnitId(ads: AdsModule): string {
+  return PRODUCTION_INTERSTITIAL_UNIT_ID ?? ads.TestIds.INTERSTITIAL;
+}
+
 /**
  * Uygulama bu oturumda ilk açıldığında tek bir geçiş reklamı yükler ve gösterir.
  * İkinci çağrıda (sekme değişimi vb.) hiçbir şey yapmaz.
@@ -94,7 +98,7 @@ export async function showLaunchInterstitialOnce(): Promise<void> {
 
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
-  const unitId = PRODUCTION_INTERSTITIAL_UNIT_ID ?? ads.TestIds.INTERSTITIAL;
+  const unitId = interstitialUnitId(ads);
   const interstitial = ads.InterstitialAd.createForAdRequest(unitId, {
     requestNonPersonalizedAdsOnly: true,
   });
