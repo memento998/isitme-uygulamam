@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { bannerUnitId, type AdsModule } from '@/services/ads';
+import { bannerUnitId, interstitialUnitId, type AdsModule } from '@/services/ads';
 
 function fakeAds(): AdsModule {
   return {
@@ -24,9 +24,13 @@ function fakeAds(): AdsModule {
   };
 }
 
-describe('bannerUnitId', () => {
-  it('uses the Google test banner unit when production id is null', () => {
-    expect(bannerUnitId(fakeAds())).toBe('ca-app-pub-3940256099942544/6300978111');
+describe('ad unit ids', () => {
+  it('uses the production banner unit', () => {
+    expect(bannerUnitId(fakeAds())).toBe('ca-app-pub-9842945022814068/3355372710');
+  });
+
+  it('uses the production interstitial unit', () => {
+    expect(interstitialUnitId(fakeAds())).toBe('ca-app-pub-9842945022814068/2668977001');
   });
 });
 
