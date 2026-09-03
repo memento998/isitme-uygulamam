@@ -112,7 +112,7 @@ AdMob tarayıcısı domain kökünü arar: `https://memento998.github.io/app-ads
 
 Bu kök adres için GitHub'da `memento998.github.io` adlı ayrı bir depo oluşturun, aynı `app-ads.txt` içeriğini kök dizine koyun, Pages'i açın. Play Console'daki web sitesi `memento998.github.io` içerdiği sürece tarayıcı o kök dosyayı kullanır.
 
-AdMob satırı (yalnızca AdMob kullanılıyor):
+AdMob satırı:
 
 ```
 google.com, pub-9842945022814068, DIRECT, f08c47fec0942fa0
