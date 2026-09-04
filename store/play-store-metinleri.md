@@ -98,6 +98,8 @@ tümü "Hayır" → sonuç: Herkes (PEGI 3 / Everyone).
 - Uygulama kategorisi: **Verimlilik (Productivity)** — Tıp/Medical seçmeyin; ekstra sağlık incelemesi açar.
 - Gizlilik politikası URL'si (Play Console ve AdMob):
   `https://memento998.github.io/isitme-uygulamam/gizlilik-politikasi.html`
+- Veri silme URL'si (Play Console Veri güvenliği):
+  `https://memento998.github.io/isitme-uygulamam/veri-silme.html`
 - Geliştirici web sitesi (Play Console > Mağaza ayarları > iletişim):
   `https://memento998.github.io/isitme-uygulamam/`
 - Destek e-postası: `odyoden02@gmail.com`
