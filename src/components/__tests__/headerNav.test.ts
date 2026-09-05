@@ -1,4 +1,6 @@
 import {
+  HEADER_SECTIONS,
+  hrefForSection,
   isDevicesPath,
   isHeaderSectionActive,
   normalizePath,
@@ -33,5 +35,18 @@ describe('header section navigation', () => {
     expect(isHeaderSectionActive('/stats', 'stats')).toBe(true);
     expect(isHeaderSectionActive('/more', 'more')).toBe(true);
     expect(isHeaderSectionActive('/(tabs)/more', 'more')).toBe(true);
+  });
+
+  it('lines sections left to right with the menu section last', () => {
+    expect(HEADER_SECTIONS.map((item) => item.key)).toEqual([
+      'devices',
+      'troubleshooting',
+      'stats',
+      'more',
+    ]);
+    expect(hrefForSection('devices')).toBe('/');
+    expect(hrefForSection('troubleshooting')).toBe('/troubleshooting');
+    expect(hrefForSection('stats')).toBe('/stats');
+    expect(hrefForSection('more')).toBe('/more');
   });
 });

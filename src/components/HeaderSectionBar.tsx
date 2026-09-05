@@ -25,7 +25,7 @@ export function isDevicesPath(pathname: string): boolean {
   return path === '' || path === '/' || path === '/(tabs)' || path.endsWith('/(tabs)/index');
 }
 
-const ITEMS: MenuItem[] = [
+export const HEADER_SECTIONS: MenuItem[] = [
   {
     key: 'devices',
     label: 'Cihazlar',
@@ -60,11 +60,17 @@ const ITEMS: MenuItem[] = [
 ];
 
 export function titleForPath(pathname: string): string {
-  return ITEMS.find((item) => item.match(pathname))?.title ?? 'Cihazlarım';
+  return HEADER_SECTIONS.find((item) => item.match(pathname))?.title ?? 'Cihazlarım';
 }
 
 export function isHeaderSectionActive(pathname: string, key: HeaderSectionKey): boolean {
-  return ITEMS.find((item) => item.key === key)?.match(pathname) ?? false;
+  return HEADER_SECTIONS.find((item) => item.key === key)?.match(pathname) ?? false;
+}
+
+export function hrefForSection(key: HeaderSectionKey): Href {
+  const item = HEADER_SECTIONS.find((section) => section.key === key);
+  if (!item) throw new Error(`Unknown header section: ${key}`);
+  return item.href;
 }
 
 function SectionIcon({ kind, color }: { kind: HeaderSectionKey; color: string }) {
@@ -88,7 +94,7 @@ export function HeaderSectionBar() {
           {title}
         </Text>
         <View style={styles.icons} accessibilityRole="tablist">
-          {ITEMS.map((item) => {
+          {HEADER_SECTIONS.map((item) => {
             const active = item.match(pathname);
             const color = active ? colors.primary : colors.textMuted;
             return (
