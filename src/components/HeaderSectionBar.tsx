@@ -3,7 +3,7 @@ import { usePathname, useRouter, type Href } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { colors, fontSize, MIN_TOUCH_SIZE, radius, spacing } from '@/constants/theme';
+import { colors, fontSize, MIN_TOUCH_SIZE, spacing } from '@/constants/theme';
 
 export type HeaderSectionKey = 'devices' | 'troubleshooting' | 'stats' | 'more';
 
@@ -80,7 +80,7 @@ function SectionIcon({ kind, color }: { kind: HeaderSectionKey; color: string })
   return <Ionicons name="menu-outline" size={24} color={color} />;
 }
 
-/** Ana bölümler: sayfa başlığı solda, bölüm ikonları sağda tek sırada. */
+/** Ana bölümler: başlık yerinde soldan sağa ikon + isim; tıklanınca o sayfa açılır. */
 export function HeaderSectionBar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -89,34 +89,38 @@ export function HeaderSectionBar() {
 
   return (
     <View style={[styles.safe, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <Text style={styles.title} numberOfLines={1}>
-          {title}
-        </Text>
-        <View style={styles.icons} accessibilityRole="tablist">
-          {HEADER_SECTIONS.map((item) => {
-            const active = item.match(pathname);
-            const color = active ? colors.primary : colors.textMuted;
-            return (
-              <Pressable
-                key={item.key}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: active }}
-                accessibilityLabel={item.label}
-                onPress={() => {
-                  if (!active) router.replace(item.href);
-                }}
-                style={({ pressed }) => [
-                  styles.iconBtn,
-                  active && styles.iconBtnActive,
-                  pressed && styles.iconBtnPressed,
-                ]}
+      <Text style={styles.pageTitle} numberOfLines={1}>
+        {title}
+      </Text>
+      <View style={styles.tabs} accessibilityRole="tablist">
+        {HEADER_SECTIONS.map((item) => {
+          const active = item.match(pathname);
+          const color = active ? colors.primary : colors.textMuted;
+          return (
+            <Pressable
+              key={item.key}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: active }}
+              accessibilityLabel={item.label}
+              onPress={() => {
+                if (!active) router.replace(item.href);
+              }}
+              style={({ pressed }) => [
+                styles.tab,
+                active && styles.tabActive,
+                pressed && styles.tabPressed,
+              ]}
+            >
+              <SectionIcon kind={item.key} color={color} />
+              <Text
+                style={[styles.tabLabel, active && styles.tabLabelActive]}
+                numberOfLines={2}
               >
-                <SectionIcon kind={item.key} color={color} />
-              </Pressable>
-            );
-          })}
-        </View>
+                {item.label}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );
@@ -128,36 +132,50 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  bar: {
-    minHeight: 56,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: spacing.lg,
-    paddingRight: spacing.sm,
-    gap: spacing.sm,
-  },
-  title: {
-    flex: 1,
-    minWidth: 0,
+  pageTitle: {
     fontSize: fontSize.lg,
     fontWeight: '700',
     color: colors.text,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
   },
-  icons: {
+  tabs: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    minHeight: MIN_TOUCH_SIZE + 20,
+    paddingHorizontal: spacing.xs,
+    paddingBottom: spacing.sm,
   },
-  iconBtn: {
-    minWidth: MIN_TOUCH_SIZE,
+  tab: {
+    flex: 1,
+    minWidth: 0,
     minHeight: MIN_TOUCH_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radius.md,
+    paddingHorizontal: 2,
+    paddingVertical: spacing.xs,
+    gap: 2,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
   },
-  iconBtnActive: {
+  tabActive: {
+    backgroundColor: colors.primarySoft,
+    borderBottomColor: colors.primary,
+  },
+  tabPressed: {
     backgroundColor: colors.primarySoft,
   },
-  iconBtnPressed: {
-    backgroundColor: colors.primarySoft,
+  tabLabel: {
+    width: '100%',
+    fontSize: 11,
+    lineHeight: 14,
+    color: colors.textMuted,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  tabLabelActive: {
+    color: colors.primary,
+    fontWeight: '700',
   },
 });

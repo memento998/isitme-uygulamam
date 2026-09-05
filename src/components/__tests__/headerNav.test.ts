@@ -37,12 +37,12 @@ describe('header section navigation', () => {
     expect(isHeaderSectionActive('/(tabs)/more', 'more')).toBe(true);
   });
 
-  it('lines sections left to right with the menu section last', () => {
-    expect(HEADER_SECTIONS.map((item) => item.key)).toEqual([
-      'devices',
-      'troubleshooting',
-      'stats',
-      'more',
+  it('lines sections left to right with icon labels and the menu last', () => {
+    expect(HEADER_SECTIONS.map((item) => item.label)).toEqual([
+      'Cihazlar',
+      'Sorun Giderme',
+      'İstatistik',
+      'Daha Fazla',
     ]);
     expect(hrefForSection('devices')).toBe('/');
     expect(hrefForSection('troubleshooting')).toBe('/troubleshooting');
