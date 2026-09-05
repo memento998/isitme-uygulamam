@@ -48,9 +48,7 @@ export function DeviceCard({
             )}
             <View style={styles.titleContainer}>
               <Text style={styles.name}>{device.name}</Text>
-              <Text style={styles.brand}>
-                {device.brand} {device.model}
-              </Text>
+              <Text style={styles.brand}>{device.brand}</Text>
               <View style={styles.chipRow}>
                 <View style={styles.chip}>
                   <Text style={styles.chipText}>{EAR_SIDE_LABELS[device.earSide]}</Text>

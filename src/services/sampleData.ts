@@ -26,7 +26,7 @@ export async function loadSampleData(): Promise<void> {
   const device1 = await createDevice({
     name: 'Sağ Kulak Cihazım',
     brand: 'Phonak',
-    model: 'Audeo P90',
+    model: '',
     earSide: 'right',
     startDate: addMonths(today, -14),
     serialNumber: 'PH-2025-004512',
@@ -63,7 +63,7 @@ export async function loadSampleData(): Promise<void> {
   const device2 = await createDevice({
     name: 'Sol Kulak Cihazım',
     brand: 'Oticon',
-    model: 'Real 1',
+    model: '',
     earSide: 'left',
     startDate: addMonths(today, -2),
     serialNumber: 'OT-2026-118834',

@@ -99,7 +99,7 @@ export function buildDeviceReportHtml(
   <h2>Cihaz Bilgileri</h2>
   <table>
     ${row('Cihaz adı', device.name)}
-    ${row('Marka / Model', `${device.brand} ${device.model}`)}
+    ${row('Marka', device.brand)}
     ${row('Kulak', EAR_SIDE_LABELS[device.earSide])}
     ${row('Kullanım başlangıcı', formatDate(device.startDate))}
     ${row('Seri numarası', device.serialNumber)}

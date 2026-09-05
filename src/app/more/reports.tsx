@@ -58,7 +58,7 @@ export default function ReportsScreen() {
               icon="document-text-outline"
               title={item.name}
               subtitle={
-                busyId === item.id ? 'Rapor hazırlanıyor…' : `${item.brand} ${item.model}`
+                busyId === item.id ? 'Rapor hazırlanıyor…' : item.brand
               }
               onPress={() => handleGenerate(item)}
             />
