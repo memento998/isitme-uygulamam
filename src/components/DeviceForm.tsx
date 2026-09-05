@@ -11,6 +11,7 @@ import { InfoBanner } from '@/components/ui/InfoBanner';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SwitchRow } from '@/components/ui/SwitchRow';
 import { TextField } from '@/components/ui/TextField';
+import { BRAND_OPTIONS, isBrandOption, selectedBrandOption } from '@/constants/brands';
 import { colors, fontSize, radius, spacing } from '@/constants/theme';
 import type { DeviceInput } from '@/repositories/devices';
 import { SCHEDULE_DISCLAIMER } from '@/services/checkupSchedule';
@@ -28,7 +29,6 @@ interface Props {
 interface FormErrors {
   name?: string;
   brand?: string;
-  model?: string;
   startDate?: string;
   warrantyEndDate?: string;
   clinicPhone?: string;
@@ -36,8 +36,7 @@ interface FormErrors {
 
 export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onSubmit }: Props) {
   const [name, setName] = useState(initial?.name ?? '');
-  const [brand, setBrand] = useState(initial?.brand ?? '');
-  const [model, setModel] = useState(initial?.model ?? '');
+  const [brand, setBrand] = useState<string>(selectedBrandOption(initial?.brand ?? ''));
   const [earSide, setEarSide] = useState<EarSide>(initial?.earSide ?? 'both');
   const [startDate, setStartDate] = useState(initial?.startDate ?? todayISO());
   const [serialNumber, setSerialNumber] = useState(initial?.serialNumber ?? '');
@@ -67,8 +66,7 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
   const validate = (): boolean => {
     const next: FormErrors = {};
     if (!name.trim()) next.name = 'Cihaz adı zorunludur.';
-    if (!brand.trim()) next.brand = 'Marka zorunludur.';
-    if (!model.trim()) next.model = 'Model zorunludur.';
+    if (!isBrandOption(brand)) next.brand = 'Listeden bir marka seçin.';
     if (!isValidISODate(startDate)) {
       next.startDate = 'Geçerli bir başlangıç tarihi seçin.';
     } else if (compareISO(startDate, todayISO()) > 0) {
@@ -91,8 +89,8 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
     try {
       await onSubmit({
         name: name.trim(),
-        brand: brand.trim(),
-        model: model.trim(),
+        brand,
+        model: '',
         earSide,
         startDate,
         serialNumber: serialNumber.trim() || null,
@@ -147,21 +145,14 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
           required
           error={errors.name}
         />
-        <TextField
+        <SegmentedControl<string>
           label="Marka"
+          required
+          options={BRAND_OPTIONS.map((value) => ({ value, label: value }))}
           value={brand}
-          onChangeText={setBrand}
-          placeholder="Örn. Phonak"
-          required
+          onChange={setBrand}
+          helperText="Listede yoksa Diğer'i seçin."
           error={errors.brand}
-        />
-        <TextField
-          label="Model"
-          value={model}
-          onChangeText={setModel}
-          placeholder="Örn. Audeo P90"
-          required
-          error={errors.model}
         />
         <SegmentedControl
           label="Kulak"

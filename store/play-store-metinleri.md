@@ -20,7 +20,7 @@ fixhear – İşitme Cihazı Takibi
 fixhear, işitme cihazı kullanan kişilerin cihazlarını düzenli takip edebilmesi için tasarlanmış ücretsiz bir asistandır. Üyelik gerektirmez; girdiğiniz tüm veriler yalnızca telefonunuzda saklanır.
 
 CİHAZLARINIZI KAYDEDİN
-• Cihaz adı, marka, model, seri numarası ve fotoğraf
+• Cihaz adı, marka, seri numarası ve fotoğraf
 • Sol, sağ veya iki kulak seçimi; pilli veya şarjlı cihaz bilgisi
 • Garanti bitiş tarihi, doktor/klinik adı ve telefonu, notlar
 

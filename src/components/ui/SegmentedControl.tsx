@@ -12,12 +12,26 @@ interface Props<T extends string> {
   options: readonly Option<T>[];
   value: T;
   onChange: (value: T) => void;
+  helperText?: string;
+  error?: string;
+  required?: boolean;
 }
 
-export function SegmentedControl<T extends string>({ label, options, value, onChange }: Props<T>) {
+export function SegmentedControl<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+  helperText,
+  error,
+  required = false,
+}: Props<T>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label}>
+        {label}
+        {required ? <Text style={styles.required}> *</Text> : null}
+      </Text>
       <View style={styles.group} accessibilityRole="radiogroup">
         {options.map((option) => {
           const selected = option.value === value;
@@ -37,6 +51,9 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
           );
         })}
       </View>
+      {error ? <Text style={styles.error}>{error}</Text> : helperText ? (
+        <Text style={styles.helper}>{helperText}</Text>
+      ) : null}
     </View>
   );
 }
@@ -70,4 +87,7 @@ const styles = StyleSheet.create({
   },
   optionLabel: { fontSize: fontSize.sm, color: colors.text, fontWeight: '500' },
   optionLabelSelected: { color: colors.textOnPrimary, fontWeight: '600' },
+  required: { color: colors.danger },
+  helper: { marginTop: spacing.sm, fontSize: fontSize.xs, color: colors.textMuted },
+  error: { marginTop: spacing.sm, fontSize: fontSize.xs, color: colors.danger },
 });

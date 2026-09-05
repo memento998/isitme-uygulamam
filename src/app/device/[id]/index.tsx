@@ -200,9 +200,7 @@ export default function DeviceDetailScreen() {
             )}
             <View style={styles.infoTitleContainer}>
               <Text style={styles.deviceName}>{device.name}</Text>
-              <Text style={styles.deviceBrand}>
-                {device.brand} {device.model}
-              </Text>
+              <Text style={styles.deviceBrand}>{device.brand}</Text>
             </View>
           </View>
           <InfoRow label="Kulak" value={EAR_SIDE_LABELS[device.earSide]} />
