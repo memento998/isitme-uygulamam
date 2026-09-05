@@ -59,7 +59,7 @@ npm test            # Jest birim testleri (tarih, takvim, durum, istatistik serv
 ```
 src/
   app/              # Expo Router ekranları
-    (tabs)/         # Alt menü: Cihazlar, Sorun Giderme, İstatistik, Daha Fazla
+    (tabs)/         # Üst ikon menü: Cihazlar, Sorun Giderme, İstatistik, Daha Fazla
     device/         # Cihaz ekleme, detay, düzenleme
     troubleshooting/# Sorun giderme akışları
     more/           # Takvim, bildirimler, yedekleme, raporlar, gizlilik...

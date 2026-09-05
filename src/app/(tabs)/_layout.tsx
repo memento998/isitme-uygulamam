@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { Stack } from 'expo-router';
 
 import { BannerReserve } from '@/components/BannerReserve';
-import { HeaderOverflowMenu } from '@/components/HeaderOverflowMenu';
+import { HeaderSectionBar } from '@/components/HeaderSectionBar';
 import { colors } from '@/constants/theme';
 
 export default function MainLayout() {
@@ -11,11 +11,7 @@ export default function MainLayout() {
       <View style={styles.screens}>
         <Stack
           screenOptions={{
-            headerStyle: { backgroundColor: colors.card },
-            headerTintColor: colors.primary,
-            headerTitleStyle: { color: colors.text, fontWeight: '700' },
-            headerShadowVisible: false,
-            headerRight: () => <HeaderOverflowMenu />,
+            header: () => <HeaderSectionBar />,
             contentStyle: { backgroundColor: colors.background },
             animation: 'none',
           }}
