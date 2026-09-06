@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/Card';
 import { DateField } from '@/components/ui/DateField';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
+import { SelectField } from '@/components/ui/SelectField';
 import { SwitchRow } from '@/components/ui/SwitchRow';
 import { TextField } from '@/components/ui/TextField';
 import { BRAND_OPTIONS, isBrandOption, selectedBrandOption } from '@/constants/brands';
@@ -145,9 +146,10 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
           required
           error={errors.name}
         />
-        <SegmentedControl<string>
+        <SelectField
           label="Marka"
           required
+          placeholder="Marka seçin"
           options={BRAND_OPTIONS.map((value) => ({ value, label: value }))}
           value={brand}
           onChange={setBrand}
