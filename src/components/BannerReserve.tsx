@@ -1,22 +1,17 @@
 import { StyleSheet, View } from 'react-native';
-import { usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AdBanner } from '@/components/AdBanner';
-import { BANNER_RESERVE_HEIGHT, isMainTabPath } from '@/constants/layout';
+import { BANNER_RESERVE_HEIGHT } from '@/constants/layout';
 import { colors } from '@/constants/theme';
 
 /**
- * Ana ekranların altında, sistem gezinme çubuğunun üstünde duran sabit
- * reklam alanı. Cihaz formu gibi alt sayfalarda kapanır; böylece kayıt
- * düğmesi reklamın altında kalmaz.
+ * Tüm ekranların altında, sistem gezinme çubuğunun üstünde duran sabit
+ * reklam alanı. Ekran içeriği bu alanın üstünde kalır; kayıt düğmesi
+ * reklamın altına binmez.
  */
 export function BannerReserve() {
   const insets = useSafeAreaInsets();
-  const pathname = usePathname();
-
-  if (!isMainTabPath(pathname)) return null;
-
   return (
     <View
       accessibilityRole="none"
