@@ -1,17 +1,22 @@
 import { StyleSheet, View } from 'react-native';
+import { usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AdBanner } from '@/components/AdBanner';
-import { BANNER_RESERVE_HEIGHT } from '@/constants/layout';
+import { BANNER_RESERVE_HEIGHT, isMainTabPath } from '@/constants/layout';
 import { colors } from '@/constants/theme';
 
 /**
  * Ana ekranların altında, sistem gezinme çubuğunun üstünde duran sabit
- * reklam alanı. Native derlemede test/gerçek banner buraya yerleşir;
- * web ve Expo Go'da yer boş kalır.
+ * reklam alanı. Cihaz formu gibi alt sayfalarda kapanır; böylece kayıt
+ * düğmesi reklamın altında kalmaz.
  */
 export function BannerReserve() {
   const insets = useSafeAreaInsets();
+  const pathname = usePathname();
+
+  if (!isMainTabPath(pathname)) return null;
+
   return (
     <View
       accessibilityRole="none"

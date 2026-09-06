@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
@@ -36,6 +37,7 @@ interface FormErrors {
 }
 
 export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onSubmit }: Props) {
+  const insets = useSafeAreaInsets();
   const [name, setName] = useState(initial?.name ?? '');
   const [brand, setBrand] = useState<string>(selectedBrandOption(initial?.brand ?? ''));
   const [earSide, setEarSide] = useState<EarSide>(initial?.earSide ?? 'both');
@@ -111,11 +113,12 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
       <Card>
         <View style={styles.photoRow}>
           <Pressable
@@ -233,20 +236,23 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
         </View>
       ) : null}
 
-      {submitError ? (
-        <View style={styles.banner}>
-          <InfoBanner kind="warning" text={submitError} />
-        </View>
-      ) : null}
-
-      <Button label={submitLabel} onPress={handleSubmit} loading={saving} style={styles.submit} />
-    </ScrollView>
+        {submitError ? (
+          <View style={styles.banner}>
+            <InfoBanner kind="warning" text={submitError} />
+          </View>
+        ) : null}
+      </ScrollView>
+      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, spacing.md) }]}>
+        <Button label={submitLabel} onPress={handleSubmit} loading={saving} />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, paddingBottom: spacing.xxl * 2 },
+  scroll: { flex: 1 },
+  content: { padding: spacing.lg, paddingBottom: spacing.xl },
   photoRow: { alignItems: 'center', marginBottom: spacing.lg, gap: spacing.sm },
   photoButton: { borderRadius: radius.lg },
   photo: { width: 96, height: 96, borderRadius: radius.lg },
@@ -264,5 +270,11 @@ const styles = StyleSheet.create({
   },
   photoText: { fontSize: fontSize.xs, color: colors.primary, fontWeight: '600' },
   banner: { marginTop: spacing.lg },
-  submit: { marginTop: spacing.xl },
+  footer: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    backgroundColor: colors.card,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.border,
+  },
 });
