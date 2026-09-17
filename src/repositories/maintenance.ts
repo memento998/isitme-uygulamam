@@ -1,3 +1,5 @@
+import type { SQLiteDatabase } from 'expo-sqlite';
+
 import { getDb, newId } from '@/db/database';
 import type { MaintenanceLog, MaintenanceReminder, MaintenanceType } from '@/types/models';
 import { addDays, todayISO } from '@/services/date';
@@ -69,12 +71,8 @@ export async function listAllReminders(): Promise<MaintenanceReminder[]> {
   return rows.map(mapReminder);
 }
 
-/** Yeni cihaz için cihaz güç tipine uygun varsayılan hatırlatıcı setini oluşturur. */
-export async function createDefaultReminders(
-  deviceId: string,
-  powerType: 'battery' | 'rechargeable'
-): Promise<void> {
-  const types: MaintenanceType[] = [
+function defaultReminderTypes(powerType: 'battery' | 'rechargeable'): MaintenanceType[] {
+  return [
     powerType === 'battery' ? 'battery' : 'charge',
     'filter',
     'tube',
@@ -83,14 +81,30 @@ export async function createDefaultReminders(
     'clinic',
     'warranty',
   ];
+}
+
+/** Açık bir bağlantı üzerinde varsayılan hatırlatıcıları ekler; yeni işlem başlatmaz. */
+export async function insertDefaultReminderRows(
+  db: SQLiteDatabase,
+  deviceId: string,
+  powerType: 'battery' | 'rechargeable'
+): Promise<void> {
+  for (const type of defaultReminderTypes(powerType)) {
+    await db.runAsync(
+      'INSERT INTO maintenance_reminders (id, device_id, type, enabled, interval_days, last_done_at, created_at) VALUES (?, ?, ?, 0, ?, NULL, ?)',
+      [newId(), deviceId, type, DEFAULT_REMINDER_INTERVALS[type], todayISO()]
+    );
+  }
+}
+
+/** Yeni cihaz için cihaz güç tipine uygun varsayılan hatırlatıcı setini oluşturur. */
+export async function createDefaultReminders(
+  deviceId: string,
+  powerType: 'battery' | 'rechargeable'
+): Promise<void> {
   const db = await getDb();
   await db.withTransactionAsync(async () => {
-    for (const type of types) {
-      await db.runAsync(
-        'INSERT INTO maintenance_reminders (id, device_id, type, enabled, interval_days, last_done_at, created_at) VALUES (?, ?, ?, 0, ?, NULL, ?)',
-        [newId(), deviceId, type, DEFAULT_REMINDER_INTERVALS[type], todayISO()]
-      );
-    }
+    await insertDefaultReminderRows(db, deviceId, powerType);
   });
 }
 
