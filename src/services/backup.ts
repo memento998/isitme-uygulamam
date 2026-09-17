@@ -17,12 +17,19 @@ import type {
   AppSettings,
   Checkup,
   Device,
+  EarSide,
   MaintenanceLog,
   MaintenanceReminder,
+  MaintenanceType,
+  PowerType,
   ServiceRecord,
 } from '@/types/models';
-import { todayISO } from './date';
+import { isValidISODate, todayISO } from './date';
 
+/**
+ * JSON yedek biçimi. Fotoğraf dosyalarının kendisi dahil edilmez;
+ * `photoUri` yalnızca saklanan yol/URI metnidir.
+ */
 export interface BackupPayload {
   app: string;
   version: number;
@@ -32,7 +39,7 @@ export interface BackupPayload {
   maintenanceReminders: MaintenanceReminder[];
   maintenanceLogs: MaintenanceLog[];
   serviceRecords: ServiceRecord[];
-  settings: AppSettings;
+  settings?: AppSettings;
 }
 
 const BACKUP_APP_ID = 'isitme-takip';
@@ -87,18 +94,180 @@ export async function exportBackup(): Promise<void> {
   });
 }
 
-function isValidBackup(data: unknown): data is BackupPayload {
-  if (typeof data !== 'object' || data === null) return false;
-  const d = data as Record<string, unknown>;
+const EAR_SIDES: readonly EarSide[] = ['left', 'right', 'both'];
+const POWER_TYPES: readonly PowerType[] = ['battery', 'rechargeable'];
+const MAINTENANCE_TYPES: readonly MaintenanceType[] = [
+  'battery',
+  'charge',
+  'filter',
+  'tube',
+  'dome',
+  'cleaning',
+  'clinic',
+  'warranty',
+];
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0;
+}
+
+function isNullableString(value: unknown): value is string | null {
+  return value === null || typeof value === 'string';
+}
+
+function isIsoDate(value: unknown): value is string {
+  return typeof value === 'string' && isValidISODate(value);
+}
+
+function isNullableIsoDate(value: unknown): value is string | null {
+  return value === null || isIsoDate(value);
+}
+
+function isEarSide(value: unknown): value is EarSide {
+  return typeof value === 'string' && (EAR_SIDES as readonly string[]).includes(value);
+}
+
+function isPowerType(value: unknown): value is PowerType {
+  return typeof value === 'string' && (POWER_TYPES as readonly string[]).includes(value);
+}
+
+function isMaintenanceType(value: unknown): value is MaintenanceType {
+  return typeof value === 'string' && (MAINTENANCE_TYPES as readonly string[]).includes(value);
+}
+
+function hasUniqueIds(items: readonly { id: string }[]): boolean {
+  const seen = new Set<string>();
+  for (const item of items) {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+  }
+  return true;
+}
+
+function isValidDevice(value: unknown): value is Device {
+  if (!isRecord(value)) return false;
   return (
-    d.app === BACKUP_APP_ID &&
-    typeof d.version === 'number' &&
-    Array.isArray(d.devices) &&
-    Array.isArray(d.checkups) &&
-    Array.isArray(d.maintenanceReminders) &&
-    Array.isArray(d.maintenanceLogs) &&
-    Array.isArray(d.serviceRecords)
+    isNonEmptyString(value.id) &&
+    typeof value.name === 'string' &&
+    typeof value.brand === 'string' &&
+    typeof value.model === 'string' &&
+    isEarSide(value.earSide) &&
+    isIsoDate(value.startDate) &&
+    isNullableString(value.serialNumber) &&
+    isNullableIsoDate(value.warrantyEndDate) &&
+    isPowerType(value.powerType) &&
+    isNullableString(value.clinicName) &&
+    isNullableString(value.clinicPhone) &&
+    isNullableString(value.notes) &&
+    isNullableString(value.photoUri) &&
+    typeof value.remindersEnabled === 'boolean' &&
+    isIsoDate(value.createdAt)
   );
+}
+
+function isValidCheckup(value: unknown, deviceIds: Set<string>): value is Checkup {
+  if (!isRecord(value)) return false;
+  return (
+    isNonEmptyString(value.id) &&
+    isNonEmptyString(value.deviceId) &&
+    deviceIds.has(value.deviceId) &&
+    typeof value.title === 'string' &&
+    isIsoDate(value.dueDate) &&
+    isNullableIsoDate(value.completedAt) &&
+    isNullableString(value.note) &&
+    isIsoDate(value.createdAt)
+  );
+}
+
+function isValidReminder(value: unknown, deviceIds: Set<string>): value is MaintenanceReminder {
+  if (!isRecord(value)) return false;
+  return (
+    isNonEmptyString(value.id) &&
+    isNonEmptyString(value.deviceId) &&
+    deviceIds.has(value.deviceId) &&
+    isMaintenanceType(value.type) &&
+    typeof value.enabled === 'boolean' &&
+    typeof value.intervalDays === 'number' &&
+    Number.isInteger(value.intervalDays) &&
+    value.intervalDays >= 0 &&
+    isNullableIsoDate(value.lastDoneAt) &&
+    isIsoDate(value.createdAt)
+  );
+}
+
+function isValidLog(value: unknown, deviceIds: Set<string>): value is MaintenanceLog {
+  if (!isRecord(value)) return false;
+  return (
+    isNonEmptyString(value.id) &&
+    isNonEmptyString(value.deviceId) &&
+    deviceIds.has(value.deviceId) &&
+    isMaintenanceType(value.type) &&
+    isIsoDate(value.doneAt) &&
+    isNullableString(value.note)
+  );
+}
+
+function isValidServiceRecord(value: unknown, deviceIds: Set<string>): value is ServiceRecord {
+  if (!isRecord(value)) return false;
+  return (
+    isNonEmptyString(value.id) &&
+    isNonEmptyString(value.deviceId) &&
+    deviceIds.has(value.deviceId) &&
+    isIsoDate(value.date) &&
+    typeof value.title === 'string' &&
+    isNullableString(value.description) &&
+    isIsoDate(value.createdAt)
+  );
+}
+
+function isValidSettings(value: unknown): value is AppSettings {
+  if (!isRecord(value)) return false;
+  return (
+    typeof value.notificationHour === 'number' &&
+    Number.isInteger(value.notificationHour) &&
+    value.notificationHour >= 0 &&
+    value.notificationHour <= 23 &&
+    typeof value.notificationMinute === 'number' &&
+    Number.isInteger(value.notificationMinute) &&
+    value.notificationMinute >= 0 &&
+    value.notificationMinute <= 59
+  );
+}
+
+/** Geri yüklemeden önce yedeğin şema, kayıt ve ilişkilerini doğrular. */
+export function isValidBackup(data: unknown): data is BackupPayload {
+  if (!isRecord(data)) return false;
+  if (data.app !== BACKUP_APP_ID) return false;
+  if (data.version !== BACKUP_VERSION) return false;
+  if (
+    !Array.isArray(data.devices) ||
+    !Array.isArray(data.checkups) ||
+    !Array.isArray(data.maintenanceReminders) ||
+    !Array.isArray(data.maintenanceLogs) ||
+    !Array.isArray(data.serviceRecords)
+  ) {
+    return false;
+  }
+  if (data.settings !== undefined && !isValidSettings(data.settings)) return false;
+
+  if (!data.devices.every(isValidDevice)) return false;
+  if (!hasUniqueIds(data.devices)) return false;
+
+  const deviceIds = new Set(data.devices.map((device) => device.id));
+  if (!data.checkups.every((item) => isValidCheckup(item, deviceIds))) return false;
+  if (!hasUniqueIds(data.checkups)) return false;
+  if (!data.maintenanceReminders.every((item) => isValidReminder(item, deviceIds))) return false;
+  if (!hasUniqueIds(data.maintenanceReminders)) return false;
+  if (!data.maintenanceLogs.every((item) => isValidLog(item, deviceIds))) return false;
+  if (!hasUniqueIds(data.maintenanceLogs)) return false;
+  if (!data.serviceRecords.every((item) => isValidServiceRecord(item, deviceIds))) return false;
+  if (!hasUniqueIds(data.serviceRecords)) return false;
+
+  return true;
 }
 
 /**

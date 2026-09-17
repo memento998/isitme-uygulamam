@@ -1,3 +1,5 @@
+import type { SQLiteDatabase } from 'expo-sqlite';
+
 import { getDb, newId } from '@/db/database';
 import type { Checkup } from '@/types/models';
 import { todayISO } from '@/services/date';
@@ -61,18 +63,27 @@ export async function createCheckup(
   return checkup;
 }
 
+/** Açık bir bağlantı üzerinde kontrol satırları ekler; yeni işlem başlatmaz. */
+export async function insertCheckupRows(
+  db: SQLiteDatabase,
+  deviceId: string,
+  entries: readonly { title: string; dueDate: string }[]
+): Promise<void> {
+  for (const entry of entries) {
+    await db.runAsync(
+      'INSERT INTO checkups (id, device_id, title, due_date, completed_at, note, created_at) VALUES (?, ?, ?, ?, NULL, NULL, ?)',
+      [newId(), deviceId, entry.title, entry.dueDate, todayISO()]
+    );
+  }
+}
+
 export async function createCheckups(
   deviceId: string,
   entries: readonly { title: string; dueDate: string }[]
 ): Promise<void> {
   const db = await getDb();
   await db.withTransactionAsync(async () => {
-    for (const entry of entries) {
-      await db.runAsync(
-        'INSERT INTO checkups (id, device_id, title, due_date, completed_at, note, created_at) VALUES (?, ?, ?, ?, NULL, NULL, ?)',
-        [newId(), deviceId, entry.title, entry.dueDate, todayISO()]
-      );
-    }
+    await insertCheckupRows(db, deviceId, entries);
   });
 }
 
