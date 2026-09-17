@@ -15,7 +15,6 @@ import { TextField } from '@/components/ui/TextField';
 import { BRAND_OPTIONS, isBrandOption, selectedBrandOption } from '@/constants/brands';
 import { colors, fontSize, radius, spacing } from '@/constants/theme';
 import type { DeviceInput } from '@/repositories/devices';
-import { persistPickedPhoto } from '@/services/photos';
 import { SCHEDULE_DISCLAIMER } from '@/services/checkupSchedule';
 import { compareISO, isValidISODate, todayISO } from '@/services/date';
 import type { Device, EarSide, PowerType } from '@/types/models';
@@ -89,10 +88,6 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
     setSaving(true);
     setSubmitError(null);
     try {
-      let nextPhotoUri = photoUri || null;
-      if (nextPhotoUri && nextPhotoUri !== (initial?.photoUri ?? null)) {
-        nextPhotoUri = await persistPickedPhoto(nextPhotoUri);
-      }
       await onSubmit({
         name: name.trim(),
         brand,
@@ -105,7 +100,7 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
         clinicName: clinicName.trim() || null,
         clinicPhone: clinicPhone.trim() || null,
         notes: notes.trim() || null,
-        photoUri: nextPhotoUri,
+        photoUri: photoUri || null,
         remindersEnabled,
       });
     } catch (err) {

@@ -21,14 +21,45 @@ function extensionFromUri(uri: string): string {
   return ext === 'jpeg' ? '.jpg' : `.${ext}`;
 }
 
-/** URI bu uygulamanın kalıcı fotoğraf dizinine ait mi? */
-export function isAppOwnedPhotoUri(uri: string | null | undefined): boolean {
-  if (!uri) return false;
-  return uri.includes(`/${PHOTO_DIR_NAME}/`);
-}
-
 function photoDirectory(): Directory {
   return new Directory(Paths.document, PHOTO_DIR_NAME);
+}
+
+function normalizeUri(uri: string): string {
+  const stripped = uri.split('#')[0].split('?')[0];
+  try {
+    return decodeURI(stripped);
+  } catch {
+    return stripped;
+  }
+}
+
+function withTrailingSlash(uri: string): string {
+  return uri.endsWith('/') ? uri : `${uri}/`;
+}
+
+/** URI FixHear belgeler dizinindeki device-photos klasörünün içinde mi? */
+export function isAppOwnedPhotoUri(uri: string | null | undefined): boolean {
+  if (!uri || !uri.startsWith('file:')) return false;
+  try {
+    const directoryUri = withTrailingSlash(normalizeUri(photoDirectory().uri));
+    const fileUri = normalizeUri(new File(uri).uri || uri);
+    if (!fileUri.startsWith(directoryUri)) return false;
+    const rest = fileUri.slice(directoryUri.length);
+    if (!rest || rest.endsWith('/')) return false;
+    if (rest.split('/').includes('..') || rest.includes('\\')) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function deleteIfExists(file: File): void {
+  try {
+    if (file.exists) file.delete();
+  } catch {
+    // Kısmi kopya veya eksik dosya çağıranı durdurmamalı.
+  }
 }
 
 /**
@@ -41,15 +72,21 @@ export async function persistPickedPhoto(sourceUri: string): Promise<string> {
 
   const dir = photoDirectory();
   if (!dir.exists) {
-    dir.create();
+    dir.create({ intermediates: true, idempotent: true });
   }
   const destination = new File(dir, `${uniqueFileStem()}${extensionFromUri(sourceUri)}`);
   const source = new File(sourceUri);
   if (!source.exists) {
     throw new Error('Seçilen fotoğraf okunamadı.');
   }
-  source.copy(destination);
+  try {
+    await source.copy(destination);
+  } catch (error) {
+    deleteIfExists(destination);
+    throw error;
+  }
   if (!destination.exists) {
+    deleteIfExists(destination);
     throw new Error('Fotoğraf kalıcı olarak kaydedilemedi.');
   }
   return destination.uri;
@@ -57,7 +94,7 @@ export async function persistPickedPhoto(sourceUri: string): Promise<string> {
 
 /** Uygulama dizinindeki fotoğrafı siler; eksik/eski dosya çağıranı durdurmaz. */
 export function removeAppOwnedPhoto(uri: string | null | undefined): void {
-  if (!isAppOwnedPhotoUri(uri) || !uri) return;
+  if (!uri || !isAppOwnedPhotoUri(uri)) return;
   try {
     const file = new File(uri);
     if (file.exists) file.delete();
