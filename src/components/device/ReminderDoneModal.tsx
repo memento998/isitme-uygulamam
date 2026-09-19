@@ -19,7 +19,7 @@ export function ReminderDoneModal({ visible, reminder, onSave, onClose }: Props)
   return (
     <AppModal
       visible={visible}
-      title={reminder ? `${MAINTENANCE_TYPE_LABELS[reminder.type]} yapıldı` : 'Bakım yapıldı'}
+      title={reminder ? `${MAINTENANCE_TYPE_LABELS[reminder.type]} — Tamamla` : 'Bakımı Tamamla'}
       onClose={onClose}
     >
       {visible && reminder ? <DoneForm key={reminder.id} onSave={onSave} /> : null}

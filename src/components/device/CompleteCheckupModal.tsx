@@ -18,7 +18,7 @@ export function CompleteCheckupModal({ visible, checkup, onSave, onClose }: Prop
   return (
     <AppModal
       visible={visible}
-      title={checkup ? `"${checkup.title}" tamamlandı` : 'Kontrolü Tamamla'}
+      title={checkup ? `"${checkup.title}" — Kontrolü Tamamla` : 'Kontrolü Tamamla'}
       onClose={onClose}
     >
       {visible && checkup ? (

@@ -42,6 +42,13 @@ export default function PrivacyScreen() {
           işleyebilir; bu veriler fixhear tarafından toplanmaz. Reklamlar kişiselleştirilmemiş
           modda istenir.
         </Text>
+
+        <Text style={styles.heading}>Diğer yasal metinler</Text>
+        <Text style={styles.paragraph}>
+          Kullanım Koşulları ve Tıbbi Sorumluluk Reddi / Yasal Bilgilendirme metinlerine Daha
+          Fazla menüsünden ulaşabilirsiniz. Veri silme işlemi Daha Fazla sayfasındaki &quot;Tüm
+          verileri sil&quot; seçeneğiyle yapılır.
+        </Text>
       </Card>
     </ScrollView>
   );

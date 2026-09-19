@@ -37,7 +37,8 @@ export default function RootLayout() {
         <Stack.Screen name="more/notifications" options={{ title: 'Bildirim Ayarları' }} />
         <Stack.Screen name="more/backup" options={{ title: 'Yedekleme' }} />
         <Stack.Screen name="more/reports" options={{ title: 'PDF Raporları' }} />
-        <Stack.Screen name="more/privacy" options={{ title: 'Gizlilik' }} />
+        <Stack.Screen name="more/privacy" options={{ title: 'Gizlilik Politikası' }} />
+        <Stack.Screen name="more/terms" options={{ title: 'Kullanım Koşulları' }} />
         <Stack.Screen name="more/disclaimer" options={{ title: 'Tıbbi Sorumluluk Reddi' }} />
         <Stack.Screen name="more/about" options={{ title: 'Uygulama Hakkında' }} />
       </Stack>

@@ -69,14 +69,20 @@ export default function MoreScreen() {
       <View style={styles.group}>
         <ListRow
           icon="shield-checkmark-outline"
-          title="Gizlilik"
+          title="Gizlilik Politikası"
           subtitle="Verileriniz yalnızca cihazınızda saklanır"
           onPress={() => router.push('/more/privacy')}
         />
         <ListRow
+          icon="document-outline"
+          title="Kullanım Koşulları"
+          subtitle="Uygulamanın kullanımına ilişkin özet bilgi"
+          onPress={() => router.push('/more/terms')}
+        />
+        <ListRow
           icon="medkit-outline"
-          title="Tıbbi sorumluluk reddi"
-          subtitle="Uygulama tıbbi tanı koymaz"
+          title="Tıbbi Sorumluluk Reddi"
+          subtitle="Yasal bilgilendirme — uygulama tıbbi tanı koymaz"
           onPress={() => router.push('/more/disclaimer')}
         />
         <ListRow

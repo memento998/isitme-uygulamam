@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
@@ -86,6 +86,10 @@ export default function DeviceDetailScreen() {
   const [confirmTarget, setConfirmTarget] = useState<ConfirmTarget | null>(null);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const [enabledOverrides, setEnabledOverrides] = useState<Record<string, boolean>>({});
+  const [updatingReminderIds, setUpdatingReminderIds] = useState<Record<string, boolean>>({});
+  const [switchError, setSwitchError] = useState<string | null>(null);
+  const toggleSeq = useRef<Record<string, number>>({});
 
   if (loading) return <LoadingView />;
   if (error) return <ErrorView message={error} onRetry={reload} />;
@@ -93,10 +97,64 @@ export default function DeviceDetailScreen() {
 
   const { device, checkups, reminders, logs, records, today } = data;
 
+  const effectiveEnabled = (reminder: MaintenanceReminder): boolean =>
+    enabledOverrides[reminder.id] ?? reminder.enabled;
+
   const mutate = async (action: () => Promise<unknown>) => {
     await action();
     await syncAllNotifications();
     await reload();
+    setEnabledOverrides({});
+  };
+
+  const handleReminderEnabledChange = async (reminder: MaintenanceReminder, value: boolean) => {
+    if (updatingReminderIds[reminder.id]) return;
+    const previous = effectiveEnabled(reminder);
+    const seq = (toggleSeq.current[reminder.id] ?? 0) + 1;
+    toggleSeq.current[reminder.id] = seq;
+    setSwitchError(null);
+    setUpdatingReminderIds((current) => ({ ...current, [reminder.id]: true }));
+    setEnabledOverrides((current) => ({ ...current, [reminder.id]: value }));
+    try {
+      await updateReminder(reminder.id, {
+        enabled: value,
+        intervalDays: reminder.intervalDays,
+      });
+    } catch (err) {
+      console.warn('Hatırlatıcı güncellenemedi:', err);
+      if (toggleSeq.current[reminder.id] === seq) {
+        setEnabledOverrides((current) => ({ ...current, [reminder.id]: previous }));
+        setSwitchError('Hatırlatıcı güncellenirken bir sorun oluştu. Lütfen tekrar deneyin.');
+      }
+      setUpdatingReminderIds((current) => {
+        const next = { ...current };
+        delete next[reminder.id];
+        return next;
+      });
+      return;
+    }
+    setUpdatingReminderIds((current) => {
+      const next = { ...current };
+      delete next[reminder.id];
+      return next;
+    });
+    try {
+      await syncAllNotifications();
+    } catch {
+      // Bildirim senkronu DB yazımını veya Switch görünümünü geri almamalı.
+    }
+    try {
+      await reload();
+      if (toggleSeq.current[reminder.id] === seq) {
+        setEnabledOverrides((current) => {
+          const next = { ...current };
+          delete next[reminder.id];
+          return next;
+        });
+      }
+    } catch {
+      // Yükleme başarısızsa override, kaydedilen değeri göstermeye devam eder.
+    }
   };
 
   const upcoming: UpcomingItem[] = [
@@ -104,7 +162,7 @@ export default function DeviceDetailScreen() {
       .filter((c) => !c.completedAt && compareISO(c.dueDate, today) >= 0)
       .map((c) => ({ key: `c-${c.id}`, title: c.title, date: c.dueDate })),
     ...reminders
-      .filter((r) => r.enabled)
+      .filter((r) => effectiveEnabled(r))
       .map((r) => ({
         key: `r-${r.id}`,
         title: MAINTENANCE_TYPE_LABELS[r.type],
@@ -327,7 +385,7 @@ export default function DeviceDetailScreen() {
                     />
                   ) : (
                     <Button
-                      label="Tamamlandı"
+                      label="Tamamla"
                       onPress={() => setCheckupToComplete(checkup)}
                       style={styles.checkupActionButton}
                     />
@@ -357,64 +415,64 @@ export default function DeviceDetailScreen() {
         )}
 
         <SectionHeader title="Bakım hatırlatıcıları" />
+        {switchError ? <InfoBanner kind="warning" text={switchError} /> : null}
         <Card>
           {reminders.map((reminder, index) => {
             const next = nextReminderDate(reminder, device.warrantyEndDate);
+            const enabled = effectiveEnabled(reminder);
             return (
               <View
                 key={reminder.id}
-                style={[styles.reminderRow, index > 0 && styles.simpleRowBorder]}
+                style={[styles.reminderBlock, index > 0 && styles.simpleRowBorder]}
               >
-                <View style={styles.reminderInfo}>
-                  <Text style={styles.reminderTitle}>{MAINTENANCE_TYPE_LABELS[reminder.type]}</Text>
-                  <Text style={styles.reminderDetail}>
-                    {reminder.type === 'warranty'
-                      ? device.warrantyEndDate
-                        ? `Garanti bitişi: ${formatDate(device.warrantyEndDate)}`
-                        : 'Garanti tarihi girilmemiş'
-                      : `${reminder.intervalDays} günde bir` +
-                        (next ? ` · Sıradaki: ${formatDate(next)}` : '')}
-                  </Text>
-                  {reminder.lastDoneAt ? (
+                <View style={styles.reminderRow}>
+                  <View style={styles.reminderInfo}>
+                    <Text style={styles.reminderTitle}>{MAINTENANCE_TYPE_LABELS[reminder.type]}</Text>
                     <Text style={styles.reminderDetail}>
-                      Son yapılma: {formatDate(reminder.lastDoneAt)}
+                      {reminder.type === 'warranty'
+                        ? device.warrantyEndDate
+                          ? `Garanti bitişi: ${formatDate(device.warrantyEndDate)}`
+                          : 'Garanti tarihi girilmemiş'
+                        : `${reminder.intervalDays} günde bir` +
+                          (next ? ` · Sıradaki: ${formatDate(next)}` : '')}
                     </Text>
-                  ) : null}
-                </View>
-                <View style={styles.reminderActions}>
-                  <Switch
-                    accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} hatırlatıcısı`}
-                    value={reminder.enabled}
-                    onValueChange={(value) =>
-                      mutate(() =>
-                        updateReminder(reminder.id, {
-                          enabled: value,
-                          intervalDays: reminder.intervalDays,
-                        })
-                      )
-                    }
-                    trackColor={{ false: colors.border, true: colors.primary }}
-                    thumbColor="#FFFFFF"
-                  />
-                  <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} hatırlatıcısını düzenle`}
-                    onPress={() => setReminderToEdit(reminder)}
-                    style={styles.iconButton}
-                  >
-                    <Ionicons name="pencil-outline" size={20} color={colors.primary} />
-                  </Pressable>
-                  {reminder.type !== 'warranty' ? (
+                    {reminder.lastDoneAt ? (
+                      <Text style={styles.reminderDetail}>
+                        Son yapılma: {formatDate(reminder.lastDoneAt)}
+                      </Text>
+                    ) : null}
+                  </View>
+                  <View style={styles.reminderActions}>
+                    <Switch
+                      accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} hatırlatıcısı`}
+                      value={enabled}
+                      disabled={!!updatingReminderIds[reminder.id]}
+                      onValueChange={(value) => void handleReminderEnabledChange(reminder, value)}
+                      trackColor={{ false: colors.border, true: colors.primary }}
+                      thumbColor="#FFFFFF"
+                    />
                     <Pressable
                       accessibilityRole="button"
-                      accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} yapıldı olarak kaydet`}
-                      onPress={() => setReminderToLog(reminder)}
+                      accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} hatırlatıcısını düzenle`}
+                      onPress={() =>
+                        setReminderToEdit({
+                          ...reminder,
+                          enabled: effectiveEnabled(reminder),
+                        })
+                      }
                       style={styles.iconButton}
                     >
-                      <Ionicons name="checkmark-done-outline" size={20} color={colors.success} />
+                      <Ionicons name="pencil-outline" size={20} color={colors.primary} />
                     </Pressable>
-                  ) : null}
+                  </View>
                 </View>
+                {reminder.type !== 'warranty' ? (
+                  <Button
+                    label="Tamamla"
+                    onPress={() => setReminderToLog(reminder)}
+                    style={styles.reminderCompleteButton}
+                  />
+                ) : null}
               </View>
             );
           })}
@@ -423,7 +481,7 @@ export default function DeviceDetailScreen() {
         <SectionHeader title="Bakım geçmişi" />
         {logs.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Henüz bakım kaydı yok.</Text>
+            <Text style={styles.emptyText}>Tamamlanan bakım işlemleri burada görünür.</Text>
           </Card>
         ) : (
           <Card>
@@ -639,15 +697,16 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: colors.background,
   },
+  reminderBlock: { paddingVertical: spacing.md, gap: spacing.sm },
   reminderRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: spacing.md,
     gap: spacing.sm,
   },
   reminderInfo: { flex: 1 },
   reminderTitle: { fontSize: fontSize.md, fontWeight: '600', color: colors.text },
   reminderDetail: { fontSize: fontSize.xs, color: colors.textMuted, marginTop: 2 },
   reminderActions: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+  reminderCompleteButton: { alignSelf: 'flex-start' },
   logInfo: { flex: 1 },
 });

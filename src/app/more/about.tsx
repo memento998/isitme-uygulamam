@@ -28,8 +28,12 @@ export default function AboutScreen() {
           Uygulama internet bağlantısı gerektirmez; tüm verileriniz yalnızca cihazınızda saklanır.
         </Text>
         <Text style={styles.paragraph}>
-          Bu uygulama tıbbi bir araç değildir. Kontrol sıklığı ve cihaz ayarları için her zaman
-          işitme uzmanınıza danışın.
+          Bu uygulama tıbbi bir araç veya belgelendirilmiş bir tıbbi cihaz değildir. Kontrol
+          sıklığı ve cihaz ayarları için her zaman işitme uzmanınıza danışın.
+        </Text>
+        <Text style={styles.paragraph}>
+          Gizlilik Politikası, Kullanım Koşulları ve Tıbbi Sorumluluk Reddi / Yasal
+          Bilgilendirme metinlerine Daha Fazla menüsünden ulaşabilirsiniz.
         </Text>
       </Card>
     </ScrollView>
