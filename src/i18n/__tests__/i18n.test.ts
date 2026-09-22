@@ -112,6 +112,7 @@ describe('locale matching', () => {
     expect(resolveAppLocale('de', ['en-US'])).toBe('de');
     expect(resolveAppLocale(null, ['en-US'])).toBe('tr');
     expect(resolveAppLocale(undefined, ['en-US'])).toBe('tr');
+    expect(resolveAppLocale('' as never, ['en-US'])).toBe('tr');
     expect(resolveAppLocale('system', ['es-MX', 'en'])).toBe('es');
     expect(resolveAppLocale('system', ['pt-BR'])).toBe('en');
   });
