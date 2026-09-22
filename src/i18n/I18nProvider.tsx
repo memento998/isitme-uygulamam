@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { Alert, I18nManager, View } from 'react-native';
+import { Alert, I18nManager, Platform, View } from 'react-native';
 
 import { getLanguagePreference, saveLanguagePreference } from '@/repositories/settings';
 
@@ -103,9 +103,23 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     };
   }, [locale, preference, reload, setPreference]);
 
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    document.documentElement.lang = locale;
+    document.documentElement.dir = isRtlLocale(locale) ? 'rtl' : 'ltr';
+  }, [locale]);
+
+  const rootStyle =
+    Platform.OS === 'web'
+      ? { flex: 1 }
+      : { flex: 1, direction: value.isRTL ? ('rtl' as const) : ('ltr' as const) };
+  const webDir = Platform.OS === 'web' ? { dir: value.isRTL ? 'rtl' : 'ltr' } : {};
+
   return (
     <I18nContext.Provider value={value}>
-      <View style={{ flex: 1, direction: value.isRTL ? 'rtl' : 'ltr' }}>{children}</View>
+      <View style={rootStyle} {...webDir}>
+        {children}
+      </View>
     </I18nContext.Provider>
   );
 }
