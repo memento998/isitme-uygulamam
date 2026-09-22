@@ -12,10 +12,10 @@ import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectField } from '@/components/ui/SelectField';
 import { SwitchRow } from '@/components/ui/SwitchRow';
 import { TextField } from '@/components/ui/TextField';
-import { BRAND_OPTIONS, isBrandOption, selectedBrandOption } from '@/constants/brands';
+import { BRAND_OPTIONS, OTHER_BRAND, isBrandOption, selectedBrandOption } from '@/constants/brands';
 import { colors, fontSize, radius, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 import type { DeviceInput } from '@/repositories/devices';
-import { SCHEDULE_DISCLAIMER } from '@/services/checkupSchedule';
 import { compareISO, isValidISODate, todayISO } from '@/services/date';
 import type { Device, EarSide, PowerType } from '@/types/models';
 
@@ -36,6 +36,7 @@ interface FormErrors {
 }
 
 export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onSubmit }: Props) {
+  const { messages } = useI18n();
   const [name, setName] = useState(initial?.name ?? '');
   const [brand, setBrand] = useState<string>(selectedBrandOption(initial?.brand ?? ''));
   const [earSide, setEarSide] = useState<EarSide>(initial?.earSide ?? 'both');
@@ -66,18 +67,18 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
 
   const validate = (): boolean => {
     const next: FormErrors = {};
-    if (!name.trim()) next.name = 'Cihaz adı zorunludur.';
-    if (!isBrandOption(brand)) next.brand = 'Listeden bir marka seçin.';
+    if (!name.trim()) next.name = messages.deviceForm.nameRequired;
+    if (!isBrandOption(brand)) next.brand = messages.deviceForm.brandRequired;
     if (!isValidISODate(startDate)) {
-      next.startDate = 'Geçerli bir başlangıç tarihi seçin.';
+      next.startDate = messages.deviceForm.startInvalid;
     } else if (compareISO(startDate, todayISO()) > 0) {
-      next.startDate = 'Başlangıç tarihi gelecekte olamaz.';
+      next.startDate = messages.deviceForm.startFuture;
     }
     if (warrantyEndDate && !isValidISODate(warrantyEndDate)) {
-      next.warrantyEndDate = 'Geçerli bir tarih seçin.';
+      next.warrantyEndDate = messages.deviceForm.dateInvalid;
     }
     if (clinicPhone.trim() && !/^[0-9+()\-\s]{7,20}$/.test(clinicPhone.trim())) {
-      next.clinicPhone = 'Geçerli bir telefon numarası girin.';
+      next.clinicPhone = messages.deviceForm.phoneInvalid;
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -105,7 +106,7 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
       });
     } catch (err) {
       console.warn('Cihaz kaydedilemedi:', err);
-      setSubmitError('Cihaz kaydedilirken bir sorun oluştu. Lütfen tekrar deneyin.');
+      setSubmitError(messages.deviceForm.saveError);
       setSaving(false);
     }
   };
@@ -120,7 +121,7 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
         <View style={styles.photoRow}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={photoUri ? 'Cihaz fotoğrafını değiştir' : 'Cihaz fotoğrafı ekle'}
+            accessibilityLabel={photoUri ? messages.deviceForm.photoChangeA11y : messages.deviceForm.photoAddA11y}
             onPress={pickPhoto}
             style={styles.photoButton}
           >
@@ -129,97 +130,104 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
             ) : (
               <View style={styles.photoPlaceholder}>
                 <Ionicons name="camera-outline" size={28} color={colors.primary} />
-                <Text style={styles.photoText}>Fotoğraf ekle</Text>
+                <Text style={styles.photoText}>{messages.deviceForm.photoAdd}</Text>
               </View>
             )}
           </Pressable>
           {photoUri ? (
-            <Button label="Fotoğrafı kaldır" variant="ghost" onPress={() => setPhotoUri('')} />
+            <Button label={messages.deviceForm.photoRemove} variant="ghost" onPress={() => setPhotoUri('')} />
           ) : null}
         </View>
 
         <TextField
-          label="Cihaz adı"
+          label={messages.deviceForm.name}
           value={name}
           onChangeText={setName}
-          placeholder="Örn. Sağ kulak cihazım"
+          placeholder={messages.deviceForm.namePlaceholder}
           required
           error={errors.name}
         />
         <SelectField
-          label="Marka"
+          label={messages.deviceForm.brand}
           required
-          placeholder="Marka seçin"
-          options={BRAND_OPTIONS.map((value) => ({ value, label: value }))}
+          placeholder={messages.deviceForm.brandPlaceholder}
+          options={BRAND_OPTIONS.map((value) => ({
+            value,
+            label: value === OTHER_BRAND ? messages.brand.otherBrand : value,
+          }))}
           value={brand}
           onChange={setBrand}
-          helperText="Listede yoksa Diğer'i seçin."
+          helperText={messages.deviceForm.brandHelper}
           error={errors.brand}
         />
-        <SegmentedControl
-          label="Kulak"
-          options={[
-            { value: 'left', label: 'Sol' },
-            { value: 'right', label: 'Sağ' },
-            { value: 'both', label: 'İki kulak' },
-          ]}
-          value={earSide}
-          onChange={setEarSide}
-        />
+        <View style={styles.ltrField}>
+          <SegmentedControl
+            label={messages.deviceForm.ear}
+            options={[
+              { value: 'left', label: messages.deviceForm.left },
+              { value: 'right', label: messages.deviceForm.right },
+              { value: 'both', label: messages.deviceForm.both },
+            ]}
+            value={earSide}
+            onChange={setEarSide}
+          />
+        </View>
         <DateField
-          label="Kullanım başlangıç tarihi"
+          label={messages.deviceForm.startDate}
           value={startDate}
           onChange={setStartDate}
           required
           error={errors.startDate}
-          helperText={showScheduleInfo ? 'Kontrol takvimi bu tarihe göre oluşturulur.' : undefined}
+          helperText={showScheduleInfo ? messages.deviceForm.startHelper : undefined}
         />
         <TextField
-          label="Seri numarası"
+          label={messages.deviceForm.serial}
           value={serialNumber}
           onChangeText={setSerialNumber}
-          placeholder="Örn. PH-2025-004512"
+          placeholder={messages.deviceForm.serialPlaceholder}
         />
         <DateField
-          label="Garanti bitiş tarihi"
+          label={messages.deviceForm.warranty}
           value={warrantyEndDate}
           onChange={setWarrantyEndDate}
           clearable
           error={errors.warrantyEndDate}
         />
-        <SegmentedControl
-          label="Güç tipi"
-          options={[
-            { value: 'battery', label: 'Pilli' },
-            { value: 'rechargeable', label: 'Şarjlı' },
-          ]}
-          value={powerType}
-          onChange={setPowerType}
-        />
+        <View style={styles.ltrField}>
+          <SegmentedControl
+            label={messages.deviceForm.powerType}
+            options={[
+              { value: 'battery', label: messages.deviceForm.powerBattery },
+              { value: 'rechargeable', label: messages.deviceForm.powerRechargeable },
+            ]}
+            value={powerType}
+            onChange={setPowerType}
+          />
+        </View>
         <TextField
-          label="Doktor veya klinik adı"
+          label={messages.deviceForm.clinic}
           value={clinicName}
           onChangeText={setClinicName}
-          placeholder="Örn. Dr. Ayşe Yılmaz"
+          placeholder={messages.deviceForm.clinicPlaceholder}
         />
         <TextField
-          label="Telefon numarası"
+          label={messages.deviceForm.phone}
           value={clinicPhone}
           onChangeText={setClinicPhone}
-          placeholder="Örn. 0212 555 12 34"
+          placeholder={messages.deviceForm.phonePlaceholder}
           keyboardType="phone-pad"
           error={errors.clinicPhone}
         />
         <TextField
-          label="Notlar"
+          label={messages.deviceForm.notes}
           value={notes}
           onChangeText={setNotes}
-          placeholder="Cihazla ilgili notlarınız"
+          placeholder={messages.deviceForm.notesPlaceholder}
           multiline
         />
         <SwitchRow
-          label="Hatırlatıcılar"
-          description="Kontrol ve bakım tarihleri için bildirim gönderilsin"
+          label={messages.deviceForm.reminders}
+          description={messages.deviceForm.remindersHelp}
           value={remindersEnabled}
           onValueChange={setRemindersEnabled}
         />
@@ -227,9 +235,7 @@ export function DeviceForm({ initial, submitLabel, showScheduleInfo = false, onS
 
       {showScheduleInfo ? (
         <View style={styles.banner}>
-          <InfoBanner
-            text={`Cihaz eklendiğinde 1. ay, 3. ay, 6. ay, 1. yıl, 1,5 yıl, 2. yıl ve sonrasında 6 ayda bir olacak şekilde örnek bir kontrol takvimi oluşturulur. ${SCHEDULE_DISCLAIMER}`}
-          />
+          <InfoBanner text={messages.deviceForm.scheduleBanner} />
         </View>
       ) : null}
 
@@ -263,6 +269,7 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
   },
   photoText: { fontSize: fontSize.xs, color: colors.primary, fontWeight: '600' },
+  ltrField: { direction: 'ltr' },
   banner: { marginTop: spacing.lg },
   submit: { marginTop: spacing.xl },
 });

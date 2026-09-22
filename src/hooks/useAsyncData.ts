@@ -12,13 +12,15 @@ interface AsyncDataState<T> {
  * Ekrana her odaklanıldığında veriyi yeniden yükler.
  * İlk yüklemede "loading", hata durumunda "error" durumlarını yönetir.
  */
-export function useAsyncData<T>(loader: () => Promise<T>): AsyncDataState<T> {
+export function useAsyncData<T>(loader: () => Promise<T>, errorMessage?: string): AsyncDataState<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const loaderRef = useRef(loader);
+  const errorMessageRef = useRef(errorMessage);
   useEffect(() => {
     loaderRef.current = loader;
+    errorMessageRef.current = errorMessage;
   });
 
   const reload = useCallback(async () => {
@@ -28,7 +30,7 @@ export function useAsyncData<T>(loader: () => Promise<T>): AsyncDataState<T> {
       setData(result);
     } catch (err) {
       console.warn('Veri yüklenemedi:', err);
-      setError('Veriler yüklenirken bir sorun oluştu.');
+      setError(errorMessageRef.current ?? 'Veriler yüklenirken bir sorun oluştu.');
     } finally {
       setLoading(false);
     }

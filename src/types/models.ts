@@ -1,3 +1,5 @@
+import type { LanguagePreference } from '@/i18n/locales';
+
 /** Uygulamanın veri modeli tipleri. Tüm tarihler ISO (YYYY-MM-DD) biçimindedir. */
 
 export type EarSide = 'left' | 'right' | 'both';
@@ -74,6 +76,18 @@ export interface AppSettings {
   notificationHour: number;
   /** Bildirimlerin gönderileceği dakika (0-59). */
   notificationMinute: number;
+  /**
+   * Kullanıcının dil tercihi. `null` = kayıt yok (eski Türkçe kurulum).
+   * `'system'` cihaz dil sırasını kullanır.
+   */
+  languagePreference: LanguagePreference | null;
+  /** Yerel takvim başlangıç tarihi; yoksa ilk kullanımda yazılır. */
+  knowledgeCycleStartDate: string | null;
+  /** Günlük bilgi bildirimleri. İlk kurulumda kapalı. */
+  dailyKnowledgeEnabled: boolean;
+  dailyKnowledgeHour: number;
+  dailyKnowledgeMinute: number;
+  dailyKnowledgePromptSeen: boolean;
 }
 
 export const EAR_SIDE_LABELS: Record<EarSide, string> = {

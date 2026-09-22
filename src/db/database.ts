@@ -5,7 +5,7 @@
 import * as SQLite from 'expo-sqlite';
 
 const DB_NAME = 'isitme-takip.db';
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
@@ -74,6 +74,27 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
       CREATE INDEX IF NOT EXISTS idx_reminders_device ON maintenance_reminders(device_id);
       CREATE INDEX IF NOT EXISTS idx_logs_device ON maintenance_logs(device_id);
       CREATE INDEX IF NOT EXISTS idx_service_device ON service_records(device_id);
+    `);
+  }
+
+  if (current < 2) {
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS knowledge_day_assignments (
+        local_date TEXT PRIMARY KEY NOT NULL,
+        tip_id TEXT NOT NULL,
+        content_version INTEGER NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS knowledge_notification_plans (
+        local_date TEXT PRIMARY KEY NOT NULL,
+        tip_id TEXT NOT NULL,
+        locale TEXT NOT NULL,
+        content_version INTEGER NOT NULL,
+        title_snapshot TEXT NOT NULL,
+        message_snapshot TEXT NOT NULL,
+        scheduled_for TEXT NOT NULL,
+        notification_identifier TEXT,
+        status TEXT NOT NULL
+      );
     `);
   }
 

@@ -5,13 +5,18 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { EmptyState, ErrorView, LoadingView } from '@/components/ui/StateViews';
 import { colors, fontSize, radius, spacing } from '@/constants/theme';
 import { useAsyncData } from '@/hooks/useAsyncData';
+import {
+  daysUntilLocalized,
+  formatMonthYearLocalized,
+  useI18n,
+  type UiMessages,
+} from '@/i18n';
 import { listAllCheckups } from '@/repositories/checkups';
 import { listDevices } from '@/repositories/devices';
 import { listAllReminders, nextReminderDate } from '@/repositories/maintenance';
 import { getCheckupStatus } from '@/services/checkupStatus';
-import { compareISO, daysUntilLabel, formatDate, formatMonthYear, todayISO } from '@/services/date';
+import { compareISO, formatDate, todayISO } from '@/services/date';
 import type { CheckupStatus } from '@/types/models';
-import { MAINTENANCE_TYPE_LABELS } from '@/types/models';
 
 interface AgendaItem {
   key: string;
@@ -26,7 +31,7 @@ interface AgendaSection {
   data: AgendaItem[];
 }
 
-async function loadAgenda(): Promise<{ sections: AgendaSection[]; today: string }> {
+async function loadAgenda(messages: UiMessages): Promise<{ sections: AgendaSection[]; today: string }> {
   const today = todayISO();
   const [devices, checkups, reminders] = await Promise.all([
     listDevices(),
@@ -57,7 +62,7 @@ async function loadAgenda(): Promise<{ sections: AgendaSection[]; today: string 
     items.push({
       key: `r-${reminder.id}`,
       date: next,
-      title: MAINTENANCE_TYPE_LABELS[reminder.type],
+      title: messages.maintenance[reminder.type],
       deviceName: device.name,
       status: null,
     });
@@ -67,7 +72,7 @@ async function loadAgenda(): Promise<{ sections: AgendaSection[]; today: string 
 
   const sections: AgendaSection[] = [];
   for (const item of items) {
-    const monthTitle = formatMonthYear(item.date);
+    const monthTitle = formatMonthYearLocalized(item.date, messages.months.full);
     const last = sections[sections.length - 1];
     if (last && last.title === monthTitle) {
       last.data.push(item);
@@ -79,10 +84,22 @@ async function loadAgenda(): Promise<{ sections: AgendaSection[]; today: string 
 }
 
 export default function CalendarScreen() {
-  const { data, loading, error, reload } = useAsyncData(loadAgenda);
+  const { messages } = useI18n();
+  const { data, loading, error, reload } = useAsyncData(
+    () => loadAgenda(messages),
+    messages.common.loadError
+  );
 
-  if (loading) return <LoadingView />;
-  if (error || !data) return <ErrorView message={error ?? undefined} onRetry={reload} />;
+  if (loading) return <LoadingView message={messages.common.loading} />;
+  if (error || !data) {
+    return (
+      <ErrorView
+        message={error ?? messages.common.loadError}
+        onRetry={reload}
+        retryLabel={messages.common.retry}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -109,17 +126,17 @@ export default function CalendarScreen() {
               <Text style={styles.rowTitle}>{item.title}</Text>
               <Text style={styles.rowSubtitle}>{item.deviceName}</Text>
               <Text style={styles.rowDate}>
-                {formatDate(item.date)} · {daysUntilLabel(item.date, data.today)}
+                {formatDate(item.date)} · {daysUntilLocalized(item.date, data.today, messages)}
               </Text>
             </View>
-            {item.status ? <StatusBadge status={item.status} /> : null}
+            {item.status ? <StatusBadge status={item.status} labels={messages.checkupStatus} /> : null}
           </View>
         )}
         ListEmptyComponent={
           <EmptyState
             icon="calendar-outline"
-            title="Planlanmış işlem yok"
-            description="Cihaz eklediğinizde kontrol ve bakım tarihleri burada listelenir."
+            title={messages.calendar.emptyTitle}
+            description={messages.calendar.emptyDescription}
           />
         }
       />

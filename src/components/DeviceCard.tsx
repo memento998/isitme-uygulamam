@@ -4,9 +4,9 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { colors, fontSize, MIN_TOUCH_SIZE, radius, spacing } from '@/constants/theme';
 import type { StatusCounts } from '@/services/checkupStatus';
-import { daysUntilLabel, formatDate } from '@/services/date';
+import { daysUntilLocalized, useI18n } from '@/i18n';
+import { formatDate } from '@/services/date';
 import type { Device } from '@/types/models';
-import { EAR_SIDE_LABELS, POWER_TYPE_LABELS } from '@/types/models';
 import { Card } from './ui/Card';
 
 interface Props {
@@ -28,13 +28,23 @@ export function DeviceCard({
   onEdit,
   onDelete,
 }: Props) {
+  const { messages, tx } = useI18n();
+  const earLabels = {
+    left: messages.home.earLeft,
+    right: messages.home.earRight,
+    both: messages.home.earBoth,
+  } as const;
+  const powerLabels = {
+    battery: messages.home.powerBattery,
+    rechargeable: messages.home.powerRechargeable,
+  } as const;
   return (
     <Card style={styles.card}>
       <View style={styles.headerRow}>
         {/* Kart içinde iç içe butonlardan kaçınmak için yalnızca içerik alanı tıklanabilir. */}
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`${device.name} detayına git`}
+          accessibilityLabel={tx(messages.home.openDeviceA11y, { name: device.name })}
           onPress={onPress}
           style={styles.pressableArea}
         >
@@ -51,31 +61,31 @@ export function DeviceCard({
               <Text style={styles.brand}>{device.brand}</Text>
               <View style={styles.chipRow}>
                 <View style={styles.chip}>
-                  <Text style={styles.chipText}>{EAR_SIDE_LABELS[device.earSide]}</Text>
+                  <Text style={styles.chipText}>{earLabels[device.earSide]}</Text>
                 </View>
                 <View style={styles.chip}>
-                  <Text style={styles.chipText}>{POWER_TYPE_LABELS[device.powerType]}</Text>
+                  <Text style={styles.chipText}>{powerLabels[device.powerType]}</Text>
                 </View>
               </View>
             </View>
           </View>
 
           <Text style={styles.startDate}>
-            Kullanım başlangıcı: {formatDate(device.startDate)}
+            {tx(messages.home.usageStart, { date: formatDate(device.startDate) })}
           </Text>
 
           <View style={styles.countsRow}>
             <View style={styles.countItem}>
               <Text style={[styles.countValue, { color: colors.success }]}>{counts.completed}</Text>
-              <Text style={styles.countLabel}>Tamamlanan</Text>
+              <Text style={styles.countLabel}>{messages.home.completed}</Text>
             </View>
             <View style={styles.countItem}>
               <Text style={[styles.countValue, { color: colors.primary }]}>{counts.pending}</Text>
-              <Text style={styles.countLabel}>Bekleyen</Text>
+              <Text style={styles.countLabel}>{messages.home.pending}</Text>
             </View>
             <View style={styles.countItem}>
               <Text style={[styles.countValue, { color: colors.danger }]}>{counts.overdue}</Text>
-              <Text style={styles.countLabel}>Geciken</Text>
+              <Text style={styles.countLabel}>{messages.home.overdue}</Text>
             </View>
           </View>
 
@@ -83,15 +93,17 @@ export function DeviceCard({
             <View style={styles.nextRow}>
               <Ionicons name="calendar-outline" size={16} color={colors.primary} />
               <Text style={styles.nextText}>
-                En yakın kontrol: {formatDate(nextCheckupDate)} (
-                {daysUntilLabel(nextCheckupDate, todayIso)})
+                {tx(messages.home.nextCheckup, {
+                  date: formatDate(nextCheckupDate),
+                  when: daysUntilLocalized(nextCheckupDate, todayIso, messages),
+                })}
               </Text>
             </View>
           ) : (
             <View style={styles.nextRow}>
               <Ionicons name="calendar-outline" size={16} color={colors.textMuted} />
               <Text style={[styles.nextText, { color: colors.textMuted }]}>
-                Planlanmış kontrol yok
+                {messages.home.noPlannedCheckup}
               </Text>
             </View>
           )}
@@ -100,7 +112,7 @@ export function DeviceCard({
         <View style={styles.actions}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={`${device.name} cihazını düzenle`}
+            accessibilityLabel={tx(messages.home.editDeviceA11y, { name: device.name })}
             onPress={onEdit}
             style={styles.iconButton}
             hitSlop={4}
@@ -109,7 +121,7 @@ export function DeviceCard({
           </Pressable>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={`${device.name} cihazını sil`}
+            accessibilityLabel={tx(messages.home.deleteDeviceA11y, { name: device.name })}
             onPress={onDelete}
             style={styles.iconButton}
             hitSlop={4}

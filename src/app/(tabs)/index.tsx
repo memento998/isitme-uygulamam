@@ -1,19 +1,42 @@
-import { useState } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { AppState, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
+import { DailyTipCard } from '@/components/knowledge/DailyTipCard';
+import { OpenedNotificationCard } from '@/components/knowledge/OpenedNotificationCard';
 import { DeviceCard } from '@/components/DeviceCard';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { EmptyState, ErrorView, LoadingView } from '@/components/ui/StateViews';
-import { colors, shadow, spacing } from '@/constants/theme';
+import { colors, fontSize, shadow, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
+import { isActiveTipId } from '@/knowledge/catalog';
+import { getLocalizedTip } from '@/knowledge/content';
+import { nextLocalMidnight, tipIdForCalendarDay } from '@/knowledge/day';
 import { useAsyncData } from '@/hooks/useAsyncData';
 import { listAllCheckups } from '@/repositories/checkups';
 import { deleteDevice, listDevices } from '@/repositories/devices';
+import {
+  ensureKnowledgeCycleStart,
+  getSettings,
+  markDailyKnowledgePromptSeen,
+  saveDailyKnowledgeSettings,
+} from '@/repositories/settings';
 import { countByStatus, nextUpcomingCheckup, type StatusCounts } from '@/services/checkupStatus';
 import { todayISO } from '@/services/date';
-import { syncAllNotifications } from '@/services/notifications';
+import {
+  consumeKnowledgeOpen,
+  subscribeKnowledgeOpen,
+  type OpenedKnowledge,
+} from '@/services/knowledgeOpen';
+import {
+  getPermissionState,
+  requestPermission,
+  scheduleDevKnowledgePreview,
+  syncAllNotifications,
+} from '@/services/notifications';
 import { loadSampleData } from '@/services/sampleData';
 import type { Device } from '@/types/models';
 
@@ -23,9 +46,22 @@ interface DeviceListItem {
   nextCheckupDate: string | null;
 }
 
-async function loadDeviceList(): Promise<{ items: DeviceListItem[]; today: string }> {
+interface HomeData {
+  items: DeviceListItem[];
+  today: string;
+  tipId: string;
+  promptSeen: boolean;
+  dailyEnabled: boolean;
+}
+
+async function loadHome(): Promise<HomeData> {
   const today = todayISO();
-  const [devices, checkups] = await Promise.all([listDevices(), listAllCheckups()]);
+  const [devices, checkups, settings, start] = await Promise.all([
+    listDevices(),
+    listAllCheckups(),
+    getSettings(),
+    ensureKnowledgeCycleStart(today),
+  ]);
   const items = devices.map((device) => {
     const deviceCheckups = checkups.filter((c) => c.deviceId === device.id);
     return {
@@ -34,17 +70,67 @@ async function loadDeviceList(): Promise<{ items: DeviceListItem[]; today: strin
       nextCheckupDate: nextUpcomingCheckup(deviceCheckups, today)?.dueDate ?? null,
     };
   });
-  return { items, today };
+  return {
+    items,
+    today,
+    tipId: tipIdForCalendarDay(start, today),
+    promptSeen: settings.dailyKnowledgePromptSeen,
+    dailyEnabled: settings.dailyKnowledgeEnabled,
+  };
 }
 
 export default function DevicesScreen() {
   const router = useRouter();
-  const { data, loading, error, reload } = useAsyncData(loadDeviceList);
+  const { locale, messages, tx } = useI18n();
+  const { data, loading, error, reload } = useAsyncData(loadHome);
   const [deviceToDelete, setDeviceToDelete] = useState<Device | null>(null);
   const [loadingSample, setLoadingSample] = useState(false);
+  const [opened, setOpened] = useState<OpenedKnowledge | null>(null);
+  const [highlight, setHighlight] = useState(false);
+  const listRef = useRef<FlatList<DeviceListItem>>(null);
 
-  if (loading) return <LoadingView />;
-  if (error || !data) return <ErrorView message={error ?? undefined} onRetry={reload} />;
+  useEffect(() => {
+    return subscribeKnowledgeOpen((next) => {
+      if (!next) return;
+      const consumed = consumeKnowledgeOpen();
+      if (!consumed) return;
+      if (consumed.kind === 'invalid') {
+        router.push('/knowledge');
+        return;
+      }
+      setOpened(consumed);
+      if (consumed.kind === 'today') {
+        setHighlight(true);
+        listRef.current?.scrollToOffset({ offset: 0, animated: true });
+      }
+    });
+  }, [router]);
+
+  useEffect(() => {
+    if (!highlight) return;
+    const timer = setTimeout(() => setHighlight(false), 2400);
+    return () => clearTimeout(timer);
+  }, [highlight]);
+
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') void reload();
+    });
+    const untilMidnight = nextLocalMidnight().getTime() - Date.now();
+    const timer = setTimeout(() => {
+      void reload();
+      void syncAllNotifications();
+    }, Math.max(1000, untilMidnight));
+    return () => {
+      sub.remove();
+      clearTimeout(timer);
+    };
+  }, [reload]);
+
+  if (loading) return <LoadingView message={messages.common.loading} />;
+  if (error || !data) {
+    return <ErrorView message={error ?? messages.common.loadError} onRetry={reload} />;
+  }
 
   const handleDelete = async () => {
     if (!deviceToDelete) return;
@@ -65,15 +151,87 @@ export default function DevicesScreen() {
     }
   };
 
+  const enableDaily = async () => {
+    const permission = await getPermissionState();
+    if (permission === 'undetermined') {
+      const granted = await requestPermission();
+      if (!granted) {
+        await markDailyKnowledgePromptSeen();
+        await reload();
+        return;
+      }
+    }
+    await saveDailyKnowledgeSettings({ enabled: true, hour: 10, minute: 0 });
+    await markDailyKnowledgePromptSeen();
+    await syncAllNotifications();
+    await reload();
+  };
+
+  const dismissPrompt = async () => {
+    await markDailyKnowledgePromptSeen();
+    await reload();
+  };
+
+  const tip = isActiveTipId(data.tipId) ? getLocalizedTip(data.tipId, locale) : null;
+
   return (
     <View style={styles.container}>
       <FlatList
+        ref={listRef}
         data={data.items}
         keyExtractor={(item) => item.device.id}
         contentContainerStyle={[
           styles.listContent,
           data.items.length === 0 && styles.listEmpty,
         ]}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            {opened?.kind === 'snapshot' ? (
+              <OpenedNotificationCard
+                payload={opened.payload}
+                onOpenCurrentLanguage={
+                  isActiveTipId(opened.payload.tipId)
+                    ? () => router.push(`/knowledge/${opened.payload.tipId}`)
+                    : undefined
+                }
+              />
+            ) : null}
+            {opened?.kind === 'retired' ? (
+              <OpenedNotificationCard
+                payload={opened.payload}
+                retired
+                onOpenBank={() => router.push('/knowledge')}
+              />
+            ) : null}
+            {tip ? (
+              <DailyTipCard
+                tip={tip}
+                highlighted={highlight}
+                onPressCard={() => router.push(`/knowledge/${tip.id}`)}
+                onPressSeeAll={() => router.push('/knowledge')}
+              />
+            ) : null}
+            {!data.promptSeen && !data.dailyEnabled ? (
+              <Card style={styles.prompt}>
+                <Text style={styles.promptTitle}>{messages.knowledge.enableDailyPromptTitle}</Text>
+                <Text style={styles.promptBody}>{messages.knowledge.enableDailyPromptBody}</Text>
+                <Button label={messages.knowledge.enableDailyNotifications} onPress={enableDaily} />
+                <Button
+                  label={messages.common.notNow}
+                  variant="secondary"
+                  onPress={dismissPrompt}
+                />
+              </Card>
+            ) : null}
+            {__DEV__ ? (
+              <Button
+                label="Dev: 8s bilgi bildirimi"
+                variant="ghost"
+                onPress={() => void scheduleDevKnowledgePreview()}
+              />
+            ) : null}
+          </View>
+        }
         renderItem={({ item }) => (
           <DeviceCard
             device={item.device}
@@ -88,14 +246,14 @@ export default function DevicesScreen() {
         ListEmptyComponent={
           <EmptyState
             icon="add-circle-outline"
-            title="Henüz cihaz eklemediniz"
-            description="İşitme cihazınızı ekleyerek kontrol ve bakım takibine başlayın."
+            title={messages.home.emptyTitle}
+            description={messages.home.emptyDescription}
             action={
               <View style={styles.emptyActions}>
-                <Button label="Cihaz Ekle" onPress={() => router.push('/device/new')} />
+                <Button label={messages.home.addDevice} onPress={() => router.push('/device/new')} />
                 {__DEV__ ? (
                   <Button
-                    label="Örnek veri yükle (geliştirici)"
+                    label={messages.home.sampleDataDev}
                     variant="secondary"
                     loading={loadingSample}
                     onPress={handleLoadSample}
@@ -110,7 +268,7 @@ export default function DevicesScreen() {
       {data.items.length > 0 ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Yeni cihaz ekle"
+          accessibilityLabel={messages.home.fabA11y}
           onPress={() => router.push('/device/new')}
           style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
         >
@@ -120,9 +278,10 @@ export default function DevicesScreen() {
 
       <ConfirmDialog
         visible={deviceToDelete !== null}
-        title="Cihazı sil"
-        message={`"${deviceToDelete?.name ?? ''}" cihazı ve tüm kontrol, bakım ve servis kayıtları kalıcı olarak silinecek. Bu işlem geri alınamaz.`}
-        confirmLabel="Sil"
+        title={messages.home.deleteDeviceTitle}
+        message={tx(messages.home.deleteDeviceMessage, { name: deviceToDelete?.name ?? '' })}
+        confirmLabel={messages.common.delete}
+        cancelLabel={messages.common.cancel}
         destructive
         onConfirm={handleDelete}
         onCancel={() => setDeviceToDelete(null)}
@@ -135,6 +294,10 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   listContent: { padding: spacing.lg, paddingBottom: 88 },
   listEmpty: { flexGrow: 1, justifyContent: 'center' },
+  header: { gap: spacing.md, marginBottom: spacing.md },
+  prompt: { gap: spacing.sm },
+  promptTitle: { fontSize: fontSize.md, fontWeight: '700', color: colors.text },
+  promptBody: { fontSize: fontSize.sm, color: colors.textMuted, lineHeight: 20 },
   emptyActions: { gap: spacing.md, alignSelf: 'stretch' },
   fab: {
     position: 'absolute',

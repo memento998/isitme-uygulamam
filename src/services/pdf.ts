@@ -6,17 +6,15 @@ import { Platform } from 'react-native';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 
+import { OTHER_BRAND } from '@/constants/brands';
+import { interpolate } from '@/i18n/interpolate';
+import type { AppLocale } from '@/i18n/locales';
+import type { UiMessages } from '@/i18n/messages/types';
 import type {
   Checkup,
   Device,
   MaintenanceLog,
   ServiceRecord,
-} from '@/types/models';
-import {
-  CHECKUP_STATUS_LABELS,
-  EAR_SIDE_LABELS,
-  MAINTENANCE_TYPE_LABELS,
-  POWER_TYPE_LABELS,
 } from '@/types/models';
 import { getCheckupStatus } from './checkupStatus';
 import { formatDate, todayISO } from './date';
@@ -34,13 +32,32 @@ function row(label: string, value: string | null): string {
   return `<tr><td class="label">${escapeHtml(label)}</td><td>${escapeHtml(value)}</td></tr>`;
 }
 
+function earLabel(device: Device, messages: UiMessages): string {
+  if (device.earSide === 'left') return messages.home.earLeft;
+  if (device.earSide === 'right') return messages.home.earRight;
+  return messages.home.earBoth;
+}
+
+function powerLabel(device: Device, messages: UiMessages): string {
+  return device.powerType === 'battery'
+    ? messages.home.powerBattery
+    : messages.home.powerRechargeable;
+}
+
+function brandLabel(brand: string, messages: UiMessages): string {
+  return brand === OTHER_BRAND ? messages.brand.otherBrand : brand;
+}
+
 export function buildDeviceReportHtml(
   device: Device,
   checkups: readonly Checkup[],
   logs: readonly MaintenanceLog[],
-  records: readonly ServiceRecord[]
+  records: readonly ServiceRecord[],
+  messages: UiMessages,
+  locale: AppLocale
 ): string {
   const today = todayISO();
+  const pdf = messages.pdf;
 
   const checkupRows = checkups
     .map((c) => {
@@ -48,7 +65,7 @@ export function buildDeviceReportHtml(
       return `<tr>
         <td>${escapeHtml(c.title)}</td>
         <td>${formatDate(c.dueDate)}</td>
-        <td>${CHECKUP_STATUS_LABELS[status]}</td>
+        <td>${escapeHtml(messages.checkupStatus[status])}</td>
         <td>${c.completedAt ? formatDate(c.completedAt) : '-'}</td>
         <td>${c.note ? escapeHtml(c.note) : '-'}</td>
       </tr>`;
@@ -58,7 +75,7 @@ export function buildDeviceReportHtml(
   const logRows = logs
     .map(
       (l) => `<tr>
-        <td>${MAINTENANCE_TYPE_LABELS[l.type]}</td>
+        <td>${escapeHtml(messages.maintenance[l.type])}</td>
         <td>${formatDate(l.doneAt)}</td>
         <td>${l.note ? escapeHtml(l.note) : '-'}</td>
       </tr>`
@@ -76,7 +93,7 @@ export function buildDeviceReportHtml(
     .join('');
 
   return `<!DOCTYPE html>
-<html lang="tr">
+<html lang="${escapeHtml(locale)}">
 <head>
 <meta charset="utf-8" />
 <style>
@@ -93,47 +110,48 @@ export function buildDeviceReportHtml(
 </style>
 </head>
 <body>
-  <h1>${escapeHtml(device.name)} — Cihaz Özet Raporu</h1>
-  <p class="subtitle">Oluşturulma tarihi: ${formatDate(today)} · İşitme Takip uygulaması</p>
+  <h1>${escapeHtml(interpolate(pdf.reportTitle, { name: device.name }))}</h1>
+  <p class="subtitle">${escapeHtml(
+    interpolate(pdf.createdAt, { date: formatDate(today), app: pdf.appName })
+  )}</p>
 
-  <h2>Cihaz Bilgileri</h2>
+  <h2>${escapeHtml(pdf.deviceInfo)}</h2>
   <table>
-    ${row('Cihaz adı', device.name)}
-    ${row('Marka', device.brand)}
-    ${row('Kulak', EAR_SIDE_LABELS[device.earSide])}
-    ${row('Kullanım başlangıcı', formatDate(device.startDate))}
-    ${row('Seri numarası', device.serialNumber)}
-    ${row('Garanti bitişi', device.warrantyEndDate ? formatDate(device.warrantyEndDate) : null)}
-    ${row('Güç tipi', POWER_TYPE_LABELS[device.powerType])}
-    ${row('Doktor / Klinik', device.clinicName)}
-    ${row('Telefon', device.clinicPhone)}
-    ${row('Notlar', device.notes)}
+    ${row(pdf.deviceName, device.name)}
+    ${row(pdf.brand, brandLabel(device.brand, messages))}
+    ${row(pdf.ear, earLabel(device, messages))}
+    ${row(pdf.start, formatDate(device.startDate))}
+    ${row(pdf.serial, device.serialNumber)}
+    ${row(pdf.warranty, device.warrantyEndDate ? formatDate(device.warrantyEndDate) : null)}
+    ${row(pdf.power, powerLabel(device, messages))}
+    ${row(pdf.clinic, device.clinicName)}
+    ${row(pdf.phone, device.clinicPhone)}
+    ${row(pdf.notes, device.notes)}
   </table>
 
-  <h2>Kontrol Geçmişi</h2>
+  <h2>${escapeHtml(pdf.checkupHistory)}</h2>
   ${
     checkupRows
-      ? `<table><tr><th>Kontrol</th><th>Planlanan</th><th>Durum</th><th>Tamamlanma</th><th>Not</th></tr>${checkupRows}</table>`
-      : '<p class="empty">Kayıtlı kontrol yok.</p>'
+      ? `<table><tr><th>${escapeHtml(pdf.checkup)}</th><th>${escapeHtml(pdf.planned)}</th><th>${escapeHtml(pdf.status)}</th><th>${escapeHtml(pdf.completedAt)}</th><th>${escapeHtml(pdf.note)}</th></tr>${checkupRows}</table>`
+      : `<p class="empty">${escapeHtml(pdf.noCheckups)}</p>`
   }
 
-  <h2>Bakım Geçmişi</h2>
+  <h2>${escapeHtml(pdf.maintenanceHistory)}</h2>
   ${
     logRows
-      ? `<table><tr><th>İşlem</th><th>Tarih</th><th>Not</th></tr>${logRows}</table>`
-      : '<p class="empty">Kayıtlı bakım işlemi yok.</p>'
+      ? `<table><tr><th>${escapeHtml(pdf.action)}</th><th>${escapeHtml(pdf.date)}</th><th>${escapeHtml(pdf.note)}</th></tr>${logRows}</table>`
+      : `<p class="empty">${escapeHtml(pdf.noMaintenance)}</p>`
   }
 
-  <h2>Servis Kayıtları</h2>
+  <h2>${escapeHtml(pdf.serviceRecords)}</h2>
   ${
     recordRows
-      ? `<table><tr><th>Tarih</th><th>İşlem</th><th>Açıklama</th></tr>${recordRows}</table>`
-      : '<p class="empty">Kayıtlı servis işlemi yok.</p>'
+      ? `<table><tr><th>${escapeHtml(pdf.date)}</th><th>${escapeHtml(pdf.action)}</th><th>${escapeHtml(pdf.description)}</th></tr>${recordRows}</table>`
+      : `<p class="empty">${escapeHtml(pdf.noService)}</p>`
   }
 
   <p class="disclaimer">
-    Bu rapor İşitme Takip uygulaması tarafından kullanıcının girdiği verilerle oluşturulmuştur.
-    Tıbbi tavsiye niteliği taşımaz; işitme uzmanınızın değerlendirmesinin yerini tutmaz.
+    ${escapeHtml(pdf.disclaimer)}
   </p>
 </body>
 </html>`;
@@ -144,9 +162,11 @@ export async function shareDeviceReport(
   device: Device,
   checkups: readonly Checkup[],
   logs: readonly MaintenanceLog[],
-  records: readonly ServiceRecord[]
+  records: readonly ServiceRecord[],
+  messages: UiMessages,
+  locale: AppLocale
 ): Promise<void> {
-  const html = buildDeviceReportHtml(device, checkups, logs, records);
+  const html = buildDeviceReportHtml(device, checkups, logs, records, messages, locale);
 
   if (Platform.OS === 'web') {
     await Print.printAsync({ html });
@@ -156,7 +176,7 @@ export async function shareDeviceReport(
   const { uri } = await Print.printToFileAsync({ html });
   await Sharing.shareAsync(uri, {
     mimeType: 'application/pdf',
-    dialogTitle: `${device.name} raporu`,
+    dialogTitle: interpolate(messages.pdf.shareTitle, { name: device.name }),
     UTI: 'com.adobe.pdf',
   });
 }

@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/Button';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { SwitchRow } from '@/components/ui/SwitchRow';
 import { TextField } from '@/components/ui/TextField';
+import { useI18n } from '@/i18n';
 import type { MaintenanceReminder } from '@/types/models';
-import { MAINTENANCE_TYPE_LABELS } from '@/types/models';
 
 interface Props {
   visible: boolean;
@@ -16,10 +16,11 @@ interface Props {
 }
 
 export function ReminderFormModal({ visible, reminder, onSave, onClose }: Props) {
+  const { messages } = useI18n();
   return (
     <AppModal
       visible={visible}
-      title={reminder ? MAINTENANCE_TYPE_LABELS[reminder.type] : 'Hatırlatıcı'}
+      title={reminder ? messages.maintenance[reminder.type] : messages.modals.reminderTitle}
       onClose={onClose}
     >
       {visible && reminder ? (
@@ -36,6 +37,7 @@ function ReminderForm({
   reminder: MaintenanceReminder;
   onSave: Props['onSave'];
 }) {
+  const { messages } = useI18n();
   const [enabled, setEnabled] = useState(reminder.enabled);
   const [intervalText, setIntervalText] = useState(String(reminder.intervalDays));
   const [intervalError, setIntervalError] = useState<string | undefined>();
@@ -48,7 +50,7 @@ function ReminderForm({
     if (!isWarranty) {
       const parsed = Number(intervalText);
       if (!Number.isInteger(parsed) || parsed < 1 || parsed > 365) {
-        setIntervalError('1 ile 365 arasında bir gün sayısı girin.');
+        setIntervalError(messages.modals.intervalInvalid);
         return;
       }
       intervalDays = parsed;
@@ -65,16 +67,16 @@ function ReminderForm({
   return (
     <>
       <SwitchRow
-        label="Hatırlatıcı açık"
-        description="Zamanı geldiğinde bildirim gönderilir"
+        label={messages.modals.reminderEnabled}
+        description={messages.modals.reminderEnabledHelp}
         value={enabled}
         onValueChange={setEnabled}
       />
       {isWarranty ? (
-        <InfoBanner text="Garanti hatırlatması, cihazın garanti bitiş tarihine göre gönderilir. Tarihi cihaz bilgilerinden düzenleyebilirsiniz." />
+        <InfoBanner text={messages.modals.warrantyHelp} />
       ) : (
         <TextField
-          label="Tekrar aralığı (gün)"
+          label={messages.modals.intervalDays}
           value={intervalText}
           onChangeText={setIntervalText}
           keyboardType="number-pad"
@@ -82,7 +84,7 @@ function ReminderForm({
           error={intervalError}
         />
       )}
-      <Button label="Kaydet" onPress={handleSave} loading={saving} />
+      <Button label={messages.modals.save} onPress={handleSave} loading={saving} />
     </>
   );
 }

@@ -225,15 +225,27 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
   },
 ];
 
-/** Arama metnine göre kategorileri filtreler. */
-export function searchCategories(query: string): TroubleshootingCategory[] {
-  const q = query.trim().toLocaleLowerCase('tr');
+export interface TroubleshootingSearchText {
+  title: string;
+  keywords: readonly string[];
+}
+
+/** Arama metnine göre kategorileri filtreler. Yerelleştirilmiş başlık/anahtar kelime verilebilir. */
+export function searchCategories(
+  query: string,
+  localizedById?: Partial<Record<string, TroubleshootingSearchText>>
+): TroubleshootingCategory[] {
+  const q = query.trim().toLocaleLowerCase();
   if (!q) return TROUBLESHOOTING_CATEGORIES;
-  return TROUBLESHOOTING_CATEGORIES.filter(
-    (c) =>
-      c.title.toLocaleLowerCase('tr').includes(q) ||
-      c.keywords.some((k) => k.toLocaleLowerCase('tr').includes(q))
-  );
+  return TROUBLESHOOTING_CATEGORIES.filter((c) => {
+    const loc = localizedById?.[c.id];
+    const title = loc?.title ?? c.title;
+    const keywords = loc?.keywords ?? c.keywords;
+    return (
+      title.toLocaleLowerCase().includes(q) ||
+      keywords.some((k) => k.toLocaleLowerCase().includes(q))
+    );
+  });
 }
 
 export function getCategory(id: string): TroubleshootingCategory | null {

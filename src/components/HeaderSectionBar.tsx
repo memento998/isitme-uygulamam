@@ -3,7 +3,8 @@ import { usePathname, useRouter, type Href } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { colors, fontSize, MIN_TOUCH_SIZE, spacing } from '@/constants/theme';
+import { colors, MIN_TOUCH_SIZE, radius, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 
 export type HeaderSectionKey = 'devices' | 'troubleshooting' | 'stats' | 'more';
 
@@ -85,23 +86,27 @@ export function HeaderSectionBar() {
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
-  const title = titleForPath(pathname);
+  const { messages } = useI18n();
+  const labels: Record<HeaderSectionKey, string> = {
+    devices: messages.nav.devices,
+    troubleshooting: messages.nav.troubleshooting,
+    stats: messages.nav.stats,
+    more: messages.nav.more,
+  };
 
   return (
     <View style={[styles.safe, { paddingTop: insets.top }]}>
-      <Text style={styles.pageTitle} numberOfLines={1}>
-        {title}
-      </Text>
       <View style={styles.tabs} accessibilityRole="tablist">
         {HEADER_SECTIONS.map((item) => {
           const active = item.match(pathname);
-          const color = active ? colors.primary : colors.textMuted;
+          const color = active ? colors.textOnPrimary : colors.textMuted;
+          const label = labels[item.key];
           return (
             <Pressable
               key={item.key}
               accessibilityRole="tab"
               accessibilityState={{ selected: active }}
-              accessibilityLabel={item.label}
+              accessibilityLabel={label}
               onPress={() => {
                 if (!active) router.replace(item.href);
               }}
@@ -116,7 +121,7 @@ export function HeaderSectionBar() {
                 style={[styles.tabLabel, active && styles.tabLabelActive]}
                 numberOfLines={2}
               >
-                {item.label}
+                {label}
               </Text>
             </Pressable>
           );
@@ -132,20 +137,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  pageTitle: {
-    fontSize: fontSize.lg,
-    fontWeight: '700',
-    color: colors.text,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.sm,
-    paddingBottom: spacing.xs,
-  },
   tabs: {
     flexDirection: 'row',
     alignItems: 'stretch',
     minHeight: MIN_TOUCH_SIZE + 20,
     paddingHorizontal: spacing.xs,
+    paddingTop: spacing.sm,
     paddingBottom: spacing.sm,
+    gap: spacing.xs,
   },
   tab: {
     flex: 1,
@@ -156,12 +155,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     paddingVertical: spacing.xs,
     gap: 2,
+    borderRadius: radius.sm,
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
   },
   tabActive: {
-    backgroundColor: colors.primarySoft,
-    borderBottomColor: colors.primary,
+    backgroundColor: colors.primary,
+    borderBottomColor: colors.primaryPressed,
   },
   tabPressed: {
     backgroundColor: colors.primarySoft,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tabLabelActive: {
-    color: colors.primary,
+    color: colors.textOnPrimary,
     fontWeight: '700',
   },
 });

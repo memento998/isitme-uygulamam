@@ -7,13 +7,12 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ErrorView, LoadingView } from '@/components/ui/StateViews';
 import { colors, fontSize, spacing } from '@/constants/theme';
 import { useAsyncData } from '@/hooks/useAsyncData';
+import { monthKeyLabelLocalized, useI18n } from '@/i18n';
 import { listAllCheckups } from '@/repositories/checkups';
 import { listDevices } from '@/repositories/devices';
 import { listAllLogs } from '@/repositories/maintenance';
 import { formatDate, todayISO } from '@/services/date';
 import { computeOverallStats, formatPercent, type OverallStats } from '@/services/stats';
-
-const NO_DATA = 'Henüz yeterli veri yok';
 
 async function loadStats(): Promise<OverallStats> {
   const [devices, checkups, logs] = await Promise.all([
@@ -25,10 +24,24 @@ async function loadStats(): Promise<OverallStats> {
 }
 
 export default function StatsScreen() {
-  const { data: stats, loading, error, reload } = useAsyncData(loadStats);
+  const { messages, tx } = useI18n();
+  const { data: stats, loading, error, reload } = useAsyncData(loadStats, messages.common.loadError);
 
-  if (loading) return <LoadingView />;
-  if (error || !stats) return <ErrorView message={error ?? undefined} onRetry={reload} />;
+  if (loading) return <LoadingView message={messages.common.loading} />;
+  if (error || !stats) {
+    return (
+      <ErrorView
+        message={error ?? messages.common.loadError}
+        onRetry={reload}
+        retryLabel={messages.common.retry}
+      />
+    );
+  }
+
+  const monthly = stats.monthlyCompleted.map((m) => ({
+    label: monthKeyLabelLocalized(m.key, messages.months.short),
+    value: m.count,
+  }));
 
   return (
     <View style={styles.container}>
@@ -36,75 +49,76 @@ export default function StatsScreen() {
       <View style={styles.grid}>
         <StatCard
           icon="hardware-chip-outline"
-          label="Toplam cihaz"
+          label={messages.stats.totalDevices}
           value={String(stats.totalDevices)}
           color={colors.primary}
         />
         <StatCard
           icon="checkmark-circle-outline"
-          label="Tamamlanan kontrol"
+          label={messages.stats.completedCheckups}
           value={String(stats.completed)}
           color={colors.success}
         />
         <StatCard
           icon="time-outline"
-          label="Bekleyen kontrol"
+          label={messages.stats.pendingCheckups}
           value={String(stats.pending)}
           color={colors.primary}
         />
         <StatCard
           icon="alert-circle-outline"
-          label="Geciken kontrol"
+          label={messages.stats.overdueCheckups}
           value={String(stats.overdue)}
           color={colors.danger}
         />
       </View>
 
-      <SectionHeader title="Oranlar" />
+      <SectionHeader title={messages.stats.rates} />
       <Card>
         <RateRow
-          label="Genel tamamlama oranı"
-          value={stats.completionRate !== null ? formatPercent(stats.completionRate) : NO_DATA}
+          label={messages.stats.completionRate}
+          value={stats.completionRate !== null ? formatPercent(stats.completionRate) : messages.stats.noData}
           isEmpty={stats.completionRate === null}
         />
         <RateRow
-          label="Zamanında yapma oranı"
-          value={stats.onTimeRate !== null ? formatPercent(stats.onTimeRate) : NO_DATA}
+          label={messages.stats.onTimeRate}
+          value={stats.onTimeRate !== null ? formatPercent(stats.onTimeRate) : messages.stats.noData}
           isEmpty={stats.onTimeRate === null}
         />
         <RateRow
-          label="Ortalama gecikme"
+          label={messages.stats.averageDelay}
           value={
             stats.averageDelayDays !== null
-              ? `${Math.round(stats.averageDelayDays)} gün`
-              : NO_DATA
+              ? tx(messages.stats.averageDelayDays, { count: Math.round(stats.averageDelayDays) })
+              : messages.stats.noData
           }
           isEmpty={stats.averageDelayDays === null}
         />
         <RateRow
-          label="En yakın kontrol"
+          label={messages.stats.nearestCheckup}
           value={
             stats.nextCheckupDate
               ? `${formatDate(stats.nextCheckupDate)} · ${stats.nextCheckupTitle ?? ''}`
-              : NO_DATA
+              : messages.stats.noData
           }
           isEmpty={stats.nextCheckupDate === null}
         />
       </Card>
 
-      <SectionHeader title="Aylık tamamlanan işlemler" />
+      <SectionHeader title={messages.stats.monthlyCompleted} />
       <Card>
         {stats.hasMonthlyData ? (
           <BarChart
-            data={stats.monthlyCompleted.map((m) => ({ label: m.label, value: m.count }))}
+            data={monthly}
+            accessibilityLabel={`${messages.stats.chartA11yPrefix}: ${monthly
+              .map((d) => `${d.label} ${d.value}`)
+              .join(', ')}`}
           />
         ) : (
           <View style={styles.emptyChart}>
             <Ionicons name="bar-chart-outline" size={40} color={colors.textMuted} />
-            <Text style={styles.emptyChartText}>{NO_DATA}</Text>
-            <Text style={styles.emptyChartHint}>
-              Kontroller ve bakım işlemleri tamamlandıkça grafik burada görünecek.
-            </Text>
+            <Text style={styles.emptyChartText}>{messages.stats.noData}</Text>
+            <Text style={styles.emptyChartHint}>{messages.stats.chartHint}</Text>
           </View>
         )}
       </Card>

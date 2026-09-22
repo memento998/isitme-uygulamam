@@ -4,9 +4,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Card } from '@/components/ui/Card';
 import { colors, fontSize, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 
 export default function AboutScreen() {
+  const { messages, tx } = useI18n();
   const version = Constants.expoConfig?.version ?? '1.0.0';
+  const copy = messages.legal.about;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -14,23 +17,15 @@ export default function AboutScreen() {
         <View style={styles.logoCircle}>
           <MaterialCommunityIcons name="ear-hearing" size={48} color={colors.primary} />
         </View>
-        <Text style={styles.appName}>İşitme Takip</Text>
-        <Text style={styles.version}>Sürüm {version}</Text>
+        <Text style={styles.appName}>{copy.appName}</Text>
+        <Text style={styles.version}>{tx(copy.version, { version })}</Text>
       </View>
 
       <Card style={styles.card}>
-        <Text style={styles.paragraph}>
-          İşitme Takip; işitme cihazı kullanan kişilerin cihazlarını, periyodik kontrollerini,
-          bakım işlemlerini ve yaşadıkları temel sorunları takip edebilmesi için geliştirilmiş
-          ücretsiz bir uygulamadır.
-        </Text>
-        <Text style={styles.paragraph}>
-          Uygulama internet bağlantısı gerektirmez; tüm verileriniz yalnızca cihazınızda saklanır.
-        </Text>
-        <Text style={styles.paragraph}>
-          Bu uygulama tıbbi bir araç değildir. Kontrol sıklığı ve cihaz ayarları için her zaman
-          işitme uzmanınıza danışın.
-        </Text>
+        <Text style={styles.paragraph}>{copy.paragraph1}</Text>
+        <Text style={styles.paragraph}>{copy.paragraph2}</Text>
+        <Text style={styles.paragraph}>{copy.paragraph3}</Text>
+        <Text style={styles.paragraph}>{copy.paragraph4}</Text>
       </Card>
     </ScrollView>
   );

@@ -7,10 +7,12 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { colors, fontSize, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 import { exportBackup, restoreBackup } from '@/services/backup';
 import { syncAllNotifications } from '@/services/notifications';
 
 export default function BackupScreen() {
+  const { messages, tx } = useI18n();
   const [exporting, setExporting] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const [confirmRestore, setConfirmRestore] = useState(false);
@@ -21,10 +23,10 @@ export default function BackupScreen() {
     setMessage(null);
     try {
       await exportBackup();
-      setMessage({ kind: 'info', text: 'Yedek dosyanız oluşturuldu.' });
+      setMessage({ kind: 'info', text: messages.backup.exportOk });
     } catch (err) {
       console.warn('Yedek oluşturulamadı:', err);
-      setMessage({ kind: 'warning', text: 'Yedek oluşturulurken bir sorun oluştu.' });
+      setMessage({ kind: 'warning', text: messages.backup.exportFail });
     } finally {
       setExporting(false);
     }
@@ -40,14 +42,18 @@ export default function BackupScreen() {
         setMessage(null);
       } else {
         await syncAllNotifications();
-        setMessage({ kind: 'info', text: `Geri yükleme tamamlandı: ${count} cihaz yüklendi.` });
+        setMessage({ kind: 'info', text: tx(messages.backup.restoreCount, { count }) });
       }
     } catch (err) {
       console.warn('Geri yükleme başarısız:', err);
-      setMessage({
-        kind: 'warning',
-        text: err instanceof Error ? err.message : 'Geri yükleme sırasında bir sorun oluştu.',
-      });
+      const raw = err instanceof Error ? err.message : '';
+      const text =
+        raw === 'Dosya geçerli bir JSON değil.'
+          ? messages.backup.invalidJson
+          : raw === 'Dosya geçerli bir İşitme Takip yedeği değil.'
+            ? messages.backup.invalidBackup
+            : messages.backup.restoreFail;
+      setMessage({ kind: 'warning', text });
     } finally {
       setRestoring(false);
     }
@@ -57,23 +63,21 @@ export default function BackupScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {message ? <InfoBanner kind={message.kind} text={message.text} /> : null}
 
-      <SectionHeader title="Yedekleme" />
+      <SectionHeader title={messages.backup.exportSection} />
       <Card>
-        <Text style={styles.text}>
-          Tüm cihazlarınız, kontrol takvimleriniz, bakım ve servis kayıtlarınız tek bir JSON
-          dosyası olarak dışa aktarılır. Dosyayı güvenli bir yerde saklayabilirsiniz.
-        </Text>
-        <Button label="Verileri JSON Olarak Dışa Aktar" onPress={handleExport} loading={exporting} />
+        <Text style={styles.text}>{messages.backup.exportHelp}</Text>
+        <Button
+          label={messages.backup.exportButton}
+          onPress={handleExport}
+          loading={exporting}
+        />
       </Card>
 
-      <SectionHeader title="Geri yükleme" />
+      <SectionHeader title={messages.backup.restoreSection} />
       <Card>
-        <Text style={styles.text}>
-          Daha önce aldığınız yedek dosyasını seçerek verilerinizi geri yükleyebilirsiniz. Geri
-          yükleme, mevcut tüm verilerin üzerine yazar.
-        </Text>
+        <Text style={styles.text}>{messages.backup.restoreHelp}</Text>
         <Button
-          label="Yedekten Geri Yükle"
+          label={messages.backup.restoreButton}
           variant="secondary"
           onPress={() => setConfirmRestore(true)}
           loading={restoring}
@@ -82,9 +86,10 @@ export default function BackupScreen() {
 
       <ConfirmDialog
         visible={confirmRestore}
-        title="Yedekten geri yükle"
-        message="Geri yükleme mevcut tüm verilerinizi silecek ve yedek dosyasındaki verilerle değiştirecek. Devam etmek istiyor musunuz?"
-        confirmLabel="Devam et"
+        title={messages.backup.restoreConfirmTitle}
+        message={messages.backup.restoreConfirmMessage}
+        confirmLabel={messages.common.continue}
+        cancelLabel={messages.common.cancel}
         onConfirm={handleRestore}
         onCancel={() => setConfirmRestore(false)}
       />

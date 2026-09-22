@@ -16,15 +16,17 @@ export function LoadingView({ message = 'Yükleniyor…' }: { message?: string }
 export function ErrorView({
   message = 'Bir hata oluştu.',
   onRetry,
+  retryLabel = 'Tekrar dene',
 }: {
   message?: string;
   onRetry?: () => void;
+  retryLabel?: string;
 }) {
   return (
     <View style={styles.container}>
       <Ionicons name="alert-circle-outline" size={48} color={colors.danger} />
       <Text style={styles.message}>{message}</Text>
-      {onRetry ? <Button label="Tekrar dene" variant="secondary" onPress={onRetry} /> : null}
+      {onRetry ? <Button label={retryLabel} variant="secondary" onPress={onRetry} /> : null}
     </View>
   );
 }

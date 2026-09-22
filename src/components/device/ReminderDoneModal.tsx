@@ -4,9 +4,9 @@ import { AppModal } from '@/components/ui/AppModal';
 import { Button } from '@/components/ui/Button';
 import { DateField } from '@/components/ui/DateField';
 import { TextField } from '@/components/ui/TextField';
+import { useI18n } from '@/i18n';
 import { isValidISODate, todayISO } from '@/services/date';
 import type { MaintenanceReminder } from '@/types/models';
-import { MAINTENANCE_TYPE_LABELS } from '@/types/models';
 
 interface Props {
   visible: boolean;
@@ -16,10 +16,14 @@ interface Props {
 }
 
 export function ReminderDoneModal({ visible, reminder, onSave, onClose }: Props) {
+  const { messages, tx } = useI18n();
+  const label = reminder ? messages.maintenance[reminder.type] : messages.modals.reminderDoneTitle;
   return (
     <AppModal
       visible={visible}
-      title={reminder ? `${MAINTENANCE_TYPE_LABELS[reminder.type]} yapıldı` : 'Bakım yapıldı'}
+      title={
+        reminder ? tx(messages.modals.reminderDoneTitleNamed, { label }) : messages.modals.reminderDoneTitle
+      }
       onClose={onClose}
     >
       {visible && reminder ? <DoneForm key={reminder.id} onSave={onSave} /> : null}
@@ -28,6 +32,7 @@ export function ReminderDoneModal({ visible, reminder, onSave, onClose }: Props)
 }
 
 function DoneForm({ onSave }: { onSave: Props['onSave'] }) {
+  const { messages } = useI18n();
   const [doneAt, setDoneAt] = useState(todayISO());
   const [note, setNote] = useState('');
   const [dateError, setDateError] = useState<string | undefined>();
@@ -35,7 +40,7 @@ function DoneForm({ onSave }: { onSave: Props['onSave'] }) {
 
   const handleSave = async () => {
     if (!isValidISODate(doneAt)) {
-      setDateError('Geçerli bir tarih seçin.');
+      setDateError(messages.deviceForm.dateInvalid);
       return;
     }
     setDateError(undefined);
@@ -49,15 +54,21 @@ function DoneForm({ onSave }: { onSave: Props['onSave'] }) {
 
   return (
     <>
-      <DateField label="Yapılma tarihi" value={doneAt} onChange={setDoneAt} required error={dateError} />
+      <DateField
+        label={messages.modals.reminderDoneDate}
+        value={doneAt}
+        onChange={setDoneAt}
+        required
+        error={dateError}
+      />
       <TextField
-        label="Not"
+        label={messages.modals.note}
         value={note}
         onChangeText={setNote}
-        placeholder="İsteğe bağlı not"
+        placeholder={messages.modals.optionalNotePlaceholder}
         multiline
       />
-      <Button label="Kaydet" onPress={handleSave} loading={saving} />
+      <Button label={messages.modals.save} onPress={handleSave} loading={saving} />
     </>
   );
 }
