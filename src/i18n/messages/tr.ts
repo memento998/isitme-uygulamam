@@ -64,14 +64,14 @@ export const tr = {
     powerRechargeable: 'Şarjlı',
   },
   knowledge: {
-    dailyTip: 'Günün bilgisi',
+    dailyTip: 'Günün Bilgisi',
     seeAllTips: 'Tüm bilgileri gör',
-    openedNotification: 'Bildirimden açıldı: {date}',
+    openedNotification: 'Bildirimin bilgisi · {date}',
     openInCurrentLanguage: 'Geçerli dilde aç',
-    tipRetired: 'Bu bilgi artık yayınlanmıyor',
+    tipRetired: 'Bu bilgi artık yayında değil',
     tipRetiredBody:
       'Bu günlük bilgi güncellendi veya kaldırıldı. Bilgi bankasından güncel içeriklere bakabilirsiniz.',
-    knowledgeBank: 'Bilgi bankası',
+    knowledgeBank: 'Bilgi Bankası',
     knowledgeBankSubtitle:
       'İşitme cihazının günlük kullanımı, bakımı ve saklanması üzerine kısa, güvenilir bilgiler',
     searchTipsPlaceholder: 'Bilgi ara…',
@@ -85,7 +85,7 @@ export const tr = {
     forWhom: 'Kimler için',
     jurisdictionTR:
       "Bu içerik Türkiye'deki genel kullanım bağlamına göredir; ülkenize özgü kural ve hizmetler farklılık gösterebilir.",
-    sourceLanguageNote: 'Bu metin çeviridir. Asıl kaynak dil Türkçedir.',
+    sourceLanguageNote: 'Kaynak sayfalarının dili İngilizce olabilir.',
     enableDailyPromptTitle: 'Günlük bilgi bildirimi',
     enableDailyPromptBody:
       'Her gün kısa bir bakım veya kullanım bilgisi almak ister misiniz? Bildirimler yalnızca cihazınızda planlanır.',
@@ -121,7 +121,7 @@ export const tr = {
       REPLACEABLE_BATTERY: 'Değiştirilebilir pilli',
       RECHARGEABLE: 'Şarjlı',
       WAX_FILTER: 'Kulak kiri filtreli',
-      DOME: 'Kubbe / silikon uç',
+      DOME: 'Silikon uç',
       BLUETOOTH: 'Bluetooth',
     },
   },

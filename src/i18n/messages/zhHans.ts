@@ -65,7 +65,7 @@ export const zhHans = {
   knowledge: {
     dailyTip: '每日提示',
     seeAllTips: '查看全部提示',
-    openedNotification: '从通知打开：{date}',
+    openedNotification: '通知中的信息 · {date}',
     openInCurrentLanguage: '以当前语言打开',
     tipRetired: '此提示已停止发布',
     tipRetiredBody: '这条每日提示已更新或移除。您可在知识库中查看当前内容。',
@@ -81,7 +81,7 @@ export const zhHans = {
       '本部分适用于设备的日常使用、外部护理和存放。针对您设备的具体操作，请以制造商使用说明书和授权服务支持为准。',
     forWhom: '适用人群',
     jurisdictionTR: '本内容反映土耳其的一般使用情境；您所在国家/地区的规则与服务可能不同。',
-    sourceLanguageNote: '本文为译文。原始来源语言为土耳其语。',
+    sourceLanguageNote: '来源页面可能为英文。',
     enableDailyPromptTitle: '每日提示通知',
     enableDailyPromptBody: '是否希望每天收到一条简短的护理或使用提示？通知仅在您的设备上安排。',
     enableDailyNotifications: '开启每日提示',

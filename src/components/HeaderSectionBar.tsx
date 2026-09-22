@@ -4,6 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, MIN_TOUCH_SIZE, radius, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 
 export type HeaderSectionKey = 'devices' | 'troubleshooting' | 'stats' | 'more';
 
@@ -85,6 +86,13 @@ export function HeaderSectionBar() {
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
+  const { messages } = useI18n();
+  const labels: Record<HeaderSectionKey, string> = {
+    devices: messages.nav.devices,
+    troubleshooting: messages.nav.troubleshooting,
+    stats: messages.nav.stats,
+    more: messages.nav.more,
+  };
 
   return (
     <View style={[styles.safe, { paddingTop: insets.top }]}>
@@ -92,12 +100,13 @@ export function HeaderSectionBar() {
         {HEADER_SECTIONS.map((item) => {
           const active = item.match(pathname);
           const color = active ? colors.textOnPrimary : colors.textMuted;
+          const label = labels[item.key];
           return (
             <Pressable
               key={item.key}
               accessibilityRole="tab"
               accessibilityState={{ selected: active }}
-              accessibilityLabel={item.label}
+              accessibilityLabel={label}
               onPress={() => {
                 if (!active) router.replace(item.href);
               }}
@@ -112,7 +121,7 @@ export function HeaderSectionBar() {
                 style={[styles.tabLabel, active && styles.tabLabelActive]}
                 numberOfLines={2}
               >
-                {item.label}
+                {label}
               </Text>
             </Pressable>
           );

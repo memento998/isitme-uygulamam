@@ -66,7 +66,7 @@ export const ar = {
   knowledge: {
     dailyTip: 'معلومة اليوم',
     seeAllTips: 'عرض كل المعلومات',
-    openedNotification: 'فُتحت من إشعار: {date}',
+    openedNotification: 'معلومة الإشعار · {date}',
     openInCurrentLanguage: 'فتح باللغة الحالية',
     tipRetired: 'هذه المعلومة لم تعد منشورة',
     tipRetiredBody:
@@ -84,7 +84,7 @@ export const ar = {
     forWhom: 'لمن',
     jurisdictionTR:
       'يعكس هذا المحتوى سياق الاستخدام العام في تركيا؛ قد تختلف القواعد والخدمات في بلدك.',
-    sourceLanguageNote: 'هذا النص ترجمة. لغة المصدر الأصلية هي التركية.',
+    sourceLanguageNote: 'قد تكون صفحات المصادر باللغة الإنجليزية.',
     enableDailyPromptTitle: 'إشعارات المعلومة اليومية',
     enableDailyPromptBody:
       'هل ترغب في معلومة قصيرة يومية عن العناية أو الاستخدام؟ تُجدول الإشعارات على جهازك فقط.',

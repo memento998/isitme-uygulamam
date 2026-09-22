@@ -66,7 +66,7 @@ export const de = {
   knowledge: {
     dailyTip: 'Tipp des Tages',
     seeAllTips: 'Alle Tipps anzeigen',
-    openedNotification: 'Aus einer Benachrichtigung geöffnet: {date}',
+    openedNotification: 'Tipp der Benachrichtigung · {date}',
     openInCurrentLanguage: 'In der aktuellen Sprache öffnen',
     tipRetired: 'Dieser Tipp wird nicht mehr veröffentlicht',
     tipRetiredBody:
@@ -85,7 +85,7 @@ export const de = {
     forWhom: 'Für wen',
     jurisdictionTR:
       'Dieser Inhalt bezieht sich auf den allgemeinen Gebrauch in der Türkei; Regeln und Dienste in Ihrem Land können abweichen.',
-    sourceLanguageNote: 'Dieser Text ist eine Übersetzung. Die Originalsprache ist Türkisch.',
+    sourceLanguageNote: 'Die Quellseiten können auf Englisch sein.',
     enableDailyPromptTitle: 'Tägliche Tipp-Benachrichtigungen',
     enableDailyPromptBody:
       'Möchten Sie jeden Tag einen kurzen Pflege- oder Nutzungstipp erhalten? Benachrichtigungen werden nur auf Ihrem Gerät geplant.',

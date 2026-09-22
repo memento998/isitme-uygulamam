@@ -66,7 +66,7 @@ export const hi = {
   knowledge: {
     dailyTip: 'आज की जानकारी',
     seeAllTips: 'सभी जानकारी देखें',
-    openedNotification: 'सूचना से खोला गया: {date}',
+    openedNotification: 'सूचना की जानकारी · {date}',
     openInCurrentLanguage: 'वर्तमान भाषा में खोलें',
     tipRetired: 'यह जानकारी अब प्रकाशित नहीं है',
     tipRetiredBody:
@@ -84,7 +84,7 @@ export const hi = {
     forWhom: 'किसके लिए',
     jurisdictionTR:
       'यह सामग्री तुर्की में सामान्य उपयोग के संदर्भ को दर्शाती है; आपके देश के नियम और सेवाएँ भिन्न हो सकती हैं।',
-    sourceLanguageNote: 'यह पाठ अनुवाद है। मूल स्रोत भाषा तुर्की है।',
+    sourceLanguageNote: 'स्रोत पृष्ठ अंग्रेज़ी में हो सकते हैं।',
     enableDailyPromptTitle: 'दैनिक जानकारी सूचनाएँ',
     enableDailyPromptBody:
       'क्या आप प्रतिदिन देखभाल या उपयोग की छोटी जानकारी चाहते हैं? सूचनाएँ केवल आपके डिवाइस पर निर्धारित होती हैं।',

@@ -66,7 +66,7 @@ export const te = {
   knowledge: {
     dailyTip: 'నేటి సమాచారం',
     seeAllTips: 'అన్ని సమాచారం చూడండి',
-    openedNotification: 'నోటిఫికేషన్ నుండి తెరవబడింది: {date}',
+    openedNotification: 'నోటిఫికేషన్ సమాచారం · {date}',
     openInCurrentLanguage: 'ప్రస్తుత భాషలో తెరువు',
     tipRetired: 'ఈ సమాచారం ఇక ప్రచురించబడదు',
     tipRetiredBody:
@@ -85,7 +85,7 @@ export const te = {
     forWhom: 'ఎవరికోసం',
     jurisdictionTR:
       'ఈ కంటెంట్ టర్కీలోని సాధారణ వాడక సందర్భాన్ని ప్రతిబింబిస్తుంది; మీ దేశంలోని నియమాలు మరియు సేవలు మారవచ్చు.',
-    sourceLanguageNote: 'ఈ పాఠ్యం అనువాదం. అసలు మూల భాష టర్కిష్.',
+    sourceLanguageNote: 'మూల పేజీలు ఆంగ్లంలో ఉండవచ్చు.',
     enableDailyPromptTitle: 'రోజువారీ సమాచార నోటిఫికేషన్లు',
     enableDailyPromptBody:
       'ప్రతిరోజూ సంరక్షణ లేదా వాడకం గురించి చిన్న సమాచారం కావాలా? నోటిఫికేషన్లు మీ పరికరంపై మాత్రమే షెడ్యూల్ అవుతాయి.',

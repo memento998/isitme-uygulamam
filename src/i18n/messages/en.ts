@@ -64,14 +64,14 @@ export const en = {
     powerRechargeable: 'Rechargeable',
   },
   knowledge: {
-    dailyTip: 'Tip of the day',
+    dailyTip: "Today's tip",
     seeAllTips: 'See all tips',
-    openedNotification: 'Opened from a notification: {date}',
+    openedNotification: 'Notification tip · {date}',
     openInCurrentLanguage: 'Open in the current language',
-    tipRetired: 'This tip is no longer published',
+    tipRetired: 'This tip is no longer available',
     tipRetiredBody:
       'This daily tip was updated or removed. You can browse current content in the knowledge bank.',
-    knowledgeBank: 'Knowledge bank',
+    knowledgeBank: 'Knowledge Bank',
     knowledgeBankSubtitle:
       'Short, reliable notes on everyday hearing-aid use, care, and storage',
     searchTipsPlaceholder: 'Search tips…',
@@ -85,7 +85,7 @@ export const en = {
     forWhom: 'Who it is for',
     jurisdictionTR:
       'This content reflects general use in Türkiye; rules and services in your country may differ.',
-    sourceLanguageNote: 'This text is a translation. The original source language is Turkish.',
+    sourceLanguageNote: 'Source pages may be in English.',
     enableDailyPromptTitle: 'Daily tip notifications',
     enableDailyPromptBody:
       'Would you like a short care or usage tip each day? Notifications are scheduled only on your device.',

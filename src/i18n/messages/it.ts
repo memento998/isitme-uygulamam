@@ -66,7 +66,7 @@ export const it = {
   knowledge: {
     dailyTip: 'Consiglio del giorno',
     seeAllTips: 'Vedi tutti i consigli',
-    openedNotification: 'Aperto da una notifica: {date}',
+    openedNotification: 'Informazione della notifica · {date}',
     openInCurrentLanguage: 'Apri nella lingua attuale',
     tipRetired: 'Questo consiglio non è più pubblicato',
     tipRetiredBody:
@@ -85,7 +85,7 @@ export const it = {
     forWhom: 'Per chi',
     jurisdictionTR:
       'Questo contenuto riflette l’uso generale in Turchia; norme e servizi del tuo Paese possono differire.',
-    sourceLanguageNote: 'Questo testo è una traduzione. La lingua originale di origine è il turco.',
+    sourceLanguageNote: 'Le pagine di origine possono essere in inglese.',
     enableDailyPromptTitle: 'Notifiche del consiglio giornaliero',
     enableDailyPromptBody:
       'Vuoi ricevere ogni giorno un breve consiglio di cura o di uso? Le notifiche sono pianificate solo sul tuo dispositivo.',

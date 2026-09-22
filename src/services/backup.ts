@@ -39,7 +39,7 @@ export interface BackupPayload {
   maintenanceReminders: MaintenanceReminder[];
   maintenanceLogs: MaintenanceLog[];
   serviceRecords: ServiceRecord[];
-  settings?: AppSettings;
+  settings?: Pick<AppSettings, 'notificationHour' | 'notificationMinute'>;
 }
 
 const BACKUP_APP_ID = 'isitme-takip';
@@ -63,7 +63,10 @@ export async function buildBackupPayload(): Promise<BackupPayload> {
     maintenanceReminders: reminders,
     maintenanceLogs: logs,
     serviceRecords: records,
-    settings,
+    settings: {
+      notificationHour: settings.notificationHour,
+      notificationMinute: settings.notificationMinute,
+    },
   };
 }
 

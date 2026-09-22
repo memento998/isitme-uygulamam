@@ -10,11 +10,17 @@ const STATUS_COLORS: Record<CheckupStatus, { bg: string; fg: string }> = {
   overdue: { bg: colors.dangerSoft, fg: colors.danger },
 };
 
-export function StatusBadge({ status }: { status: CheckupStatus }) {
+export function StatusBadge({
+  status,
+  labels = CHECKUP_STATUS_LABELS,
+}: {
+  status: CheckupStatus;
+  labels?: Record<CheckupStatus, string>;
+}) {
   const palette = STATUS_COLORS[status];
   return (
     <View style={[styles.badge, { backgroundColor: palette.bg }]}>
-      <Text style={[styles.label, { color: palette.fg }]}>{CHECKUP_STATUS_LABELS[status]}</Text>
+      <Text style={[styles.label, { color: palette.fg }]}>{labels[status]}</Text>
     </View>
   );
 }
