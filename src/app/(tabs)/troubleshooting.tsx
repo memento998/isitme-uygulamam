@@ -7,11 +7,14 @@ import { InfoBanner } from '@/components/ui/InfoBanner';
 import { EmptyState } from '@/components/ui/StateViews';
 import { colors, fontSize, radius, shadow, spacing } from '@/constants/theme';
 import { searchCategories } from '@/data/troubleshooting';
+import { useI18n } from '@/i18n';
+import type { TroubleshootingCategoryId } from '@/i18n/messages/types';
 
 export default function TroubleshootingScreen() {
   const router = useRouter();
+  const { messages, tx, isRTL } = useI18n();
   const [query, setQuery] = useState('');
-  const categories = searchCategories(query);
+  const categories = searchCategories(query, messages.troubleshooting.categories);
 
   return (
     <View style={styles.container}>
@@ -27,14 +30,14 @@ export default function TroubleshootingScreen() {
                 style={styles.searchInput}
                 value={query}
                 onChangeText={setQuery}
-                placeholder="Sorun arayın…"
+                placeholder={messages.troubleshooting.searchPlaceholder}
                 placeholderTextColor={colors.textMuted}
-                accessibilityLabel="Sorun arama alanı"
+                accessibilityLabel={messages.troubleshooting.searchA11y}
               />
               {query ? (
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel="Aramayı temizle"
+                  accessibilityLabel={messages.troubleshooting.clearSearch}
                   onPress={() => setQuery('')}
                   hitSlop={12}
                 >
@@ -42,35 +45,46 @@ export default function TroubleshootingScreen() {
                 </Pressable>
               ) : null}
             </View>
-            <InfoBanner text="Adımlar yalnızca güvenli, evde yapılabilecek kontrolleri içerir. Cihazınızı asla sökmeyin veya onarmaya çalışmayın." />
+            <InfoBanner text={messages.troubleshooting.banner} />
           </View>
         }
-        renderItem={({ item }) => (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={`${item.title} sorun giderme akışını aç`}
-            onPress={() => router.push(`/troubleshooting/${item.id}`)}
-            style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-          >
-            <View style={styles.iconCircle}>
+        renderItem={({ item }) => {
+          const localized = messages.troubleshooting.categories[item.id as TroubleshootingCategoryId];
+          const title = localized?.title ?? item.title;
+          return (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={tx(messages.troubleshooting.openFlowA11y, { title })}
+              onPress={() => router.push(`/troubleshooting/${item.id}`)}
+              style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+            >
+              <View style={styles.iconCircle}>
+                <Ionicons
+                  name={item.icon as keyof typeof Ionicons.glyphMap}
+                  size={24}
+                  color={colors.primary}
+                />
+              </View>
+              <View style={styles.cardText}>
+                <Text style={styles.cardTitle}>{title}</Text>
+                <Text style={styles.cardSubtitle}>
+                  {tx(messages.troubleshooting.stepsCount, { count: item.steps.length })}
+                </Text>
+              </View>
               <Ionicons
-                name={item.icon as keyof typeof Ionicons.glyphMap}
-                size={24}
-                color={colors.primary}
+                name="chevron-forward"
+                size={20}
+                color={colors.textMuted}
+                style={isRTL ? styles.chevronRtl : undefined}
               />
-            </View>
-            <View style={styles.cardText}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardSubtitle}>{item.steps.length} adımlı çözüm akışı</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
-          </Pressable>
-        )}
+            </Pressable>
+          );
+        }}
         ListEmptyComponent={
           <EmptyState
             icon="search-outline"
-            title="Sonuç bulunamadı"
-            description="Farklı bir arama terimi deneyin."
+            title={messages.troubleshooting.empty}
+            description={messages.troubleshooting.emptyDescription}
           />
         }
       />
@@ -119,4 +133,5 @@ const styles = StyleSheet.create({
   cardText: { flex: 1 },
   cardTitle: { fontSize: fontSize.md, fontWeight: '700', color: colors.text },
   cardSubtitle: { fontSize: fontSize.xs, color: colors.textMuted, marginTop: 2 },
+  chevronRtl: { transform: [{ scaleX: -1 }] },
 });

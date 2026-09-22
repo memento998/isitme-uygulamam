@@ -3,36 +3,27 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Card } from '@/components/ui/Card';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { colors, fontSize, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 
 export default function TermsScreen() {
+  const { messages } = useI18n();
+  const copy = messages.legal.terms;
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <InfoBanner text="Bu sayfa bir özet yer tutucudur. Nihai kullanım koşulları hukuki inceleme gerektirir." />
+      <InfoBanner text={copy.banner} />
       <Card style={styles.card}>
-        <Text style={styles.heading}>Uygulamanın kullanımı</Text>
-        <Text style={styles.paragraph}>
-          fixhear (İşitme Takip), işitme cihazı takip ve hatırlatma amaçlı ücretsiz bir
-          uygulamadır. Bu sayfa bağlayıcı bir sözleşme değildir.
-        </Text>
+        <Text style={styles.heading}>{copy.usageHeading}</Text>
+        <Text style={styles.paragraph}>{copy.usageBody}</Text>
 
-        <Text style={styles.heading}>Tıbbi cihaz değildir</Text>
-        <Text style={styles.paragraph}>
-          Uygulama tıbbi tanı koymaz, tedavi önermez ve belgelendirilmiş bir tıbbi cihaz
-          değildir. Cihaz ayarları ve sağlık kararları için işitme uzmanınıza danışın.
-        </Text>
+        <Text style={styles.heading}>{copy.notMedicalHeading}</Text>
+        <Text style={styles.paragraph}>{copy.notMedicalBody}</Text>
 
-        <Text style={styles.heading}>Veriler ve sorumluluk</Text>
-        <Text style={styles.paragraph}>
-          Girdiğiniz kayıtlar bu sürümde yalnızca cihazınızda saklanır. Yedekleme dosyasını
-          nerede tutacağınız size aittir. Uygulamadaki kayıtlara dayanarak alınan kararlardan
-          kullanıcı sorumludur.
-        </Text>
+        <Text style={styles.heading}>{copy.dataHeading}</Text>
+        <Text style={styles.paragraph}>{copy.dataBody}</Text>
 
-        <Text style={styles.heading}>Reklamlar</Text>
-        <Text style={styles.paragraph}>
-          Uygulama reklam gösterebilir. Reklam sağlayıcısının işlediği teknik veriler Gizlilik
-          Politikası sayfasında özetlenir.
-        </Text>
+        <Text style={styles.heading}>{copy.adsHeading}</Text>
+        <Text style={styles.paragraph}>{copy.adsBody}</Text>
       </Card>
     </ScrollView>
   );

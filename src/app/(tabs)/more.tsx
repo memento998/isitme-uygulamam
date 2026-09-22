@@ -6,12 +6,14 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { InfoBanner } from '@/components/ui/InfoBanner';
 import { ListRow } from '@/components/ui/ListRow';
 import { colors, radius, spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n';
 import { deleteAllData } from '@/repositories/settings';
 import { cancelAllNotifications } from '@/services/notifications';
 import { loadSampleData } from '@/services/sampleData';
 
 export default function MoreScreen() {
   const router = useRouter();
+  const { messages, isRTL } = useI18n();
   const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
 
@@ -19,12 +21,12 @@ export default function MoreScreen() {
     setConfirmDeleteAll(false);
     await deleteAllData();
     await cancelAllNotifications();
-    setFeedback('Tüm verileriniz silindi.');
+    setFeedback(messages.more.dataDeleted);
   };
 
   const handleLoadSample = async () => {
     await loadSampleData();
-    setFeedback('Örnek veriler yüklendi.');
+    setFeedback(messages.more.sampleLoaded);
   };
 
   return (
@@ -38,57 +40,79 @@ export default function MoreScreen() {
 
       <View style={styles.group}>
         <ListRow
+          icon="book-outline"
+          title={messages.knowledge.knowledgeBank}
+          subtitle={messages.knowledge.knowledgeBankSubtitle}
+          onPress={() => router.push('/knowledge')}
+          isRTL={isRTL}
+        />
+        <ListRow
           icon="calendar-outline"
-          title="Takvim"
-          subtitle="Yaklaşan kontrol ve bakım işlemleri"
+          title={messages.more.calendar}
+          subtitle={messages.more.calendarSubtitle}
           onPress={() => router.push('/more/calendar')}
+          isRTL={isRTL}
         />
         <ListRow
           icon="notifications-outline"
-          title="Bildirim ayarları"
-          subtitle="İzin ve bildirim saati"
+          title={messages.more.notificationSettings}
+          subtitle={messages.more.notificationSubtitle}
           onPress={() => router.push('/more/notifications')}
+          isRTL={isRTL}
+        />
+        <ListRow
+          icon="language-outline"
+          title={messages.language.title}
+          subtitle={messages.common.language}
+          onPress={() => router.push('/more/language')}
+          isRTL={isRTL}
         />
         <ListRow
           icon="document-text-outline"
-          title="PDF raporları"
-          subtitle="Cihaz özet raporu oluştur ve paylaş"
+          title={messages.more.pdfReports}
+          subtitle={messages.more.pdfSubtitle}
           onPress={() => router.push('/more/reports')}
+          isRTL={isRTL}
         />
       </View>
 
       <View style={styles.group}>
         <ListRow
           icon="cloud-upload-outline"
-          title="Yedekleme ve geri yükleme"
-          subtitle="Verileri JSON olarak dışa aktar veya geri yükle"
+          title={messages.more.backup}
+          subtitle={messages.more.backupSubtitle}
           onPress={() => router.push('/more/backup')}
+          isRTL={isRTL}
         />
       </View>
 
       <View style={styles.group}>
         <ListRow
           icon="shield-checkmark-outline"
-          title="Gizlilik Politikası"
-          subtitle="Verileriniz yalnızca cihazınızda saklanır"
+          title={messages.more.privacy}
+          subtitle={messages.more.privacySubtitle}
           onPress={() => router.push('/more/privacy')}
+          isRTL={isRTL}
         />
         <ListRow
           icon="document-outline"
-          title="Kullanım Koşulları"
-          subtitle="Uygulamanın kullanımına ilişkin özet bilgi"
+          title={messages.more.terms}
+          subtitle={messages.more.termsSubtitle}
           onPress={() => router.push('/more/terms')}
+          isRTL={isRTL}
         />
         <ListRow
           icon="medkit-outline"
-          title="Tıbbi Sorumluluk Reddi"
-          subtitle="Yasal bilgilendirme — uygulama tıbbi tanı koymaz"
+          title={messages.more.disclaimer}
+          subtitle={messages.more.disclaimerSubtitle}
           onPress={() => router.push('/more/disclaimer')}
+          isRTL={isRTL}
         />
         <ListRow
           icon="information-circle-outline"
-          title="Uygulama hakkında"
+          title={messages.more.about}
           onPress={() => router.push('/more/about')}
+          isRTL={isRTL}
         />
       </View>
 
@@ -96,25 +120,28 @@ export default function MoreScreen() {
         {__DEV__ ? (
           <ListRow
             icon="flask-outline"
-            title="Örnek veri yükle (geliştirici)"
-            subtitle="Yalnızca geliştirme modunda görünür"
+            title={messages.more.sampleData}
+            subtitle={messages.more.sampleDataSubtitle}
             onPress={handleLoadSample}
+            isRTL={isRTL}
           />
         ) : null}
         <ListRow
           icon="trash-outline"
-          title="Tüm verileri sil"
-          subtitle="Bütün cihaz ve kayıtlar kalıcı olarak silinir"
+          title={messages.more.deleteAll}
+          subtitle={messages.more.deleteAllSubtitle}
           destructive
           onPress={() => setConfirmDeleteAll(true)}
+          isRTL={isRTL}
         />
       </View>
 
       <ConfirmDialog
         visible={confirmDeleteAll}
-        title="Tüm verileri sil"
-        message="Tüm cihazlarınız, kontrol takvimleriniz, bakım ve servis kayıtlarınız kalıcı olarak silinecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?"
-        confirmLabel="Evet, hepsini sil"
+        title={messages.more.deleteAllTitle}
+        message={messages.more.deleteAllMessage}
+        confirmLabel={messages.more.deleteAllConfirm}
+        cancelLabel={messages.common.cancel}
         destructive
         onConfirm={handleDeleteAll}
         onCancel={() => setConfirmDeleteAll(false)}

@@ -9,9 +9,17 @@ interface Props {
   subtitle?: string;
   onPress: () => void;
   destructive?: boolean;
+  isRTL?: boolean;
 }
 
-export function ListRow({ icon, title, subtitle, onPress, destructive = false }: Props) {
+export function ListRow({
+  icon,
+  title,
+  subtitle,
+  onPress,
+  destructive = false,
+  isRTL = false,
+}: Props) {
   return (
     <Pressable
       accessibilityRole="button"
@@ -26,7 +34,12 @@ export function ListRow({ icon, title, subtitle, onPress, destructive = false }:
         <Text style={[styles.title, destructive && styles.titleDanger]}>{title}</Text>
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
-      <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+      <Ionicons
+        name="chevron-forward"
+        size={20}
+        color={colors.textMuted}
+        style={isRTL ? styles.chevronRtl : undefined}
+      />
     </Pressable>
   );
 }
@@ -55,4 +68,5 @@ const styles = StyleSheet.create({
   title: { fontSize: fontSize.md, fontWeight: '600', color: colors.text },
   titleDanger: { color: colors.danger },
   subtitle: { fontSize: fontSize.xs, color: colors.textMuted, marginTop: 2 },
+  chevronRtl: { transform: [{ scaleX: -1 }] },
 });

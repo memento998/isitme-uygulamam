@@ -11,15 +11,18 @@ interface Props {
   data: readonly BarChartItem[];
   /** Grafiğin çubuk alanı yüksekliği. */
   height?: number;
+  accessibilityLabel?: string;
 }
 
 /** Bağımlılık gerektirmeyen basit dikey çubuk grafik. */
-export function BarChart({ data, height = 140 }: Props) {
+export function BarChart({ data, height = 140, accessibilityLabel }: Props) {
   const max = Math.max(...data.map((d) => d.value), 1);
   return (
     <View
       accessibilityRole="image"
-      accessibilityLabel={`Aylık grafik: ${data.map((d) => `${d.label} ${d.value}`).join(', ')}`}
+      accessibilityLabel={
+        accessibilityLabel ?? `Aylık grafik: ${data.map((d) => `${d.label} ${d.value}`).join(', ')}`
+      }
       style={styles.container}
     >
       {data.map((item) => {

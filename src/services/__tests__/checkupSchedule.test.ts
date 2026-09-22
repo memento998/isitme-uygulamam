@@ -1,3 +1,5 @@
+import { getUiMessages } from '@/i18n/messages';
+
 import { generateSchedule, scheduleTitleForMonths } from '../checkupSchedule';
 
 describe('kontrol takvimi servisi', () => {
@@ -27,5 +29,16 @@ describe('kontrol takvimi servisi', () => {
     expect(scheduleTitleForMonths(24)).toBe('2. yıl kontrolü');
     expect(scheduleTitleForMonths(30)).toBe('2,5 yıl kontrolü');
     expect(scheduleTitleForMonths(36)).toBe('3. yıl kontrolü');
+  });
+
+  test('messages ile yerelleştirilmiş başlık üretir, generateSchedule varsayılanı Türkçe kalır', () => {
+    const en = getUiMessages('en');
+    expect(scheduleTitleForMonths(1, en)).toBe('Month 1 checkup');
+    expect(scheduleTitleForMonths(12, en)).toBe('Year 1 checkup');
+    expect(scheduleTitleForMonths(18, en)).toBe('1.5-year checkup');
+    expect(generateSchedule('2026-01-15', 1)[0].title).toBe('1. ay kontrolü');
+    expect(
+      generateSchedule('2026-01-15', 1, (months) => scheduleTitleForMonths(months, en))[0].title
+    ).toBe('Month 1 checkup');
   });
 });

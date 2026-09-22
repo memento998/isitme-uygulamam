@@ -4,6 +4,7 @@ import { AppModal } from '@/components/ui/AppModal';
 import { Button } from '@/components/ui/Button';
 import { DateField } from '@/components/ui/DateField';
 import { TextField } from '@/components/ui/TextField';
+import { useI18n } from '@/i18n';
 import { isValidISODate, todayISO } from '@/services/date';
 
 interface Props {
@@ -13,14 +14,16 @@ interface Props {
 }
 
 export function ServiceRecordModal({ visible, onSave, onClose }: Props) {
+  const { messages } = useI18n();
   return (
-    <AppModal visible={visible} title="Yeni Servis Kaydı" onClose={onClose}>
+    <AppModal visible={visible} title={messages.modals.serviceFormTitle} onClose={onClose}>
       {visible ? <ServiceForm onSave={onSave} /> : null}
     </AppModal>
   );
 }
 
 function ServiceForm({ onSave }: { onSave: Props['onSave'] }) {
+  const { messages } = useI18n();
   const [date, setDate] = useState(todayISO());
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -31,13 +34,13 @@ function ServiceForm({ onSave }: { onSave: Props['onSave'] }) {
   const handleSave = async () => {
     let valid = true;
     if (!title.trim()) {
-      setTitleError('İşlem adı zorunludur.');
+      setTitleError(messages.modals.serviceActionRequired);
       valid = false;
     } else {
       setTitleError(undefined);
     }
     if (!isValidISODate(date)) {
-      setDateError('Geçerli bir tarih seçin.');
+      setDateError(messages.deviceForm.dateInvalid);
       valid = false;
     } else {
       setDateError(undefined);
@@ -53,23 +56,23 @@ function ServiceForm({ onSave }: { onSave: Props['onSave'] }) {
 
   return (
     <>
-      <DateField label="Tarih" value={date} onChange={setDate} required error={dateError} />
+      <DateField label={messages.modals.date} value={date} onChange={setDate} required error={dateError} />
       <TextField
-        label="İşlem"
+        label={messages.modals.serviceAction}
         value={title}
         onChangeText={setTitle}
-        placeholder="Örn. Hoparlör değişimi"
+        placeholder={messages.modals.serviceActionPlaceholder}
         required
         error={titleError}
       />
       <TextField
-        label="Açıklama"
+        label={messages.modals.serviceDescription}
         value={description}
         onChangeText={setDescription}
-        placeholder="İsteğe bağlı açıklama"
+        placeholder={messages.modals.serviceDescriptionPlaceholder}
         multiline
       />
-      <Button label="Kaydet" onPress={handleSave} loading={saving} />
+      <Button label={messages.modals.save} onPress={handleSave} loading={saving} />
     </>
   );
 }

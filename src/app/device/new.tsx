@@ -1,12 +1,14 @@
 import { useRouter } from 'expo-router';
 
 import { DeviceForm } from '@/components/DeviceForm';
+import { useI18n } from '@/i18n';
 import { createDeviceWithInitialData, type DeviceInput } from '@/repositories/devices';
 import { generateSchedule } from '@/services/checkupSchedule';
 import { syncAllNotifications } from '@/services/notifications';
 
 export default function NewDeviceScreen() {
   const router = useRouter();
+  const { messages } = useI18n();
 
   const handleSubmit = async (input: DeviceInput) => {
     await createDeviceWithInitialData(input, generateSchedule(input.startDate));
@@ -14,5 +16,7 @@ export default function NewDeviceScreen() {
     router.back();
   };
 
-  return <DeviceForm submitLabel="Cihazı Kaydet" showScheduleInfo onSubmit={handleSubmit} />;
+  return (
+    <DeviceForm submitLabel={messages.deviceForm.submitNew} showScheduleInfo onSubmit={handleSubmit} />
+  );
 }

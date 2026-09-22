@@ -16,8 +16,10 @@ import { InfoBanner } from '@/components/ui/InfoBanner';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { ErrorView, LoadingView } from '@/components/ui/StateViews';
+import { OTHER_BRAND } from '@/constants/brands';
 import { colors, fontSize, MIN_TOUCH_SIZE, radius, spacing } from '@/constants/theme';
 import { useAsyncData } from '@/hooks/useAsyncData';
+import { daysUntilLocalized, useI18n } from '@/i18n';
 import {
   completeCheckup,
   createCheckup,
@@ -40,13 +42,11 @@ import {
   deleteServiceRecord,
   listServiceRecordsForDevice,
 } from '@/repositories/serviceRecords';
-import { SCHEDULE_DISCLAIMER } from '@/services/checkupSchedule';
 import { getCheckupStatus } from '@/services/checkupStatus';
-import { compareISO, daysUntilLabel, formatDate, todayISO } from '@/services/date';
+import { compareISO, formatDate, todayISO } from '@/services/date';
 import { syncAllNotifications } from '@/services/notifications';
 import { shareDeviceReport } from '@/services/pdf';
 import type { Checkup, MaintenanceReminder } from '@/types/models';
-import { EAR_SIDE_LABELS, MAINTENANCE_TYPE_LABELS, POWER_TYPE_LABELS } from '@/types/models';
 
 type ConfirmTarget =
   | { kind: 'device' }
@@ -63,6 +63,7 @@ interface UpcomingItem {
 export default function DeviceDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { locale, messages, tx } = useI18n();
 
   const { data, loading, error, reload } = useAsyncData(async () => {
     const device = await getDevice(id);
@@ -74,7 +75,7 @@ export default function DeviceDetailScreen() {
       listServiceRecordsForDevice(id),
     ]);
     return { device, checkups, reminders, logs, records, today: todayISO() };
-  });
+  }, messages.common.loadError);
 
   const [checkupToComplete, setCheckupToComplete] = useState<Checkup | null>(null);
   const [checkupFormState, setCheckupFormState] = useState<{ open: boolean; checkup: Checkup | null }>(
@@ -91,11 +92,23 @@ export default function DeviceDetailScreen() {
   const [switchError, setSwitchError] = useState<string | null>(null);
   const toggleSeq = useRef<Record<string, number>>({});
 
-  if (loading) return <LoadingView />;
-  if (error) return <ErrorView message={error} onRetry={reload} />;
-  if (!data) return <ErrorView message="Cihaz bulunamadı." />;
+  if (loading) return <LoadingView message={messages.common.loading} />;
+  if (error) {
+    return <ErrorView message={error} onRetry={reload} retryLabel={messages.common.retry} />;
+  }
+  if (!data) return <ErrorView message={messages.deviceDetail.notFound} />;
 
   const { device, checkups, reminders, logs, records, today } = data;
+  const earLabels = {
+    left: messages.home.earLeft,
+    right: messages.home.earRight,
+    both: messages.home.earBoth,
+  } as const;
+  const powerLabels = {
+    battery: messages.home.powerBattery,
+    rechargeable: messages.home.powerRechargeable,
+  } as const;
+  const brandLabel = device.brand === OTHER_BRAND ? messages.brand.otherBrand : device.brand;
 
   const effectiveEnabled = (reminder: MaintenanceReminder): boolean =>
     enabledOverrides[reminder.id] ?? reminder.enabled;
@@ -124,7 +137,7 @@ export default function DeviceDetailScreen() {
       console.warn('Hatırlatıcı güncellenemedi:', err);
       if (toggleSeq.current[reminder.id] === seq) {
         setEnabledOverrides((current) => ({ ...current, [reminder.id]: previous }));
-        setSwitchError('Hatırlatıcı güncellenirken bir sorun oluştu. Lütfen tekrar deneyin.');
+        setSwitchError(messages.deviceDetail.switchError);
       }
       setUpdatingReminderIds((current) => {
         const next = { ...current };
@@ -165,7 +178,7 @@ export default function DeviceDetailScreen() {
       .filter((r) => effectiveEnabled(r))
       .map((r) => ({
         key: `r-${r.id}`,
-        title: MAINTENANCE_TYPE_LABELS[r.type],
+        title: messages.maintenance[r.type],
         date: nextReminderDate(r, device.warrantyEndDate),
       }))
       .filter((item): item is UpcomingItem => item.date !== null && compareISO(item.date, today) >= 0),
@@ -179,7 +192,7 @@ export default function DeviceDetailScreen() {
       .map((c) => ({ key: `c-${c.id}`, title: c.title, date: c.completedAt as string })),
     ...logs.map((l) => ({
       key: `l-${l.id}`,
-      title: MAINTENANCE_TYPE_LABELS[l.type],
+      title: messages.maintenance[l.type],
       date: l.doneAt,
     })),
   ]
@@ -205,10 +218,10 @@ export default function DeviceDetailScreen() {
     setPdfLoading(true);
     setPdfError(null);
     try {
-      await shareDeviceReport(device, checkups, logs, records);
+      await shareDeviceReport(device, checkups, logs, records, messages, locale);
     } catch (err) {
       console.warn('PDF oluşturulamadı:', err);
-      setPdfError('PDF raporu oluşturulurken bir sorun oluştu.');
+      setPdfError(messages.deviceDetail.pdfError);
     } finally {
       setPdfLoading(false);
     }
@@ -218,23 +231,23 @@ export default function DeviceDetailScreen() {
     switch (confirmTarget?.kind) {
       case 'device':
         return {
-          title: 'Cihazı sil',
-          message: `"${device.name}" cihazı ve tüm kontrol, bakım ve servis kayıtları kalıcı olarak silinecek. Bu işlem geri alınamaz.`,
+          title: messages.deviceDetail.deleteDeviceTitle,
+          message: tx(messages.deviceDetail.deleteDeviceMessage, { name: device.name }),
         };
       case 'checkup':
         return {
-          title: 'Kontrolü sil',
-          message: `"${confirmTarget.title}" kaydı silinecek. Bu işlem geri alınamaz.`,
+          title: messages.deviceDetail.deleteCheckupTitle,
+          message: tx(messages.deviceDetail.deleteRecordMessage, { title: confirmTarget.title }),
         };
       case 'service':
         return {
-          title: 'Servis kaydını sil',
-          message: `"${confirmTarget.title}" kaydı silinecek. Bu işlem geri alınamaz.`,
+          title: messages.deviceDetail.deleteServiceTitle,
+          message: tx(messages.deviceDetail.deleteRecordMessage, { title: confirmTarget.title }),
         };
       case 'log':
         return {
-          title: 'Bakım kaydını sil',
-          message: `"${confirmTarget.title}" kaydı silinecek. Bu işlem geri alınamaz.`,
+          title: messages.deviceDetail.deleteLogTitle,
+          message: tx(messages.deviceDetail.deleteRecordMessage, { title: confirmTarget.title }),
         };
       default:
         return { title: '', message: '' };
@@ -258,41 +271,43 @@ export default function DeviceDetailScreen() {
             )}
             <View style={styles.infoTitleContainer}>
               <Text style={styles.deviceName}>{device.name}</Text>
-              <Text style={styles.deviceBrand}>{device.brand}</Text>
+              <Text style={styles.deviceBrand}>{brandLabel}</Text>
             </View>
           </View>
-          <InfoRow label="Kulak" value={EAR_SIDE_LABELS[device.earSide]} />
-          <InfoRow label="Kullanım başlangıcı" value={formatDate(device.startDate)} />
-          <InfoRow label="Güç tipi" value={POWER_TYPE_LABELS[device.powerType]} />
-          {device.serialNumber ? <InfoRow label="Seri numarası" value={device.serialNumber} /> : null}
-          {device.warrantyEndDate ? (
-            <InfoRow label="Garanti bitişi" value={formatDate(device.warrantyEndDate)} />
+          <InfoRow label={messages.deviceDetail.ear} value={earLabels[device.earSide]} />
+          <InfoRow label={messages.deviceDetail.startDate} value={formatDate(device.startDate)} />
+          <InfoRow label={messages.deviceDetail.powerType} value={powerLabels[device.powerType]} />
+          {device.serialNumber ? (
+            <InfoRow label={messages.deviceDetail.serial} value={device.serialNumber} />
           ) : null}
-          {device.clinicName ? <InfoRow label="Doktor / Klinik" value={device.clinicName} /> : null}
-          {device.clinicPhone ? <InfoRow label="Telefon" value={device.clinicPhone} /> : null}
-          {device.notes ? <InfoRow label="Notlar" value={device.notes} /> : null}
+          {device.warrantyEndDate ? (
+            <InfoRow label={messages.deviceDetail.warranty} value={formatDate(device.warrantyEndDate)} />
+          ) : null}
+          {device.clinicName ? <InfoRow label={messages.deviceDetail.clinic} value={device.clinicName} /> : null}
+          {device.clinicPhone ? <InfoRow label={messages.deviceDetail.phone} value={device.clinicPhone} /> : null}
+          {device.notes ? <InfoRow label={messages.deviceDetail.notes} value={device.notes} /> : null}
           <InfoRow
-            label="Hatırlatıcılar"
-            value={device.remindersEnabled ? 'Açık' : 'Kapalı'}
+            label={messages.deviceDetail.reminders}
+            value={device.remindersEnabled ? messages.deviceDetail.remindersOn : messages.deviceDetail.remindersOff}
           />
         </Card>
 
         <View style={styles.actionRow}>
           <Button
-            label="PDF Raporu"
+            label={messages.deviceDetail.pdf}
             variant="secondary"
             onPress={handlePdf}
             loading={pdfLoading}
             style={styles.actionButton}
           />
           <Button
-            label="Düzenle"
+            label={messages.deviceDetail.edit}
             variant="secondary"
             onPress={() => router.push(`/device/${device.id}/edit`)}
             style={styles.actionButton}
           />
           <Button
-            label="Sil"
+            label={messages.deviceDetail.delete}
             variant="danger"
             onPress={() => setConfirmTarget({ kind: 'device' })}
             style={styles.actionButton}
@@ -300,10 +315,10 @@ export default function DeviceDetailScreen() {
         </View>
         {pdfError ? <InfoBanner kind="warning" text={pdfError} /> : null}
 
-        <SectionHeader title="Yaklaşan işlemler" />
+        <SectionHeader title={messages.deviceDetail.upcoming} />
         {upcoming.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Yaklaşan işlem yok.</Text>
+            <Text style={styles.emptyText}>{messages.deviceDetail.upcomingEmpty}</Text>
           </Card>
         ) : (
           <Card>
@@ -315,17 +330,17 @@ export default function DeviceDetailScreen() {
                 <Ionicons name="time-outline" size={18} color={colors.primary} />
                 <Text style={styles.simpleRowTitle}>{item.title}</Text>
                 <Text style={styles.simpleRowDate}>
-                  {formatDate(item.date)} · {daysUntilLabel(item.date, today)}
+                  {formatDate(item.date)} · {daysUntilLocalized(item.date, today, messages)}
                 </Text>
               </View>
             ))}
           </Card>
         )}
 
-        <SectionHeader title="Tamamlanan işlemler" />
+        <SectionHeader title={messages.deviceDetail.completedSection} />
         {completedItems.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Henüz tamamlanan işlem yok.</Text>
+            <Text style={styles.emptyText}>{messages.deviceDetail.completedEmpty}</Text>
           </Card>
         ) : (
           <Card>
@@ -340,20 +355,20 @@ export default function DeviceDetailScreen() {
         )}
 
         <SectionHeader
-          title="Kontrol takvimi"
+          title={messages.deviceDetail.checkups}
           right={
             <Button
-              label="Kontrol Ekle"
+              label={messages.deviceDetail.addCheckup}
               variant="ghost"
               onPress={() => setCheckupFormState({ open: true, checkup: null })}
             />
           }
         />
-        <InfoBanner text={SCHEDULE_DISCLAIMER} />
+        <InfoBanner text={messages.deviceDetail.checkupDisclaimer} />
         <View style={styles.sectionSpacer} />
         {checkups.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Planlanmış kontrol yok.</Text>
+            <Text style={styles.emptyText}>{messages.deviceDetail.noPlannedCheckup}</Text>
           </Card>
         ) : (
           checkups.map((checkup) => {
@@ -364,35 +379,39 @@ export default function DeviceDetailScreen() {
                   <View style={styles.checkupTitleContainer}>
                     <Text style={styles.checkupTitle}>{checkup.title}</Text>
                     <Text style={styles.checkupDate}>
-                      Planlanan: {formatDate(checkup.dueDate)}
+                      {tx(messages.deviceDetail.planned, { date: formatDate(checkup.dueDate) })}
                     </Text>
                     {checkup.completedAt ? (
                       <Text style={styles.checkupCompleted}>
-                        Tamamlandı: {formatDate(checkup.completedAt)}
+                        {tx(messages.deviceDetail.completedAt, { date: formatDate(checkup.completedAt) })}
                       </Text>
                     ) : null}
-                    {checkup.note ? <Text style={styles.checkupNote}>Not: {checkup.note}</Text> : null}
+                    {checkup.note ? (
+                      <Text style={styles.checkupNote}>
+                        {tx(messages.deviceDetail.note, { note: checkup.note })}
+                      </Text>
+                    ) : null}
                   </View>
-                  <StatusBadge status={status} />
+                  <StatusBadge status={status} labels={messages.checkupStatus} />
                 </View>
                 <View style={styles.checkupActions}>
                   {status === 'completed' ? (
                     <Button
-                      label="Geri Al"
+                      label={messages.deviceDetail.reopen}
                       variant="secondary"
                       onPress={() => mutate(() => reopenCheckup(checkup.id))}
                       style={styles.checkupActionButton}
                     />
                   ) : (
                     <Button
-                      label="Tamamla"
+                      label={messages.deviceDetail.complete}
                       onPress={() => setCheckupToComplete(checkup)}
                       style={styles.checkupActionButton}
                     />
                   )}
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={`${checkup.title} kontrolünü düzenle`}
+                    accessibilityLabel={tx(messages.deviceDetail.checkupEditA11y, { title: checkup.title })}
                     onPress={() => setCheckupFormState({ open: true, checkup })}
                     style={styles.iconButton}
                   >
@@ -400,7 +419,7 @@ export default function DeviceDetailScreen() {
                   </Pressable>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={`${checkup.title} kontrolünü sil`}
+                    accessibilityLabel={tx(messages.deviceDetail.checkupDeleteA11y, { title: checkup.title })}
                     onPress={() =>
                       setConfirmTarget({ kind: 'checkup', id: checkup.id, title: checkup.title })
                     }
@@ -414,12 +433,13 @@ export default function DeviceDetailScreen() {
           })
         )}
 
-        <SectionHeader title="Bakım hatırlatıcıları" />
+        <SectionHeader title={messages.deviceDetail.maintenance} />
         {switchError ? <InfoBanner kind="warning" text={switchError} /> : null}
         <Card>
           {reminders.map((reminder, index) => {
             const next = nextReminderDate(reminder, device.warrantyEndDate);
             const enabled = effectiveEnabled(reminder);
+            const reminderLabel = messages.maintenance[reminder.type];
             return (
               <View
                 key={reminder.id}
@@ -427,24 +447,28 @@ export default function DeviceDetailScreen() {
               >
                 <View style={styles.reminderRow}>
                   <View style={styles.reminderInfo}>
-                    <Text style={styles.reminderTitle}>{MAINTENANCE_TYPE_LABELS[reminder.type]}</Text>
+                    <Text style={styles.reminderTitle}>{reminderLabel}</Text>
                     <Text style={styles.reminderDetail}>
                       {reminder.type === 'warranty'
                         ? device.warrantyEndDate
-                          ? `Garanti bitişi: ${formatDate(device.warrantyEndDate)}`
-                          : 'Garanti tarihi girilmemiş'
-                        : `${reminder.intervalDays} günde bir` +
-                          (next ? ` · Sıradaki: ${formatDate(next)}` : '')}
+                          ? tx(messages.deviceDetail.warrantyEnd, {
+                              date: formatDate(device.warrantyEndDate),
+                            })
+                          : messages.deviceDetail.warrantyMissing
+                        : tx(messages.deviceDetail.intervalDays, { count: reminder.intervalDays }) +
+                          (next
+                            ? ` · ${tx(messages.deviceDetail.nextAt, { date: formatDate(next) })}`
+                            : '')}
                     </Text>
                     {reminder.lastDoneAt ? (
                       <Text style={styles.reminderDetail}>
-                        Son yapılma: {formatDate(reminder.lastDoneAt)}
+                        {tx(messages.deviceDetail.lastDone, { date: formatDate(reminder.lastDoneAt) })}
                       </Text>
                     ) : null}
                   </View>
                   <View style={styles.reminderActions}>
                     <Switch
-                      accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} hatırlatıcısı`}
+                      accessibilityLabel={tx(messages.deviceDetail.reminderA11y, { label: reminderLabel })}
                       value={enabled}
                       disabled={!!updatingReminderIds[reminder.id]}
                       onValueChange={(value) => void handleReminderEnabledChange(reminder, value)}
@@ -453,7 +477,9 @@ export default function DeviceDetailScreen() {
                     />
                     <Pressable
                       accessibilityRole="button"
-                      accessibilityLabel={`${MAINTENANCE_TYPE_LABELS[reminder.type]} hatırlatıcısını düzenle`}
+                      accessibilityLabel={tx(messages.deviceDetail.reminderEditA11y, {
+                        label: reminderLabel,
+                      })}
                       onPress={() =>
                         setReminderToEdit({
                           ...reminder,
@@ -468,7 +494,7 @@ export default function DeviceDetailScreen() {
                 </View>
                 {reminder.type !== 'warranty' ? (
                   <Button
-                    label="Tamamla"
+                    label={messages.deviceDetail.complete}
                     onPress={() => setReminderToLog(reminder)}
                     style={styles.reminderCompleteButton}
                   />
@@ -478,10 +504,10 @@ export default function DeviceDetailScreen() {
           })}
         </Card>
 
-        <SectionHeader title="Bakım geçmişi" />
+        <SectionHeader title={messages.deviceDetail.maintenanceHistory} />
         {logs.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Tamamlanan bakım işlemleri burada görünür.</Text>
+            <Text style={styles.emptyText}>{messages.deviceDetail.maintenanceHistoryEmpty}</Text>
           </Card>
         ) : (
           <Card>
@@ -489,18 +515,18 @@ export default function DeviceDetailScreen() {
               <View key={log.id} style={[styles.simpleRow, index > 0 && styles.simpleRowBorder]}>
                 <Ionicons name="build-outline" size={18} color={colors.primary} />
                 <View style={styles.logInfo}>
-                  <Text style={styles.simpleRowTitle}>{MAINTENANCE_TYPE_LABELS[log.type]}</Text>
+                  <Text style={styles.simpleRowTitle}>{messages.maintenance[log.type]}</Text>
                   {log.note ? <Text style={styles.reminderDetail}>{log.note}</Text> : null}
                 </View>
                 <Text style={styles.simpleRowDate}>{formatDate(log.doneAt)}</Text>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel="Bakım kaydını sil"
+                  accessibilityLabel={messages.deviceDetail.logDeleteA11y}
                   onPress={() =>
                     setConfirmTarget({
                       kind: 'log',
                       id: log.id,
-                      title: MAINTENANCE_TYPE_LABELS[log.type],
+                      title: messages.maintenance[log.type],
                     })
                   }
                   style={styles.iconButton}
@@ -513,14 +539,18 @@ export default function DeviceDetailScreen() {
         )}
 
         <SectionHeader
-          title="Servis kayıtları"
+          title={messages.deviceDetail.service}
           right={
-            <Button label="Kayıt Ekle" variant="ghost" onPress={() => setServiceModalOpen(true)} />
+            <Button
+              label={messages.deviceDetail.addService}
+              variant="ghost"
+              onPress={() => setServiceModalOpen(true)}
+            />
           }
         />
         {records.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Henüz servis kaydı yok.</Text>
+            <Text style={styles.emptyText}>{messages.deviceDetail.serviceEmpty}</Text>
           </Card>
         ) : (
           <Card>
@@ -536,7 +566,7 @@ export default function DeviceDetailScreen() {
                 <Text style={styles.simpleRowDate}>{formatDate(record.date)}</Text>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={`${record.title} servis kaydını sil`}
+                  accessibilityLabel={tx(messages.deviceDetail.serviceDeleteA11y, { title: record.title })}
                   onPress={() =>
                     setConfirmTarget({ kind: 'service', id: record.id, title: record.title })
                   }
@@ -606,7 +636,8 @@ export default function DeviceDetailScreen() {
         visible={confirmTarget !== null}
         title={dialogContent.title}
         message={dialogContent.message}
-        confirmLabel="Sil"
+        confirmLabel={messages.common.delete}
+        cancelLabel={messages.common.cancel}
         destructive
         onConfirm={handleConfirm}
         onCancel={() => setConfirmTarget(null)}
