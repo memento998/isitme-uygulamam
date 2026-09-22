@@ -56,7 +56,7 @@ const EXPECTED_TR: Record<KnowledgeTipId, { title: string; message: string; deta
       'Islak veya kirli ellerle cihazı tutmaktan kaçının; dış yüzey bakımını temiz bir yerde yapın.',
   },
   fh_tip_008: {
-    title: 'Düşürme riskini azaltın',
+    title: 'Cihazı düşürme riskini azaltın',
     message:
       'Cihazı elinize aldığınızda veya dış yüzeyini temizlerken yumuşak bir yüzey üzerinde çalışın.',
     detail: 'Sert zemine düşmesi küçük parçalarına zarar verebilir.',
@@ -266,7 +266,7 @@ const EXPECTED_TR: Record<KnowledgeTipId, { title: string; message: string; deta
     message:
       'Tarih, adres veya randevu gibi önemli bilgileri gerekirse yazılı olarak da isteyin.',
     detail:
-      'Yazı veya konuşmayı metne dönüştüren araçlar iletişimi destekleyebilir; otomatik metindeki hataları kontrol edin.',
+      'Yazılı iletişim veya konuşmayı yazıya dönüştüren araçlar iletişimi destekleyebilir. Otomatik oluşturulan metindeki hataları kontrol edin.',
   },
   fh_tip_061: {
     title: 'Düzenli bakımın yararı',

@@ -41,7 +41,7 @@ export const TIPS_ES: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'Aprenda de forma práctica a colocar el dispositivo en el oído y a extraerlo en el centro que se lo suministró.',
     detail:
-      'Pida que le vuelvan a mostrar el paso que no haya entendido. La forma de usar el dispositivo puede variar según el modelo y la punta del oído.',
+      'Pida que le vuelvan a mostrar el paso que no haya entendido. La forma de usar el dispositivo puede variar según el modelo y la oliva del audífono.',
   },
   fh_tip_007: {
     title: 'Manos limpias y secas',
@@ -51,7 +51,7 @@ export const TIPS_ES: Record<KnowledgeTipId, KnowledgeTipCopy> = {
       'Evite sostener el dispositivo con las manos mojadas o sucias; realice el cuidado de la superficie externa en un lugar limpio.',
   },
   fh_tip_008: {
-    title: 'Reduzca el riesgo de caídas',
+    title: 'Reduzca el riesgo de que se caiga el audífono',
     message:
       'Cuando tome el dispositivo en la mano o limpie su superficie externa, trabaje sobre una superficie blanda.',
     detail: 'Si cae sobre un suelo duro, puede dañar sus piezas pequeñas.',
@@ -220,7 +220,7 @@ export const TIPS_ES: Record<KnowledgeTipId, KnowledgeTipCopy> = {
   fh_tip_046: {
     title: '¿Por qué silba el dispositivo?',
     message:
-      'El silbido del dispositivo puede relacionarse con la colocación o con la punta del oído; por sí solo no es prueba de avería.',
+      'El silbido del dispositivo puede relacionarse con la colocación o con la oliva del audífono; por sí solo no es prueba de avería.',
     detail:
       'Compruebe que el dispositivo esté bien asentado en su oído. Si el silbido continúa, pida apoyo al centro que le suministró el dispositivo; no desmonte piezas.',
   },
@@ -269,7 +269,7 @@ export const TIPS_ES: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'Si es necesario, pida también por escrito información importante como una fecha, una dirección o una cita.',
     detail:
-      'Las herramientas que convierten la escritura o el habla en texto pueden apoyar la comunicación; compruebe los errores del texto automático.',
+      'La comunicación por escrito o las herramientas que convierten el habla en texto pueden facilitar la comunicación. Revise los textos generados automáticamente para detectar errores.',
   },
   fh_tip_061: {
     title: 'El beneficio del cuidado regular',

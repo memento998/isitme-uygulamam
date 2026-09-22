@@ -142,7 +142,7 @@ export const fr = {
     permissionUndetermined: 'Autorisation pas encore demandée',
     permissionUnsupported: 'Non prise en charge sur cette plateforme',
     permissionExplanation:
-      'Nous avons besoin de l’autorisation de notification pour vous rappeler les dates de contrôle et d’entretien. Les notifications concernent uniquement les tâches prévues des appareils que vous avez ajoutés.',
+      'L’autorisation de notification est nécessaire pour les rappels de contrôle et d’entretien ainsi que pour les conseils quotidiens que vous choisissez d’activer. Vous pouvez activer ou désactiver séparément les notifications de conseils quotidiens.',
     requestPermission: 'Autoriser les notifications',
     permissionStatus: 'État : {state}',
     maintenanceTime: 'Heure de notification',
@@ -150,7 +150,7 @@ export const fr = {
       'Les rappels de contrôle et d’entretien sont envoyés le jour prévu à l’heure choisie ci-dessous.',
     timeSaved: 'Heure de notification enregistrée et rappels mis à jour.',
     webUnsupported:
-      'Les notifications ne sont pas prises en charge dans l’aperçu web. Vous pouvez les utiliser sur un appareil Android ou iOS.',
+      'Les notifications ne sont pas prises en charge dans l’aperçu web. Vous pouvez les utiliser sur un appareil Android.',
     dailyKnowledgeSection: 'Conseil quotidien',
     dailyKnowledgeOffHelp: 'Les conseils quotidiens sont désactivés. Vous pouvez les activer ci-dessous.',
     openSystemSettings: 'Ouvrir les réglages système',
@@ -191,10 +191,10 @@ export const fr = {
   legal: {
     privacy: {
       title: 'Politique de confidentialité',
-      banner: 'Dans cette version, vos données sont stockées uniquement sur votre propre appareil.',
+      banner: 'Dans cette version, les enregistrements que vous saisissez restent sur votre appareil.',
       storageHeading: 'Où vos données sont-elles stockées ?',
       storageBody:
-        'Toutes les informations saisies dans FixHear (appareils, contrôles, entretien et service) sont stockées uniquement dans la base de données locale de votre téléphone. Dans cette version, aucune donnée n’est envoyée sur internet ni conservée sur un serveur.',
+        'Les enregistrements d’appareils, de contrôles, d’entretien et de service saisis dans FixHear sont stockés uniquement dans la base locale de votre téléphone. FixHear n’envoie pas ces enregistrements vers un serveur qui lui appartient. La sauvegarde n’a lieu que lorsque vous lancez un partage. Les données techniques que le fournisseur de publicités peut traiter sont décrites séparément dans la section publicités ci-dessous.',
       accountHeading: 'Compte et adhésion',
       accountBody:
         'L’application n’exige ni adhésion ni connexion. Elle ne collecte pas de données d’identité personnelle.',
@@ -251,7 +251,7 @@ export const fr = {
       paragraph1:
         'FixHear est une application gratuite qui aide les personnes utilisant une aide auditive à suivre leurs appareils, contrôles périodiques, entretien et problèmes courants.',
       paragraph2:
-        'L’application ne nécessite pas de connexion internet ; toutes vos données restent uniquement sur votre appareil.',
+        'Les enregistrements que vous saisissez restent sur votre téléphone dans cette version. Afficher des publicités peut nécessiter une connexion internet ; les données techniques du fournisseur sont résumées dans la politique de confidentialité.',
       paragraph3:
         'Cette application n’est pas un outil médical ni un dispositif médical certifié. Consultez toujours votre spécialiste de l’audition pour la fréquence des contrôles et les réglages de l’appareil.',
       paragraph4:
@@ -524,12 +524,12 @@ export const fr = {
           {
             instruction: 'Vérifiez la pile ou le niveau de charge',
             detail:
-              'Sur les appareils à pile, remplacez-la par une neuve. Sur les rechargeables, placez l’appareil dans le chargeur et confirmez que l’indicateur de charge est allumé.',
+              'Vérifiez l’état de la pile ou de la charge indiqué par l’appareil en suivant le guide d’utilisation. Si le problème persiste, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez si le filtre, le tube ou le dôme est bouché',
             detail:
-              'Le cérumen peut boucher le filtre, le tube ou le dôme. S’il y a de la saleté visible, nettoyez délicatement avec l’outil recommandé par le fabricant ou remplacez le filtre.',
+              'Sans démonter l’appareil ni ses pièces, vérifiez s’il y a de la saleté ou des dommages visibles de l’extérieur. N’introduisez pas d’outil de nettoyage dans les ouvertures. En cas de problème, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez le volume',
@@ -539,7 +539,7 @@ export const fr = {
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
         ],
       },
@@ -554,22 +554,22 @@ export const fr = {
           {
             instruction: 'Vérifiez si le filtre, le tube ou le dôme est bouché',
             detail:
-              'Le cérumen peut boucher le filtre, le tube ou le dôme. S’il y a de la saleté visible, nettoyez délicatement avec l’outil recommandé par le fabricant ou remplacez le filtre.',
+              'Sans démonter l’appareil ni ses pièces, vérifiez s’il y a de la saleté ou des dommages visibles de l’extérieur. N’introduisez pas d’outil de nettoyage dans les ouvertures. En cas de problème, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez la pile ou le niveau de charge',
             detail:
-              'Sur les appareils à pile, remplacez-la par une neuve. Sur les rechargeables, placez l’appareil dans le chargeur et confirmez que l’indicateur de charge est allumé.',
+              'Vérifiez l’état de la pile ou de la charge indiqué par l’appareil en suivant le guide d’utilisation. Si le problème persiste, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez la position de l’embout',
             detail:
-              'Assurez-vous que l’embout ou le dôme est bien en place dans l’oreille. Un mauvais positionnement peut réduire le son.',
+              'Vérifiez le placement de l’appareil dans l’oreille selon le mode d’utilisation qui vous a été montré. Ne séparez pas les pièces et ne forcez pas l’appareil. Si le problème persiste, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
         ],
       },
@@ -580,27 +580,27 @@ export const fr = {
           {
             instruction: 'Vérifiez la pile ou le niveau de charge',
             detail:
-              'Sur les appareils à pile, remplacez-la par une neuve. Sur les rechargeables, placez l’appareil dans le chargeur et confirmez que l’indicateur de charge est allumé.',
+              'Vérifiez l’état de la pile ou de la charge indiqué par l’appareil en suivant le guide d’utilisation. Si le problème persiste, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez si le filtre, le tube ou le dôme est bouché',
             detail:
-              'Le cérumen peut boucher le filtre, le tube ou le dôme. S’il y a de la saleté visible, nettoyez délicatement avec l’outil recommandé par le fabricant ou remplacez le filtre.',
+              'Sans démonter l’appareil ni ses pièces, vérifiez s’il y a de la saleté ou des dommages visibles de l’extérieur. N’introduisez pas d’outil de nettoyage dans les ouvertures. En cas de problème, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez l’humidité',
             detail:
-              'Laissez l’appareil toute la nuit dans une boîte de séchage ou avec une capsule déshydratante. L’humidité peut provoquer des coupures de son.',
+              'Si vous constatez de l’humidité, suivez la méthode de séchage adaptée indiquée dans le guide de l’appareil. Si vous n’êtes pas sûr que l’accessoire de séchage soit compatible, demandez au centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Éteignez puis rallumez la connexion du téléphone',
             detail:
-              'Désactivez le Bluetooth du téléphone, attendez quelques secondes et réactivez-le. Si besoin, retirez l’appareil de la liste Bluetooth et associez-le à nouveau.',
+              'Désactivez le Bluetooth du téléphone, attendez quelques secondes, puis réactivez-le. Suivez les consignes d’association de votre téléphone et de votre appareil.',
           },
         ],
       },
@@ -611,12 +611,12 @@ export const fr = {
           {
             instruction: 'Vérifiez la position de l’embout',
             detail:
-              'Retirez l’embout et remettez-le. Un embout mal en place peut donner une sensation d’écho.',
+              'Vérifiez le placement de l’appareil dans l’oreille selon le mode d’utilisation qui vous a été montré. Ne séparez pas les pièces et ne forcez pas l’appareil. Si le problème persiste, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez si le filtre, le tube ou le dôme est bouché',
             detail:
-              'Le cérumen peut boucher le filtre, le tube ou le dôme. S’il y a de la saleté visible, nettoyez délicatement avec l’outil recommandé par le fabricant ou remplacez le filtre.',
+              'Sans démonter l’appareil ni ses pièces, vérifiez s’il y a de la saleté ou des dommages visibles de l’extérieur. N’introduisez pas d’outil de nettoyage dans les ouvertures. En cas de problème, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Examinez les réglages du son',
@@ -626,7 +626,7 @@ export const fr = {
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
         ],
       },
@@ -646,7 +646,7 @@ export const fr = {
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
         ],
       },
@@ -657,12 +657,12 @@ export const fr = {
           {
             instruction: 'Vérifiez que l’appareil est bien en place dans l’oreille',
             detail:
-              'Retirez l’embout ou le dôme et remettez-le. Un placement lâche est la cause la plus fréquente du sifflement.',
+              'Vérifiez le placement de l’appareil dans l’oreille selon le mode d’utilisation qui vous a été montré. Ne séparez pas les pièces et ne forcez pas l’appareil. Si le problème persiste, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez si le filtre, le tube ou le dôme est bouché',
             detail:
-              'Le cérumen peut boucher le filtre, le tube ou le dôme. S’il y a de la saleté visible, nettoyez délicatement avec l’outil recommandé par le fabricant ou remplacez le filtre.',
+              'Sans démonter l’appareil ni ses pièces, vérifiez s’il y a de la saleté ou des dommages visibles de l’extérieur. N’introduisez pas d’outil de nettoyage dans les ouvertures. En cas de problème, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Vérifiez le volume',
@@ -692,12 +692,12 @@ export const fr = {
           {
             instruction: 'Essuyez les contacts de charge avec un chiffon sec',
             detail:
-              'S’il y a de la saleté ou de l’humidité sur les contacts de l’appareil et du logement, nettoyez-les délicatement avec un chiffon sec et doux.',
+              'Débranchez le chargeur. Essuyez délicatement les points de contact extérieurs de l’appareil et du logement avec un chiffon sec et doux, selon les instructions du fabricant. Ne les lavez pas et ne démontez pas les pièces.',
           },
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
         ],
       },
@@ -712,17 +712,17 @@ export const fr = {
           {
             instruction: 'Éteignez puis rallumez la connexion du téléphone',
             detail:
-              'Désactivez le Bluetooth du téléphone, attendez quelques secondes et réactivez-le. Si besoin, retirez l’appareil de la liste Bluetooth et associez-le à nouveau.',
+              'Désactivez le Bluetooth du téléphone, attendez quelques secondes, puis réactivez-le. Suivez les consignes d’association de votre téléphone et de votre appareil.',
           },
           {
             instruction: 'Redémarrez l’appareil',
             detail:
-              'Éteignez l’appareil, attendez 10 secondes et rallumez-le. Sur les appareils à pile, vous pouvez retirer la pile puis la remettre.',
+              'La méthode de redémarrage dépend du modèle. S’il existe une méthode applicable sans retirer de pièces, suivez le guide du fabricant ; en cas de doute, contactez le centre où vous avez obtenu l’appareil.',
           },
           {
             instruction: 'Associez à nouveau l’appareil',
             detail:
-              'Supprimez (oubliez) l’appareil dans la liste Bluetooth du téléphone et suivez à nouveau les étapes d’association de l’application du fabricant.',
+              'Reconnectez l’appareil et le téléphone selon les consignes d’association du fabricant ou du téléphone. Il n’est pas nécessaire de le retirer de la liste pour tous les modèles.',
           },
           {
             instruction: 'Redémarrez le téléphone',

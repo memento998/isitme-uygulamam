@@ -256,7 +256,7 @@ export const TIPS_EN: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'If needed, also ask for important information such as a date, address, or appointment in writing.',
     detail:
-      'Tools that convert writing or speech to text can support communication; check for errors in the automatic text.',
+      'Written communication or speech-to-text tools can support communication. Check automatically generated text for errors.',
   },
   fh_tip_061: {
     title: 'The benefit of regular care',

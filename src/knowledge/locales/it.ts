@@ -11,7 +11,7 @@ export const TIPS_IT: Record<KnowledgeTipId, KnowledgeTipCopy> = {
   fh_tip_002: {
     title: 'Conoscete il dispositivo con tubetto',
     message:
-      'Negli apparecchi retroauricolari con tubetto, il suono viene portato dal dispositivo alla punta o allo stampo attraverso un tubetto.',
+      'Negli apparecchi retroauricolari con tubetto, il suono passa attraverso il tubetto e raggiunge la cupola o l’auricolare su misura.',
     detail:
       'La cura di questo tubetto è diversa dalla cura di un collegamento RIC/RITE che contiene un cavo elettrico.',
   },
@@ -51,7 +51,7 @@ export const TIPS_IT: Record<KnowledgeTipId, KnowledgeTipCopy> = {
       'Evitate di tenere il dispositivo con le mani bagnate o sporche; fate la cura della superficie esterna in un luogo pulito.',
   },
   fh_tip_008: {
-    title: 'Riducete il rischio di caduta',
+    title: 'Evitate di far cadere l’apparecchio acustico',
     message:
       'Quando prendete in mano il dispositivo o pulite la superficie esterna, lavorate su una superficie morbida.',
     detail: 'La caduta su un pavimento duro può danneggiare le parti piccole.',
@@ -84,9 +84,9 @@ export const TIPS_IT: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     detail: 'Pulite i residui di prodotto dalle mani prima di rimettere il dispositivo.',
   },
   fh_tip_016: {
-    title: 'Il compito del filtro anticeume',
+    title: 'La funzione del filtro anticerume',
     message:
-      'Negli apparecchi che hanno un filtro anticeume, il filtro aiuta a proteggere l’altoparlante dal cerume.',
+      'Negli apparecchi dotati di filtro anticerume, il filtro aiuta a proteggere l’altoparlante dal cerume.',
     detail:
       'Questa informazione spiega il compito del filtro. Per rimuovere, pulire o sostituire il filtro, richiedete assistenza di servizio.',
   },
@@ -270,7 +270,7 @@ export const TIPS_IT: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'Se serve, chiedete anche per iscritto informazioni importanti come data, indirizzo o appuntamento.',
     detail:
-      'Gli strumenti che convertono scrittura o parlato in testo possono sostenere la comunicazione; controllate gli errori nel testo automatico.',
+      'La comunicazione scritta o gli strumenti che trasformano il parlato in testo possono facilitare la comunicazione. Controllate che i testi generati automaticamente non contengano errori.',
   },
   fh_tip_061: {
     title: 'Il beneficio della cura regolare',

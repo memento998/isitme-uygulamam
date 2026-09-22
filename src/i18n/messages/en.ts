@@ -141,7 +141,7 @@ export const en = {
     permissionUndetermined: 'Permission not requested yet',
     permissionUnsupported: 'Not supported on this platform',
     permissionExplanation:
-      'We need notification permission to remind you when checkup and maintenance dates arrive. Notifications are used only for the planned tasks of devices you added.',
+      'Notification permission is required for checkup and maintenance reminders and for daily tips you choose to enable. You can turn daily tip notifications on or off separately.',
     requestPermission: 'Allow notifications',
     permissionStatus: 'Status: {state}',
     maintenanceTime: 'Notification time',
@@ -149,7 +149,7 @@ export const en = {
       'Checkup and maintenance reminders are sent at the time you choose below on the planned day.',
     timeSaved: 'Notification time saved and reminders updated.',
     webUnsupported:
-      'Notifications are not supported in the web preview. You can use them on your Android or iOS device.',
+      'Notifications are not supported in the web preview. You can use them on your Android device.',
     dailyKnowledgeSection: 'Daily tip',
     dailyKnowledgeOffHelp: 'Daily tip notifications are off. You can turn them on below.',
     openSystemSettings: 'Open system settings',
@@ -190,10 +190,10 @@ export const en = {
   legal: {
     privacy: {
       title: 'Privacy Policy',
-      banner: 'In this version, your data is stored only on your own device.',
+      banner: 'In this version, records you enter are stored on your own device.',
       storageHeading: 'Where is your data stored?',
       storageBody:
-        'All information you enter in FixHear (devices, checkups, maintenance, and service records) is stored only in the local database on your phone. In this version, no data is sent to the internet or kept on any server.',
+        'Device, checkup, maintenance, and service records you enter in FixHear are stored only in the local database on your phone. FixHear does not send these records to its own server. Backup happens only when you start a share. Technical data that the ad provider may process is described separately in the ads section below.',
       accountHeading: 'Accounts and membership',
       accountBody: 'The app does not require a membership or sign-in. It does not collect personal identity information.',
       controlHeading: 'You control your data',
@@ -249,7 +249,7 @@ export const en = {
       paragraph1:
         'FixHear is a free app that helps people who use hearing aids track their devices, periodic checkups, maintenance, and common issues.',
       paragraph2:
-        'The app does not require an internet connection; all of your data is stored only on your device.',
+        'Records you enter are stored on your phone in this version. Showing ads may require an internet connection; technical data handled by the ad provider is summarized in the Privacy Policy.',
       paragraph3:
         'This app is not a medical tool or a certified medical device. Always consult your hearing specialist about checkup frequency and device settings.',
       paragraph4:
@@ -521,12 +521,12 @@ export const en = {
           {
             instruction: 'Check the battery or charge level',
             detail:
-              'On battery-powered devices, replace the battery with a new one. On rechargeable devices, place the device in the charger and confirm that the charging indicator is on.',
+              'Check the battery or charge status shown by your device according to the user guide. If the problem continues, contact the center where you got the device.',
           },
           {
             instruction: 'Check whether the filter, tube, or eartip is blocked',
             detail:
-              'Earwax can block the filter, tube, or eartip. If dirt is visible, clean it gently with the manufacturer’s recommended tool or replace the filter.',
+              'Without taking the device or its parts apart, check for dirt or damage you can see from the outside. Do not put a cleaning tool into any opening. If there is a problem, contact the center where you got the device.',
           },
           {
             instruction: 'Check the volume',
@@ -536,7 +536,7 @@ export const en = {
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
         ],
       },
@@ -551,22 +551,22 @@ export const en = {
           {
             instruction: 'Check whether the filter, tube, or eartip is blocked',
             detail:
-              'Earwax can block the filter, tube, or eartip. If dirt is visible, clean it gently with the manufacturer’s recommended tool or replace the filter.',
+              'Without taking the device or its parts apart, check for dirt or damage you can see from the outside. Do not put a cleaning tool into any opening. If there is a problem, contact the center where you got the device.',
           },
           {
             instruction: 'Check the battery or charge level',
             detail:
-              'On battery-powered devices, replace the battery with a new one. On rechargeable devices, place the device in the charger and confirm that the charging indicator is on.',
+              'Check the battery or charge status shown by your device according to the user guide. If the problem continues, contact the center where you got the device.',
           },
           {
             instruction: 'Check how the earmold sits',
             detail:
-              'Make sure the earmold or eartip sits fully in your ear. Poor placement can reduce sound.',
+              'Check how the device sits in your ear according to the way you were shown to use it. Do not take the parts apart and do not force the device into place. If the problem continues, contact the center where you got the device.',
           },
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
         ],
       },
@@ -577,27 +577,27 @@ export const en = {
           {
             instruction: 'Check the battery or charge level',
             detail:
-              'On battery-powered devices, replace the battery with a new one. On rechargeable devices, place the device in the charger and confirm that the charging indicator is on.',
+              'Check the battery or charge status shown by your device according to the user guide. If the problem continues, contact the center where you got the device.',
           },
           {
             instruction: 'Check whether the filter, tube, or eartip is blocked',
             detail:
-              'Earwax can block the filter, tube, or eartip. If dirt is visible, clean it gently with the manufacturer’s recommended tool or replace the filter.',
+              'Without taking the device or its parts apart, check for dirt or damage you can see from the outside. Do not put a cleaning tool into any opening. If there is a problem, contact the center where you got the device.',
           },
           {
             instruction: 'Check for moisture',
             detail:
-              'Leave the device overnight in a drying box or with a drying capsule. Moisture can cause sound dropouts.',
+              'If you notice moisture, follow the suitable drying method in your device’s user guide. If you are not sure the drying accessory is compatible with your device, ask the center where you got the device.',
           },
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
           {
             instruction: 'Turn the phone connection off and on again',
             detail:
-              'Turn Bluetooth off on your phone, wait a few seconds, and turn it on again. If needed, remove the device from the Bluetooth list and pair it again.',
+              'Turn off Bluetooth on your phone, wait a few seconds, and turn it back on. Follow the pairing instructions of your phone and your device.',
           },
         ],
       },
@@ -608,12 +608,12 @@ export const en = {
           {
             instruction: 'Check how the earmold sits',
             detail:
-              'Remove the mold and put it back in. A mold that does not sit fully can cause an echo sensation.',
+              'Check how the device sits in your ear according to the way you were shown to use it. Do not take the parts apart and do not force the device into place. If the problem continues, contact the center where you got the device.',
           },
           {
             instruction: 'Check whether the filter, tube, or eartip is blocked',
             detail:
-              'Earwax can block the filter, tube, or eartip. If dirt is visible, clean it gently with the manufacturer’s recommended tool or replace the filter.',
+              'Without taking the device or its parts apart, check for dirt or damage you can see from the outside. Do not put a cleaning tool into any opening. If there is a problem, contact the center where you got the device.',
           },
           {
             instruction: 'Review the sound settings',
@@ -623,7 +623,7 @@ export const en = {
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
         ],
       },
@@ -643,7 +643,7 @@ export const en = {
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
         ],
       },
@@ -654,12 +654,12 @@ export const en = {
           {
             instruction: 'Check that the device sits fully in your ear',
             detail:
-              'Remove the mold or eartip and put it back in. Loose placement is the most common cause of whistling.',
+              'Check how the device sits in your ear according to the way you were shown to use it. Do not take the parts apart and do not force the device into place. If the problem continues, contact the center where you got the device.',
           },
           {
             instruction: 'Check whether the filter, tube, or eartip is blocked',
             detail:
-              'Earwax can block the filter, tube, or eartip. If dirt is visible, clean it gently with the manufacturer’s recommended tool or replace the filter.',
+              'Without taking the device or its parts apart, check for dirt or damage you can see from the outside. Do not put a cleaning tool into any opening. If there is a problem, contact the center where you got the device.',
           },
           {
             instruction: 'Check the volume',
@@ -689,12 +689,12 @@ export const en = {
           {
             instruction: 'Wipe the charging contacts with a dry cloth',
             detail:
-              'If there is dirt or moisture on the contacts of the device and the slot, clean them gently with a dry, soft cloth.',
+              'Disconnect the charger from power. Gently wipe the outer contact points of the device and the cradle with a dry, soft cloth according to the manufacturer’s instructions. Do not wash them or take parts apart.',
           },
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
         ],
       },
@@ -709,17 +709,17 @@ export const en = {
           {
             instruction: 'Turn the phone connection off and on again',
             detail:
-              'Turn Bluetooth off on your phone, wait a few seconds, and turn it on again. If needed, remove the device from the Bluetooth list and pair it again.',
+              'Turn off Bluetooth on your phone, wait a few seconds, and turn it back on. Follow the pairing instructions of your phone and your device.',
           },
           {
             instruction: 'Restart the device',
             detail:
-              'Turn the device off, wait 10 seconds, and turn it on again. On battery-powered devices you can remove the battery and put it back in.',
+              'The restart method depends on the model. If there is a method you can use without removing parts, follow the manufacturer’s user guide; if you are not sure, contact the center where you got the device.',
           },
           {
             instruction: 'Pair the device again',
             detail:
-              'Remove (forget) the device from the phone’s Bluetooth list and follow the pairing steps in the manufacturer’s app again.',
+              'Reconnect your device and phone using the pairing instructions from the manufacturer or the phone. Removing it from the list is not required for every model.',
           },
           {
             instruction: 'Restart the phone',

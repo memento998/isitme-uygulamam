@@ -142,7 +142,7 @@ export const de = {
     permissionUndetermined: 'Berechtigung noch nicht angefragt',
     permissionUnsupported: 'Auf dieser Plattform nicht unterstützt',
     permissionExplanation:
-      'Wir benötigen die Benachrichtigungsberechtigung, um Sie an Kontroll- und Pflegetermine zu erinnern. Benachrichtigungen werden nur für geplante Aufgaben der von Ihnen hinzugefügten Geräte verwendet.',
+      'Für Kontroll- und Pflegeerinnerungen sowie für freiwillig aktivierte tägliche Tipps ist eine Benachrichtigungsberechtigung erforderlich. Sie können Benachrichtigungen mit täglichen Tipps separat ein- und ausschalten.',
     requestPermission: 'Benachrichtigungen erlauben',
     permissionStatus: 'Status: {state}',
     maintenanceTime: 'Benachrichtigungszeit',
@@ -150,7 +150,7 @@ export const de = {
       'Kontroll- und Pflegeerinnerungen werden am geplanten Tag zur unten gewählten Uhrzeit gesendet.',
     timeSaved: 'Benachrichtigungszeit gespeichert und Erinnerungen aktualisiert.',
     webUnsupported:
-      'In der Web-Vorschau werden Benachrichtigungen nicht unterstützt. Nutzen Sie sie auf einem Android- oder iOS-Gerät.',
+      'In der Web-Vorschau werden Benachrichtigungen nicht unterstützt. Nutzen Sie sie auf einem Android-Gerät.',
     dailyKnowledgeSection: 'Tipp des Tages',
     dailyKnowledgeOffHelp: 'Tägliche Tipp-Benachrichtigungen sind aus. Sie können sie unten einschalten.',
     openSystemSettings: 'Systemeinstellungen öffnen',
@@ -191,10 +191,10 @@ export const de = {
   legal: {
     privacy: {
       title: 'Datenschutzrichtlinie',
-      banner: 'In dieser Version werden Ihre Daten nur auf Ihrem eigenen Gerät gespeichert.',
+      banner: 'In dieser Version werden Ihre eingegebenen Einträge nur auf Ihrem eigenen Gerät gespeichert.',
       storageHeading: 'Wo werden Ihre Daten gespeichert?',
       storageBody:
-        'Alle Angaben, die Sie in FixHear eingeben (Geräte, Kontrollen, Pflege- und Servicereinträge), werden nur in der lokalen Datenbank auf Ihrem Telefon gespeichert. In dieser Version werden keine Daten ins Internet gesendet und auf keinem Server gespeichert.',
+        'Geräte-, Kontroll-, Pflege- und Servicereinträge, die Sie in FixHear eingeben, werden nur in der lokalen Datenbank auf Ihrem Telefon gespeichert. FixHear sendet diese Einträge nicht an einen eigenen Server. Eine Sicherung erfolgt nur, wenn Sie selbst eine Freigabe starten. Technische Daten, die der Werbeanbieter verarbeiten kann, werden im Abschnitt Werbung weiter unten getrennt beschrieben.',
       accountHeading: 'Konto und Mitgliedschaft',
       accountBody:
         'Die App erfordert keine Mitgliedschaft und keine Anmeldung. Sie erhebt keine personenbezogenen Identitätsdaten.',
@@ -251,7 +251,7 @@ export const de = {
       paragraph1:
         'FixHear ist eine kostenlose App, mit der Menschen mit Hörgerät ihre Geräte, regelmäßige Kontrollen, Pflege und häufige Probleme verfolgen können.',
       paragraph2:
-        'Die App benötigt keine Internetverbindung; alle Ihre Daten bleiben nur auf Ihrem Gerät.',
+        'Ihre eingegebenen Einträge bleiben in dieser Version auf Ihrem Telefon. Für Werbung kann eine Internetverbindung nötig sein; technische Daten des Werbeanbieters sind in der Datenschutzrichtlinie zusammengefasst.',
       paragraph3:
         'Diese App ist kein medizinisches Hilfsmittel und kein zertifiziertes Medizinprodukt. Zu Kontrollhäufigkeit und Geräteeinstellungen wenden Sie sich stets an Ihre Hörakustikerin oder Ihren Hörakustiker.',
       paragraph4:
@@ -524,12 +524,12 @@ export const de = {
           {
             instruction: 'Batterie oder Ladezustand prüfen',
             detail:
-              'Bei batteriebetriebenen Geräten die Batterie durch eine neue ersetzen. Bei Akkugeräten das Gerät in die Ladestation setzen und prüfen, ob die Ladeanzeige leuchtet.',
+              'Prüfen Sie den vom Gerät angezeigten Batterie- oder Ladezustand anhand der Bedienungsanleitung. Besteht das Problem weiter, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Prüfen, ob Filter, Schlauch oder Schirmchen verstopft sind',
             detail:
-              'Ohrenschmalz kann Filter, Schlauch oder Schirmchen verstopfen. Bei sichtbarem Schmutz mit dem vom Hersteller empfohlenen Reinigungswerkzeug vorsichtig reinigen oder den Filter wechseln.',
+              'Prüfen Sie ohne Demontage des Geräts oder seiner Teile, ob außen sichtbarer Schmutz oder Schaden vorliegt. Stecken Sie kein Reinigungswerkzeug in Öffnungen. Bei Problemen wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Lautstärke prüfen',
@@ -539,7 +539,7 @@ export const de = {
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
         ],
       },
@@ -554,22 +554,22 @@ export const de = {
           {
             instruction: 'Prüfen, ob Filter, Schlauch oder Schirmchen verstopft sind',
             detail:
-              'Ohrenschmalz kann Filter, Schlauch oder Schirmchen verstopfen. Bei sichtbarem Schmutz mit dem vom Hersteller empfohlenen Reinigungswerkzeug vorsichtig reinigen oder den Filter wechseln.',
+              'Prüfen Sie ohne Demontage des Geräts oder seiner Teile, ob außen sichtbarer Schmutz oder Schaden vorliegt. Stecken Sie kein Reinigungswerkzeug in Öffnungen. Bei Problemen wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Batterie oder Ladezustand prüfen',
             detail:
-              'Bei batteriebetriebenen Geräten die Batterie durch eine neue ersetzen. Bei Akkugeräten das Gerät in die Ladestation setzen und prüfen, ob die Ladeanzeige leuchtet.',
+              'Prüfen Sie den vom Gerät angezeigten Batterie- oder Ladezustand anhand der Bedienungsanleitung. Besteht das Problem weiter, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Sitz der Otoplastik prüfen',
             detail:
-              'Stellen Sie sicher, dass Otoplastik oder Schirmchen vollständig im Ohr sitzen. Falscher Sitz kann den Ton verringern.',
+              'Prüfen Sie den Sitz des Geräts im Ohr so, wie Ihnen die Handhabung gezeigt wurde. Trennen Sie die Teile nicht voneinander und zwängen Sie das Gerät nicht hinein. Besteht das Problem weiter, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
         ],
       },
@@ -580,27 +580,27 @@ export const de = {
           {
             instruction: 'Batterie oder Ladezustand prüfen',
             detail:
-              'Bei batteriebetriebenen Geräten die Batterie durch eine neue ersetzen. Bei Akkugeräten das Gerät in die Ladestation setzen und prüfen, ob die Ladeanzeige leuchtet.',
+              'Prüfen Sie den vom Gerät angezeigten Batterie- oder Ladezustand anhand der Bedienungsanleitung. Besteht das Problem weiter, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Prüfen, ob Filter, Schlauch oder Schirmchen verstopft sind',
             detail:
-              'Ohrenschmalz kann Filter, Schlauch oder Schirmchen verstopfen. Bei sichtbarem Schmutz mit dem vom Hersteller empfohlenen Reinigungswerkzeug vorsichtig reinigen oder den Filter wechseln.',
+              'Prüfen Sie ohne Demontage des Geräts oder seiner Teile, ob außen sichtbarer Schmutz oder Schaden vorliegt. Stecken Sie kein Reinigungswerkzeug in Öffnungen. Bei Problemen wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Auf Feuchtigkeit prüfen',
             detail:
-              'Lassen Sie das Gerät über Nacht in einer Trockenbox oder mit einer Trockenkapsel. Feuchtigkeit kann Tonaussetzer verursachen.',
+              'Wenn Sie Feuchtigkeit bemerken, folgen Sie der geeigneten Trockenmethode in der Bedienungsanleitung. Sind Sie unsicher, ob das Trockenzubehör zu Ihrem Gerät passt, fragen Sie bei der Stelle nach, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Telefonverbindung aus- und wieder einschalten',
             detail:
-              'Schalten Sie Bluetooth am Telefon aus, warten Sie einige Sekunden und schalten Sie es wieder ein. Entfernen Sie das Gerät bei Bedarf aus der Bluetooth-Liste und koppeln Sie es erneut.',
+              'Schalten Sie Bluetooth am Telefon aus, warten Sie einige Sekunden und schalten Sie es wieder ein. Folgen Sie den Kopplungsanweisungen Ihres Telefons und Ihres Geräts.',
           },
         ],
       },
@@ -611,12 +611,12 @@ export const de = {
           {
             instruction: 'Sitz der Otoplastik prüfen',
             detail:
-              'Nehmen Sie die Otoplastik heraus und setzen Sie sie wieder ein. Ein unvollständiger Sitz kann ein Echogefühl verursachen.',
+              'Prüfen Sie den Sitz des Geräts im Ohr so, wie Ihnen die Handhabung gezeigt wurde. Trennen Sie die Teile nicht voneinander und zwängen Sie das Gerät nicht hinein. Besteht das Problem weiter, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Prüfen, ob Filter, Schlauch oder Schirmchen verstopft sind',
             detail:
-              'Ohrenschmalz kann Filter, Schlauch oder Schirmchen verstopfen. Bei sichtbarem Schmutz mit dem vom Hersteller empfohlenen Reinigungswerkzeug vorsichtig reinigen oder den Filter wechseln.',
+              'Prüfen Sie ohne Demontage des Geräts oder seiner Teile, ob außen sichtbarer Schmutz oder Schaden vorliegt. Stecken Sie kein Reinigungswerkzeug in Öffnungen. Bei Problemen wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Toneinstellungen prüfen',
@@ -626,7 +626,7 @@ export const de = {
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
         ],
       },
@@ -646,7 +646,7 @@ export const de = {
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
         ],
       },
@@ -657,12 +657,12 @@ export const de = {
           {
             instruction: 'Prüfen, ob das Gerät vollständig im Ohr sitzt',
             detail:
-              'Nehmen Sie Otoplastik oder Schirmchen heraus und setzen Sie sie wieder ein. Lockere Platzierung ist die häufigste Ursache für Pfeifen.',
+              'Prüfen Sie den Sitz des Geräts im Ohr so, wie Ihnen die Handhabung gezeigt wurde. Trennen Sie die Teile nicht voneinander und zwängen Sie das Gerät nicht hinein. Besteht das Problem weiter, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Prüfen, ob Filter, Schlauch oder Schirmchen verstopft sind',
             detail:
-              'Ohrenschmalz kann Filter, Schlauch oder Schirmchen verstopfen. Bei sichtbarem Schmutz mit dem vom Hersteller empfohlenen Reinigungswerkzeug vorsichtig reinigen oder den Filter wechseln.',
+              'Prüfen Sie ohne Demontage des Geräts oder seiner Teile, ob außen sichtbarer Schmutz oder Schaden vorliegt. Stecken Sie kein Reinigungswerkzeug in Öffnungen. Bei Problemen wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Lautstärke prüfen',
@@ -692,12 +692,12 @@ export const de = {
           {
             instruction: 'Ladekontakte mit einem trockenen Tuch abwischen',
             detail:
-              'Wenn Schmutz oder Feuchtigkeit an den Kontakten von Gerät und Schale ist, reinigen Sie sie vorsichtig mit einem trockenen, weichen Tuch.',
+              'Trennen Sie die Ladestation vom Strom. Wischen Sie die äußeren Kontaktstellen von Gerät und Schale gemäß der Herstelleranleitung vorsichtig mit einem trockenen, weichen Tuch ab. Nicht waschen und keine Teile zerlegen.',
           },
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
         ],
       },
@@ -712,17 +712,17 @@ export const de = {
           {
             instruction: 'Telefonverbindung aus- und wieder einschalten',
             detail:
-              'Schalten Sie Bluetooth am Telefon aus, warten Sie einige Sekunden und schalten Sie es wieder ein. Entfernen Sie das Gerät bei Bedarf aus der Bluetooth-Liste und koppeln Sie es erneut.',
+              'Schalten Sie Bluetooth am Telefon aus, warten Sie einige Sekunden und schalten Sie es wieder ein. Folgen Sie den Kopplungsanweisungen Ihres Telefons und Ihres Geräts.',
           },
           {
             instruction: 'Gerät neu starten',
             detail:
-              'Gerät ausschalten, 10 Sekunden warten und wieder einschalten. Bei batteriebetriebenen Geräten können Sie die Batterie entnehmen und wieder einsetzen.',
+              'Die Methode zum Neustart hängt vom Modell ab. Gibt es ein Verfahren ohne Entnahme von Teilen, folgen Sie der Bedienungsanleitung des Herstellers; sind Sie unsicher, wenden Sie sich an die Stelle, bei der Sie das Gerät erhalten haben.',
           },
           {
             instruction: 'Gerät erneut koppeln',
             detail:
-              'Entfernen (vergessen) Sie das Gerät in der Bluetooth-Liste des Telefons und führen Sie die Kopplungsschritte in der App des Herstellers erneut aus.',
+              'Verbinden Sie Gerät und Telefon erneut nach der Kopplungsanleitung des Herstellers oder des Telefons. Das Entfernen aus der Liste ist nicht bei jedem Modell nötig.',
           },
           {
             instruction: 'Telefon neu starten',

@@ -35,29 +35,29 @@ const CHECK_POWER: TroubleshootingStep = {
 const CHECK_BATTERY: TroubleshootingStep = {
   instruction: 'Pili veya şarj seviyesini kontrol edin',
   detail:
-    'Pilli cihazlarda pili yenisiyle değiştirin. Şarjlı cihazlarda cihazı şarj ünitesine ' +
-    'yerleştirip şarj göstergesinin yandığını doğrulayın.',
+    'Cihazınızın gösterdiği pil veya şarj durumunu kullanım kılavuzuna göre kontrol edin. ' +
+    'Sorun sürerse cihazı aldığınız merkezden destek alın.',
 };
 
 const CHECK_FILTER: TroubleshootingStep = {
   instruction: 'Filtre, hortum veya kubbenin tıkalı olup olmadığını kontrol edin',
   detail:
-    'Kulak kiri filtreyi, hortumu veya kubbeyi tıkayabilir. Görünür kir varsa üreticinin ' +
-    'önerdiği temizlik aracıyla nazikçe temizleyin veya filtreyi değiştirin.',
+    'Cihazı ve parçalarını ayırmadan, dışarıdan görülebilen kir veya hasar olup olmadığını kontrol edin. ' +
+    'Açıklıklara temizlik aracı sokmayın. Sorun varsa cihazı aldığınız merkezden destek alın.',
 };
 
 const RESTART_DEVICE: TroubleshootingStep = {
   instruction: 'Cihazı yeniden başlatın',
   detail:
-    'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp ' +
-    'yeniden takabilirsiniz.',
+    'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa ' +
+    'üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
 };
 
 const RESTART_BLUETOOTH: TroubleshootingStep = {
   instruction: 'Telefon bağlantısını kapatıp yeniden açın',
   detail:
     'Telefonunuzun Bluetooth ayarını kapatın, birkaç saniye bekleyin ve yeniden açın. ' +
-    'Gerekirse cihazı Bluetooth listesinden kaldırıp yeniden eşleştirin.',
+    'Eşleştirme için telefonunuzun ve cihazınızın kendi yönergelerini izleyin.',
 };
 
 export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
@@ -93,7 +93,7 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
       {
         instruction: 'Kulak kalıbının yerleşimini kontrol edin',
         detail:
-          'Kulak kalıbının veya kubbenin kulağınıza tam oturduğundan emin olun. Yanlış yerleşim sesi azaltabilir.',
+          'Cihazın kulağınıza yerleşimini, size gösterilen kullanım biçimine göre kontrol edin. Parçaları birbirinden ayırmayın ve cihazı zorlayarak yerleştirmeyin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
       },
       RESTART_DEVICE,
     ],
@@ -109,7 +109,7 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
       {
         instruction: 'Nem kontrolü yapın',
         detail:
-          'Cihazı gece boyunca kurutma kabında veya kurutma kapsülüyle bekletin. Nem, ses kesintilerine yol açabilir.',
+          'Nem fark ederseniz cihazınızın kullanım kılavuzundaki uygun kurutma yöntemini izleyin. Kurutma aksesuarının cihazınızla uyumlu olduğundan emin değilseniz cihazı aldığınız merkeze danışın.',
       },
       RESTART_DEVICE,
       RESTART_BLUETOOTH,
@@ -124,7 +124,7 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
       {
         instruction: 'Kulak kalıbının yerleşimini kontrol edin',
         detail:
-          'Kalıbı çıkarıp yeniden takın. Tam oturmayan kalıp yankı hissine neden olabilir.',
+          'Cihazın kulağınıza yerleşimini, size gösterilen kullanım biçimine göre kontrol edin. Parçaları birbirinden ayırmayın ve cihazı zorlayarak yerleştirmeyin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
       },
       CHECK_FILTER,
       {
@@ -162,7 +162,7 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
       {
         instruction: 'Cihazın kulağınıza tam oturduğunu kontrol edin',
         detail:
-          'Kalıbı veya kubbeyi çıkarıp yeniden yerleştirin. Gevşek yerleşim ötmenin en sık nedenidir.',
+          'Cihazın kulağınıza yerleşimini, size gösterilen kullanım biçimine göre kontrol edin. Parçaları birbirinden ayırmayın ve cihazı zorlayarak yerleştirmeyin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
       },
       CHECK_FILTER,
       {
@@ -195,7 +195,7 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
       {
         instruction: 'Şarj temas noktalarını kuru bir bezle silin',
         detail:
-          'Cihazın ve yuvanın temas noktalarında kir veya nem varsa kuru, yumuşak bir bezle nazikçe temizleyin.',
+          'Şarj ünitesinin güç bağlantısını ayırın. Cihazın ve yuvanın dış yüzeyindeki temas noktalarını üreticinin talimatına göre kuru, yumuşak bir bezle nazikçe silin. Yıkamayın ve parçaları sökmeyin.',
       },
       RESTART_DEVICE,
     ],
@@ -215,7 +215,7 @@ export const TROUBLESHOOTING_CATEGORIES: TroubleshootingCategory[] = [
       {
         instruction: 'Cihazı yeniden eşleştirin',
         detail:
-          'Telefonun Bluetooth listesinden cihazı kaldırın (unut) ve üreticinin uygulamasındaki eşleştirme adımlarını yeniden uygulayın.',
+          'Cihazınızı ve telefonunuzu üreticinin veya telefonun kendi eşleştirme yönergesine göre yeniden bağlayın. Her modelde listeden silmek gerekmez.',
       },
       {
         instruction: 'Telefonu yeniden başlatın',
