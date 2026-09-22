@@ -91,7 +91,7 @@ export const de = {
       'Möchten Sie jeden Tag einen kurzen Pflege- oder Nutzungstipp erhalten? Benachrichtigungen werden nur auf Ihrem Gerät geplant.',
     enableDailyNotifications: 'Tägliche Tipps aktivieren',
     dailyNotifications: 'Tägliche Tipps',
-    dailyNotificationTime: 'Uhrzeit für den Tipp des Tages'
+    dailyNotificationTime: 'Uhrzeit für den Tipp des Tages',
     dailyNotificationHelp:
       'Zur gewählten Uhrzeit wird ein kurzer Pflege- oder Nutzungstipp gesendet. Das ist keine medizinische Beratung.',
     permissionDeniedOpenSettings:
@@ -151,7 +151,7 @@ export const de = {
     timeSaved: 'Benachrichtigungszeit gespeichert und Erinnerungen aktualisiert.',
     webUnsupported:
       'In der Web-Vorschau werden Benachrichtigungen nicht unterstützt. Nutzen Sie sie auf einem Android- oder iOS-Gerät.',
-    dailyKnowledgeSection: 'Tipp des Tages'
+    dailyKnowledgeSection: 'Tipp des Tages',
     dailyKnowledgeOffHelp: 'Tägliche Tipp-Benachrichtigungen sind aus. Sie können sie unten einschalten.',
     openSystemSettings: 'Systemeinstellungen öffnen',
     remindersChannelName: 'Erinnerungen',
