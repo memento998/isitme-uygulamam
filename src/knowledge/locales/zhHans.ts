@@ -37,7 +37,7 @@ export const TIPS_ZH_HANS: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     detail: '避免用潮湿或脏的手拿设备；在干净的地方做外表面保养。',
   },
   fh_tip_008: {
-    title: '降低跌落风险',
+    title: '降低助听器掉落的风险',
     message: '拿起设备或清洁外表面时，请在柔软表面上操作。',
     detail: '掉到硬地面上可能损坏细小部件。',
   },
@@ -201,7 +201,7 @@ export const TIPS_ZH_HANS: Record<KnowledgeTipId, KnowledgeTipCopy> = {
   fh_tip_056: {
     title: '用书面确认重要信息',
     message: '日期、地址或预约等重要信息，必要时也请用书面形式提供。',
-    detail: '把文字或语音转成文本的工具可以支持交流；请检查自动文本中的错误。',
+    detail: '书面交流或语音转文字工具可以帮助沟通。请检查自动生成的文字是否有误。',
   },
   fh_tip_061: {
     title: '定期保养的益处',

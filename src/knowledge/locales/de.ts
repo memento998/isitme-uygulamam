@@ -11,7 +11,7 @@ export const TIPS_DE: Record<KnowledgeTipId, KnowledgeTipCopy> = {
   fh_tip_002: {
     title: 'Das Schlauchgerät kennenlernen',
     message:
-      'Bei Hinter-dem-Ohr-Geräten mit Schlauch wird der Schall vom Gerät zur Ohrspitze oder zur Otoplastik durch einen Schlauch geleitet.',
+      'Bei Hinter-dem-Ohr-Geräten mit Schlauch wird der Schall durch den Schlauch zum Schirmchen oder zur Otoplastik geleitet.',
     detail:
       'Die Pflege dieses Schlauchs unterscheidet sich von der Pflege einer RIC/RITE-Verbindung, die ein Elektrokabel enthält.',
   },
@@ -41,7 +41,7 @@ export const TIPS_DE: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'Lernen Sie das Einsetzen und Herausnehmen des Geräts praktisch in dem Zentrum, das das Gerät bereitgestellt hat.',
     detail:
-      'Bitten Sie darum, jeden Schritt, den Sie nicht verstanden haben, noch einmal zu zeigen. Die Handhabung kann je nach Modell und Ohrspitze unterschiedlich sein.',
+      'Bitten Sie darum, jeden Schritt, den Sie nicht verstanden haben, noch einmal zu zeigen. Die Handhabung kann je nach Modell und verwendetem Ohrpassstück unterschiedlich sein.',
   },
   fh_tip_007: {
     title: 'Saubere und trockene Hände',
@@ -51,7 +51,7 @@ export const TIPS_DE: Record<KnowledgeTipId, KnowledgeTipCopy> = {
       'Vermeiden Sie es, das Gerät mit nassen oder schmutzigen Händen zu halten; pflegen Sie die Außenfläche an einem sauberen Ort.',
   },
   fh_tip_008: {
-    title: 'Das Fallrisiko verringern',
+    title: 'Das Hörgerät vor dem Herunterfallen schützen',
     message:
       'Wenn Sie das Gerät in die Hand nehmen oder die Außenfläche reinigen, arbeiten Sie über einer weichen Fläche.',
     detail: 'Ein Sturz auf harten Boden kann kleine Teile beschädigen.',
@@ -84,9 +84,9 @@ export const TIPS_DE: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     detail: 'Entfernen Sie Produktrückstände von den Händen, bevor Sie das Gerät wieder einsetzen.',
   },
   fh_tip_016: {
-    title: 'Die Aufgabe des Schmutzfilters',
+    title: 'Die Aufgabe des Cerumenfilters',
     message:
-      'Bei Geräten mit Schmutzfilter hilft der Filter, den Lautsprecher vor Ohrenschmalz zu schützen.',
+      'Bei Geräten mit Cerumenfilter hilft der Filter, den Lautsprecher vor Ohrenschmalz zu schützen.',
     detail:
       'Diese Information erklärt die Aufgabe des Filters. Zum Entfernen, Reinigen oder Wechseln des Filters holen Sie sich Serviceunterstützung.',
   },
@@ -219,7 +219,7 @@ export const TIPS_DE: Record<KnowledgeTipId, KnowledgeTipCopy> = {
   fh_tip_046: {
     title: 'Warum pfeift das Gerät?',
     message:
-      'Ein Pfeifton am Gerät kann mit dem Sitz oder der Ohrspitze zusammenhängen; er ist für sich genommen kein Beweis für einen Defekt.',
+      'Ein Pfeifton am Gerät kann mit dem Sitz oder dem Ohrpassstück zusammenhängen; er ist für sich genommen kein Beweis für einen Defekt.',
     detail:
       'Prüfen Sie, ob das Gerät richtig in Ihrem Ohr sitzt. Hält das Pfeifen an, holen Sie Unterstützung im Zentrum, das das Gerät bereitgestellt hat; zerlegen Sie keine Teile.',
   },
@@ -268,7 +268,7 @@ export const TIPS_DE: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'Bitten Sie bei Bedarf auch schriftlich um wichtige Informationen wie Datum, Adresse oder Termin.',
     detail:
-      'Werkzeuge, die Schrift oder Sprache in Text umwandeln, können die Kommunikation unterstützen; prüfen Sie Fehler im automatischen Text.',
+      'Schriftliche Kommunikation oder die Umwandlung von Sprache in Text können die Verständigung unterstützen. Prüfen Sie automatisch erstellte Texte auf Fehler.',
   },
   fh_tip_061: {
     title: 'Der Nutzen regelmäßiger Pflege',

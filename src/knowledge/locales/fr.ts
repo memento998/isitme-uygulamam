@@ -11,7 +11,7 @@ export const TIPS_FR: Record<KnowledgeTipId, KnowledgeTipCopy> = {
   fh_tip_002: {
     title: 'Apprenez à connaître l’appareil à tube',
     message:
-      'Sur les contours d’oreille à tube, le son est transporté de l’appareil vers l’embout ou le moule par un tube.',
+      'Sur les appareils placés derrière l’oreille et munis d’un tube, le son passe par ce tube pour atteindre le dôme ou l’embout auriculaire sur mesure.',
     detail:
       'L’entretien de ce tube est différent de celui d’une liaison RIC/RITE qui contient un câble électrique.',
   },
@@ -51,7 +51,7 @@ export const TIPS_FR: Record<KnowledgeTipId, KnowledgeTipCopy> = {
       'Évitez de tenir l’appareil avec des mains mouillées ou sales ; faites l’entretien de la surface externe dans un endroit propre.',
   },
   fh_tip_008: {
-    title: 'Réduire le risque de chute',
+    title: 'Évitez de faire tomber votre aide auditive',
     message:
       'Lorsque vous prenez l’appareil en main ou nettoyez sa surface externe, travaillez sur une surface souple.',
     detail: 'Une chute sur un sol dur peut endommager ses petites pièces.',
@@ -270,7 +270,7 @@ export const TIPS_FR: Record<KnowledgeTipId, KnowledgeTipCopy> = {
     message:
       'Si besoin, demandez aussi par écrit des informations importantes telles qu’une date, une adresse ou un rendez-vous.',
     detail:
-      'Les outils qui transforment l’écrit ou la parole en texte peuvent soutenir la communication ; vérifiez les erreurs dans le texte automatique.',
+      'La communication écrite ou les outils qui transcrivent la parole en texte peuvent faciliter les échanges. Vérifiez que les textes générés automatiquement ne contiennent pas d’erreurs.',
   },
   fh_tip_061: {
     title: 'L’intérêt d’un entretien régulier',

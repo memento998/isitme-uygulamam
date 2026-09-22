@@ -142,7 +142,7 @@ export const es = {
     permissionUndetermined: 'Aún no se ha solicitado el permiso',
     permissionUnsupported: 'No compatible en esta plataforma',
     permissionExplanation:
-      'Necesitamos permiso de notificaciones para recordarle las fechas de revisión y mantenimiento. Las notificaciones se usan solo para las tareas planificadas de los dispositivos que usted añadió.',
+      'Se necesita permiso de notificaciones para los recordatorios de revisión y mantenimiento y para los consejos diarios que decida activar. Puede activar o desactivar las notificaciones de consejos diarios por separado.',
     requestPermission: 'Permitir notificaciones',
     permissionStatus: 'Estado: {state}',
     maintenanceTime: 'Hora de notificación',
@@ -150,7 +150,7 @@ export const es = {
       'Los recordatorios de revisión y mantenimiento se envían el día previsto a la hora que elija abajo.',
     timeSaved: 'Hora de notificación guardada y recordatorios actualizados.',
     webUnsupported:
-      'Las notificaciones no son compatibles en la vista previa web. Puede usarlas en un dispositivo Android o iOS.',
+      'Las notificaciones no son compatibles en la vista previa web. Puede usarlas en un dispositivo Android.',
     dailyKnowledgeSection: 'Consejo diario',
     dailyKnowledgeOffHelp: 'Los consejos diarios están desactivados. Puede activarlos abajo.',
     openSystemSettings: 'Abrir ajustes del sistema',
@@ -191,10 +191,10 @@ export const es = {
   legal: {
     privacy: {
       title: 'Política de privacidad',
-      banner: 'En esta versión, sus datos se guardan solo en su propio dispositivo.',
+      banner: 'En esta versión, los registros que introduce se guardan en su propio dispositivo.',
       storageHeading: '¿Dónde se guardan sus datos?',
       storageBody:
-        'Toda la información que introduce en FixHear (dispositivos, revisiones, mantenimiento y servicio) se guarda solo en la base de datos local de su teléfono. En esta versión no se envía ningún dato a internet ni se conserva en ningún servidor.',
+        'Los registros de dispositivos, revisiones, mantenimiento y servicio que introduce en FixHear se guardan solo en la base de datos local de su teléfono. FixHear no envía esos registros a un servidor propio. La copia de seguridad se hace solo cuando usted inicia un envío. Los datos técnicos que el proveedor de anuncios puede tratar se describen por separado en la sección de anuncios más abajo.',
       accountHeading: 'Cuenta y afiliación',
       accountBody:
         'La aplicación no requiere cuenta ni inicio de sesión. No recopila datos de identidad personal.',
@@ -251,7 +251,7 @@ export const es = {
       paragraph1:
         'FixHear es una aplicación gratuita que ayuda a las personas que usan audífono a seguir sus dispositivos, revisiones periódicas, mantenimiento y problemas habituales.',
       paragraph2:
-        'La aplicación no necesita conexión a internet; todos sus datos se guardan solo en su dispositivo.',
+        'Los registros que introduce se guardan en su teléfono en esta versión. Mostrar anuncios puede requerir conexión a internet; los datos técnicos del proveedor de anuncios se resumen en la Política de privacidad.',
       paragraph3:
         'Esta aplicación no es una herramienta médica ni un producto sanitario certificado. Consulte siempre a su especialista en audición sobre la frecuencia de revisión y los ajustes del dispositivo.',
       paragraph4:
@@ -524,12 +524,12 @@ export const es = {
           {
             instruction: 'Compruebe la pila o el nivel de carga',
             detail:
-              'En dispositivos de pila, cámbiela por una nueva. En recargables, coloque el dispositivo en el cargador y compruebe que el indicador de carga está encendido.',
+              'Compruebe el estado de la pila o de la carga que muestra el dispositivo según el manual de uso. Si el problema continúa, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe si el filtro, el tubo o la oliva están obstruidos',
             detail:
-              'La cera puede obstruir el filtro, el tubo o la oliva. Si hay suciedad visible, limpie con suavidad con la herramienta recomendada por el fabricante o cambie el filtro.',
+              'Sin separar el dispositivo ni sus piezas, compruebe si hay suciedad o daños visibles desde fuera. No introduzca una herramienta de limpieza en las aberturas. Si hay un problema, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe el volumen',
@@ -539,7 +539,7 @@ export const es = {
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
         ],
       },
@@ -554,22 +554,22 @@ export const es = {
           {
             instruction: 'Compruebe si el filtro, el tubo o la oliva están obstruidos',
             detail:
-              'La cera puede obstruir el filtro, el tubo o la oliva. Si hay suciedad visible, limpie con suavidad con la herramienta recomendada por el fabricante o cambie el filtro.',
+              'Sin separar el dispositivo ni sus piezas, compruebe si hay suciedad o daños visibles desde fuera. No introduzca una herramienta de limpieza en las aberturas. Si hay un problema, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe la pila o el nivel de carga',
             detail:
-              'En dispositivos de pila, cámbiela por una nueva. En recargables, coloque el dispositivo en el cargador y compruebe que el indicador de carga está encendido.',
+              'Compruebe el estado de la pila o de la carga que muestra el dispositivo según el manual de uso. Si el problema continúa, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe el ajuste del molde',
             detail:
-              'Asegúrese de que el molde o la oliva encajan por completo en el oído. Un mal ajuste puede reducir el sonido.',
+              'Compruebe la colocación del dispositivo en el oído según la forma de uso que le mostraron. No separe las piezas ni fuerce el dispositivo al colocarlo. Si el problema continúa, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
         ],
       },
@@ -580,27 +580,27 @@ export const es = {
           {
             instruction: 'Compruebe la pila o el nivel de carga',
             detail:
-              'En dispositivos de pila, cámbiela por una nueva. En recargables, coloque el dispositivo en el cargador y compruebe que el indicador de carga está encendido.',
+              'Compruebe el estado de la pila o de la carga que muestra el dispositivo según el manual de uso. Si el problema continúa, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe si el filtro, el tubo o la oliva están obstruidos',
             detail:
-              'La cera puede obstruir el filtro, el tubo o la oliva. Si hay suciedad visible, limpie con suavidad con la herramienta recomendada por el fabricante o cambie el filtro.',
+              'Sin separar el dispositivo ni sus piezas, compruebe si hay suciedad o daños visibles desde fuera. No introduzca una herramienta de limpieza en las aberturas. Si hay un problema, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe la humedad',
             detail:
-              'Deje el dispositivo durante la noche en una caja de secado o con una cápsula deshumidificadora. La humedad puede causar cortes de sonido.',
+              'Si nota humedad, siga el método de secado adecuado del manual de su dispositivo. Si no está seguro de que el accesorio de secado sea compatible, consulte al centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Apague y vuelva a encender la conexión del teléfono',
             detail:
-              'Apague el Bluetooth del teléfono, espere unos segundos y vuelva a encenderlo. Si hace falta, quite el dispositivo de la lista Bluetooth y vuelva a emparejarlo.',
+              'Apague el Bluetooth del teléfono, espere unos segundos y vuelva a encenderlo. Siga las instrucciones de emparejamiento del teléfono y del dispositivo.',
           },
         ],
       },
@@ -611,12 +611,12 @@ export const es = {
           {
             instruction: 'Compruebe el ajuste del molde',
             detail:
-              'Saque el molde y vuelva a colocarlo. Un molde que no encaja del todo puede provocar sensación de eco.',
+              'Compruebe la colocación del dispositivo en el oído según la forma de uso que le mostraron. No separe las piezas ni fuerce el dispositivo al colocarlo. Si el problema continúa, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe si el filtro, el tubo o la oliva están obstruidos',
             detail:
-              'La cera puede obstruir el filtro, el tubo o la oliva. Si hay suciedad visible, limpie con suavidad con la herramienta recomendada por el fabricante o cambie el filtro.',
+              'Sin separar el dispositivo ni sus piezas, compruebe si hay suciedad o daños visibles desde fuera. No introduzca una herramienta de limpieza en las aberturas. Si hay un problema, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Revise los ajustes de sonido',
@@ -626,7 +626,7 @@ export const es = {
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
         ],
       },
@@ -646,7 +646,7 @@ export const es = {
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
         ],
       },
@@ -657,12 +657,12 @@ export const es = {
           {
             instruction: 'Compruebe que el dispositivo encaja por completo en el oído',
             detail:
-              'Saque el molde o la oliva y vuelva a colocarlos. Un ajuste suelto es la causa más frecuente del silbido.',
+              'Compruebe la colocación del dispositivo en el oído según la forma de uso que le mostraron. No separe las piezas ni fuerce el dispositivo al colocarlo. Si el problema continúa, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe si el filtro, el tubo o la oliva están obstruidos',
             detail:
-              'La cera puede obstruir el filtro, el tubo o la oliva. Si hay suciedad visible, limpie con suavidad con la herramienta recomendada por el fabricante o cambie el filtro.',
+              'Sin separar el dispositivo ni sus piezas, compruebe si hay suciedad o daños visibles desde fuera. No introduzca una herramienta de limpieza en las aberturas. Si hay un problema, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Compruebe el volumen',
@@ -692,12 +692,12 @@ export const es = {
           {
             instruction: 'Limpie los contactos de carga con un paño seco',
             detail:
-              'Si hay suciedad o humedad en los contactos del dispositivo y de la ranura, limpie con suavidad con un paño seco y suave.',
+              'Desconecte el cargador de la corriente. Limpie con suavidad los contactos exteriores del dispositivo y de la ranura con un paño seco y suave, según las instrucciones del fabricante. No los lave ni separe las piezas.',
           },
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
         ],
       },
@@ -712,17 +712,17 @@ export const es = {
           {
             instruction: 'Apague y vuelva a encender la conexión del teléfono',
             detail:
-              'Apague el Bluetooth del teléfono, espere unos segundos y vuelva a encenderlo. Si hace falta, quite el dispositivo de la lista Bluetooth y vuelva a emparejarlo.',
+              'Apague el Bluetooth del teléfono, espere unos segundos y vuelva a encenderlo. Siga las instrucciones de emparejamiento del teléfono y del dispositivo.',
           },
           {
             instruction: 'Reinicie el dispositivo',
             detail:
-              'Apague el dispositivo, espere 10 segundos y vuelva a encenderlo. En dispositivos de pila puede extraer la pila y volver a colocarla.',
+              'El método de reinicio depende del modelo. Si hay un método que se pueda aplicar sin quitar piezas, siga el manual del fabricante; si no está seguro, pida ayuda en el centro donde adquirió el dispositivo.',
           },
           {
             instruction: 'Vuelva a emparejar el dispositivo',
             detail:
-              'Elimine (olvide) el dispositivo de la lista Bluetooth del teléfono y siga de nuevo los pasos de emparejamiento de la aplicación del fabricante.',
+              'Vuelva a conectar el dispositivo y el teléfono según las instrucciones de emparejamiento del fabricante o del teléfono. No en todos los modelos hace falta eliminarlo de la lista.',
           },
           {
             instruction: 'Reinicie el teléfono',

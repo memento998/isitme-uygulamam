@@ -46,9 +46,8 @@ const Notifications: typeof NotificationsModule | null =
       (require('expo-notifications') as typeof NotificationsModule);
 
 export const PERMISSION_EXPLANATION =
-  'Kontrol ve bakım tarihleriniz geldiğinde size hatırlatma gönderebilmemiz için ' +
-  'bildirim iznine ihtiyacımız var. Bildirimler yalnızca sizin eklediğiniz cihazların ' +
-  'planlanan işlemleri için kullanılır.';
+  'Kontrol ve bakım hatırlatmaları ile açmayı seçtiğiniz günlük bilgi bildirimlerini ' +
+  'gönderebilmek için bildirim izni gerekir. Günlük bilgi bildirimlerini ayrıca açıp kapatabilirsiniz.';
 
 export type PermissionState = 'granted' | 'denied' | 'undetermined' | 'unsupported';
 

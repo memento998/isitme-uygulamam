@@ -142,7 +142,7 @@ export const tr = {
     permissionUndetermined: 'Henüz izin istenmedi',
     permissionUnsupported: 'Bu platformda desteklenmiyor',
     permissionExplanation:
-      'Kontrol ve bakım tarihleriniz geldiğinde size hatırlatma gönderebilmemiz için bildirim iznine ihtiyacımız var. Bildirimler yalnızca sizin eklediğiniz cihazların planlanan işlemleri için kullanılır.',
+      'Kontrol ve bakım hatırlatmaları ile açmayı seçtiğiniz günlük bilgi bildirimlerini gönderebilmek için bildirim izni gerekir. Günlük bilgi bildirimlerini ayrıca açıp kapatabilirsiniz.',
     requestPermission: 'Bildirim İzni Ver',
     permissionStatus: 'Durum: {state}',
     maintenanceTime: 'Bildirim saati',
@@ -150,7 +150,7 @@ export const tr = {
       'Kontrol ve bakım hatırlatmaları, planlanan günde aşağıda seçtiğiniz saatte gönderilir.',
     timeSaved: 'Bildirim saati kaydedildi ve hatırlatmalar güncellendi.',
     webUnsupported:
-      'Web önizlemesinde bildirimler desteklenmez. Bildirimleri Android veya iOS cihazınızda kullanabilirsiniz.',
+      'Web önizlemesinde bildirimler desteklenmez. Bildirimleri Android cihazınızda kullanabilirsiniz.',
     dailyKnowledgeSection: 'Günlük bilgi',
     dailyKnowledgeOffHelp:
       'Günlük bilgi bildirimleri kapalı. İsterseniz aşağıdan açabilirsiniz.',
@@ -192,10 +192,10 @@ export const tr = {
   legal: {
     privacy: {
       title: 'Gizlilik Politikası',
-      banner: 'Verileriniz bu sürümde yalnızca kendi cihazınızda saklanır.',
+      banner: 'Girdiğiniz kayıtlar bu sürümde kendi cihazınızda saklanır.',
       storageHeading: 'Verileriniz nerede saklanır?',
       storageBody:
-        'İşitme Takip uygulamasına girdiğiniz tüm bilgiler (cihazlar, kontroller, bakım ve servis kayıtları) yalnızca telefonunuzdaki yerel veritabanında saklanır. Bu sürümde hiçbir veri internete gönderilmez, hiçbir sunucuda tutulmaz.',
+        'FixHear uygulamasına girdiğiniz cihaz, kontrol, bakım ve servis kayıtları yalnızca telefonunuzdaki yerel veritabanında saklanır. FixHear bu kayıtları kendi sunucusuna göndermez. Yedekleme yalnızca sizin başlattığınız paylaşımla yapılır. Reklam sağlayıcısının işleyebileceği teknik veriler aşağıdaki reklam bölümünde ayrı açıklanır.',
       accountHeading: 'Hesap ve üyelik',
       accountBody: 'Uygulama üyelik veya giriş gerektirmez. Kişisel kimlik bilgisi toplamaz.',
       controlHeading: 'Verilerinizin kontrolü sizde',
@@ -217,7 +217,7 @@ export const tr = {
         'Bu sayfa bir özet yer tutucudur. Nihai kullanım koşulları hukuki inceleme gerektirir.',
       usageHeading: 'Uygulamanın kullanımı',
       usageBody:
-        'fixhear (İşitme Takip), işitme cihazı takip ve hatırlatma amaçlı ücretsiz bir uygulamadır. Bu sayfa bağlayıcı bir sözleşme değildir.',
+        'FixHear, işitme cihazı takip ve hatırlatma amaçlı ücretsiz bir uygulamadır. Bu sayfa bağlayıcı bir sözleşme değildir.',
       notMedicalHeading: 'Tıbbi cihaz değildir',
       notMedicalBody:
         'Uygulama tıbbi tanı koymaz, tedavi önermez ve belgelendirilmiş bir tıbbi cihaz değildir. Cihaz ayarları ve sağlık kararları için işitme uzmanınıza danışın.',
@@ -233,7 +233,7 @@ export const tr = {
       banner: 'Bu uygulama tıbbi tanı koymaz ve işitme uzmanınızın yerini tutmaz.',
       purposeHeading: 'Uygulamanın amacı',
       purposeBody:
-        'İşitme Takip, işitme cihazınızın kontrol ve bakım tarihlerini takip etmenize yardımcı olan bir hatırlatma ve kayıt aracıdır. Sağladığı bilgiler yalnızca genel niteliktedir.',
+        'FixHear, işitme cihazınızın kontrol ve bakım tarihlerini takip etmenize yardımcı olan bir hatırlatma ve kayıt aracıdır. Sağladığı bilgiler yalnızca genel niteliktedir.',
       notAdviceHeading: 'Tıbbi tavsiye değildir',
       notAdviceBody:
         'Uygulamadaki kontrol takvimi, bakım önerileri ve sorun giderme adımları tıbbi tavsiye değildir. Bu kontrol programı yalnızca örnek bir hatırlatma takvimidir, tıbbi tavsiye değildir. Kontrol sıklığını işitme uzmanınızla birlikte belirleyin.',
@@ -246,12 +246,12 @@ export const tr = {
     },
     about: {
       title: 'Uygulama Hakkında',
-      appName: 'İşitme Takip',
+      appName: 'FixHear',
       version: 'Sürüm {version}',
       paragraph1:
-        'İşitme Takip; işitme cihazı kullanan kişilerin cihazlarını, periyodik kontrollerini, bakım işlemlerini ve yaşadıkları temel sorunları takip edebilmesi için geliştirilmiş ücretsiz bir uygulamadır.',
+        'FixHear; işitme cihazı kullanan kişilerin cihazlarını, periyodik kontrollerini, bakım işlemlerini ve yaşadıkları temel sorunları takip edebilmesi için geliştirilmiş ücretsiz bir uygulamadır.',
       paragraph2:
-        'Uygulama internet bağlantısı gerektirmez; tüm verileriniz yalnızca cihazınızda saklanır.',
+        'Girdiğiniz kayıtlar bu sürümde telefonunuzda saklanır. Reklam gösterimi için internet bağlantısı gerekebilir; reklam sağlayıcısının teknik verileri Gizlilik Politikasında özetlenir.',
       paragraph3:
         'Bu uygulama tıbbi bir araç veya belgelendirilmiş bir tıbbi cihaz değildir. Kontrol sıklığı ve cihaz ayarları için her zaman işitme uzmanınıza danışın.',
       paragraph4:
@@ -452,9 +452,9 @@ export const tr = {
     description: 'Açıklama',
     noService: 'Kayıtlı servis işlemi yok.',
     disclaimer:
-      'Bu rapor İşitme Takip uygulaması tarafından kullanıcının girdiği verilerle oluşturulmuştur. Tıbbi tavsiye niteliği taşımaz; işitme uzmanınızın değerlendirmesinin yerini tutmaz.',
+      'Bu rapor FixHear uygulaması tarafından kullanıcının girdiği verilerle oluşturulmuştur. Tıbbi tavsiye niteliği taşımaz; işitme uzmanınızın değerlendirmesinin yerini tutmaz.',
     shareTitle: '{name} raporu',
-    appName: 'İşitme Takip',
+    appName: 'FixHear',
     reportsTitle: 'PDF Raporları',
     reportsHelp:
       'Rapor; cihaz bilgilerini, kontrol geçmişini, bakım geçmişini ve servis kayıtlarını içerir.',
@@ -479,7 +479,7 @@ export const tr = {
     restoreConfirmMessage:
       'Geri yükleme mevcut tüm verilerinizi silecek ve yedek dosyasındaki verilerle değiştirecek. Devam etmek istiyor musunuz?',
     invalidJson: 'Dosya geçerli bir JSON değil.',
-    invalidBackup: 'Dosya geçerli bir İşitme Takip yedeği değil.',
+    invalidBackup: 'Dosya geçerli bir FixHear yedeği değil.',
     restoreCount: 'Geri yükleme tamamlandı: {count} cihaz yüklendi.',
     restoreFail: 'Geri yükleme sırasında bir sorun oluştu.',
     shareDialog: 'Yedeği paylaş',
@@ -524,12 +524,12 @@ export const tr = {
           {
             instruction: 'Pili veya şarj seviyesini kontrol edin',
             detail:
-              'Pilli cihazlarda pili yenisiyle değiştirin. Şarjlı cihazlarda cihazı şarj ünitesine yerleştirip şarj göstergesinin yandığını doğrulayın.',
+              'Cihazınızın gösterdiği pil veya şarj durumunu kullanım kılavuzuna göre kontrol edin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Filtre, hortum veya kubbenin tıkalı olup olmadığını kontrol edin',
             detail:
-              'Kulak kiri filtreyi, hortumu veya kubbeyi tıkayabilir. Görünür kir varsa üreticinin önerdiği temizlik aracıyla nazikçe temizleyin veya filtreyi değiştirin.',
+              'Cihazı ve parçalarını ayırmadan, dışarıdan görülebilen kir veya hasar olup olmadığını kontrol edin. Açıklıklara temizlik aracı sokmayın. Sorun varsa cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Ses seviyesini kontrol edin',
@@ -539,7 +539,7 @@ export const tr = {
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
         ],
       },
@@ -554,22 +554,22 @@ export const tr = {
           {
             instruction: 'Filtre, hortum veya kubbenin tıkalı olup olmadığını kontrol edin',
             detail:
-              'Kulak kiri filtreyi, hortumu veya kubbeyi tıkayabilir. Görünür kir varsa üreticinin önerdiği temizlik aracıyla nazikçe temizleyin veya filtreyi değiştirin.',
+              'Cihazı ve parçalarını ayırmadan, dışarıdan görülebilen kir veya hasar olup olmadığını kontrol edin. Açıklıklara temizlik aracı sokmayın. Sorun varsa cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Pili veya şarj seviyesini kontrol edin',
             detail:
-              'Pilli cihazlarda pili yenisiyle değiştirin. Şarjlı cihazlarda cihazı şarj ünitesine yerleştirip şarj göstergesinin yandığını doğrulayın.',
+              'Cihazınızın gösterdiği pil veya şarj durumunu kullanım kılavuzuna göre kontrol edin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Kulak kalıbının yerleşimini kontrol edin',
             detail:
-              'Kulak kalıbının veya kubbenin kulağınıza tam oturduğundan emin olun. Yanlış yerleşim sesi azaltabilir.',
+              'Cihazın kulağınıza yerleşimini, size gösterilen kullanım biçimine göre kontrol edin. Parçaları birbirinden ayırmayın ve cihazı zorlayarak yerleştirmeyin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
         ],
       },
@@ -580,27 +580,27 @@ export const tr = {
           {
             instruction: 'Pili veya şarj seviyesini kontrol edin',
             detail:
-              'Pilli cihazlarda pili yenisiyle değiştirin. Şarjlı cihazlarda cihazı şarj ünitesine yerleştirip şarj göstergesinin yandığını doğrulayın.',
+              'Cihazınızın gösterdiği pil veya şarj durumunu kullanım kılavuzuna göre kontrol edin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Filtre, hortum veya kubbenin tıkalı olup olmadığını kontrol edin',
             detail:
-              'Kulak kiri filtreyi, hortumu veya kubbeyi tıkayabilir. Görünür kir varsa üreticinin önerdiği temizlik aracıyla nazikçe temizleyin veya filtreyi değiştirin.',
+              'Cihazı ve parçalarını ayırmadan, dışarıdan görülebilen kir veya hasar olup olmadığını kontrol edin. Açıklıklara temizlik aracı sokmayın. Sorun varsa cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Nem kontrolü yapın',
             detail:
-              'Cihazı gece boyunca kurutma kabında veya kurutma kapsülüyle bekletin. Nem, ses kesintilerine yol açabilir.',
+              'Nem fark ederseniz cihazınızın kullanım kılavuzundaki uygun kurutma yöntemini izleyin. Kurutma aksesuarının cihazınızla uyumlu olduğundan emin değilseniz cihazı aldığınız merkeze danışın.',
           },
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Telefon bağlantısını kapatıp yeniden açın',
             detail:
-              'Telefonunuzun Bluetooth ayarını kapatın, birkaç saniye bekleyin ve yeniden açın. Gerekirse cihazı Bluetooth listesinden kaldırıp yeniden eşleştirin.',
+              'Telefonunuzun Bluetooth ayarını kapatın, birkaç saniye bekleyin ve yeniden açın. Eşleştirme için telefonunuzun ve cihazınızın kendi yönergelerini izleyin.',
           },
         ],
       },
@@ -611,12 +611,12 @@ export const tr = {
           {
             instruction: 'Kulak kalıbının yerleşimini kontrol edin',
             detail:
-              'Kalıbı çıkarıp yeniden takın. Tam oturmayan kalıp yankı hissine neden olabilir.',
+              'Cihazın kulağınıza yerleşimini, size gösterilen kullanım biçimine göre kontrol edin. Parçaları birbirinden ayırmayın ve cihazı zorlayarak yerleştirmeyin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Filtre, hortum veya kubbenin tıkalı olup olmadığını kontrol edin',
             detail:
-              'Kulak kiri filtreyi, hortumu veya kubbeyi tıkayabilir. Görünür kir varsa üreticinin önerdiği temizlik aracıyla nazikçe temizleyin veya filtreyi değiştirin.',
+              'Cihazı ve parçalarını ayırmadan, dışarıdan görülebilen kir veya hasar olup olmadığını kontrol edin. Açıklıklara temizlik aracı sokmayın. Sorun varsa cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Ses ayarlarını gözden geçirin',
@@ -626,7 +626,7 @@ export const tr = {
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
         ],
       },
@@ -646,7 +646,7 @@ export const tr = {
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
         ],
       },
@@ -657,12 +657,12 @@ export const tr = {
           {
             instruction: 'Cihazın kulağınıza tam oturduğunu kontrol edin',
             detail:
-              'Kalıbı veya kubbeyi çıkarıp yeniden yerleştirin. Gevşek yerleşim ötmenin en sık nedenidir.',
+              'Cihazın kulağınıza yerleşimini, size gösterilen kullanım biçimine göre kontrol edin. Parçaları birbirinden ayırmayın ve cihazı zorlayarak yerleştirmeyin. Sorun sürerse cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Filtre, hortum veya kubbenin tıkalı olup olmadığını kontrol edin',
             detail:
-              'Kulak kiri filtreyi, hortumu veya kubbeyi tıkayabilir. Görünür kir varsa üreticinin önerdiği temizlik aracıyla nazikçe temizleyin veya filtreyi değiştirin.',
+              'Cihazı ve parçalarını ayırmadan, dışarıdan görülebilen kir veya hasar olup olmadığını kontrol edin. Açıklıklara temizlik aracı sokmayın. Sorun varsa cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Ses seviyesini kontrol edin',
@@ -692,12 +692,12 @@ export const tr = {
           {
             instruction: 'Şarj temas noktalarını kuru bir bezle silin',
             detail:
-              'Cihazın ve yuvanın temas noktalarında kir veya nem varsa kuru, yumuşak bir bezle nazikçe temizleyin.',
+              'Şarj ünitesinin güç bağlantısını ayırın. Cihazın ve yuvanın dış yüzeyindeki temas noktalarını üreticinin talimatına göre kuru, yumuşak bir bezle nazikçe silin. Yıkamayın ve parçaları sökmeyin.',
           },
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
         ],
       },
@@ -712,17 +712,17 @@ export const tr = {
           {
             instruction: 'Telefon bağlantısını kapatıp yeniden açın',
             detail:
-              'Telefonunuzun Bluetooth ayarını kapatın, birkaç saniye bekleyin ve yeniden açın. Gerekirse cihazı Bluetooth listesinden kaldırıp yeniden eşleştirin.',
+              'Telefonunuzun Bluetooth ayarını kapatın, birkaç saniye bekleyin ve yeniden açın. Eşleştirme için telefonunuzun ve cihazınızın kendi yönergelerini izleyin.',
           },
           {
             instruction: 'Cihazı yeniden başlatın',
             detail:
-              'Cihazı kapatıp 10 saniye bekleyin ve tekrar açın. Pilli cihazlarda pili çıkarıp yeniden takabilirsiniz.',
+              'Yeniden başlatma yöntemi modele göre değişir. Parça çıkarmadan uygulanabilen bir yöntem varsa üreticinin kullanım kılavuzunu izleyin; emin değilseniz cihazı aldığınız merkezden destek alın.',
           },
           {
             instruction: 'Cihazı yeniden eşleştirin',
             detail:
-              'Telefonun Bluetooth listesinden cihazı kaldırın (unut) ve üreticinin uygulamasındaki eşleştirme adımlarını yeniden uygulayın.',
+              'Cihazınızı ve telefonunuzu üreticinin veya telefonun kendi eşleştirme yönergesine göre yeniden bağlayın. Her modelde listeden silmek gerekmez.',
           },
           {
             instruction: 'Telefonu yeniden başlatın',

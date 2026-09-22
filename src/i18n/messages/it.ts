@@ -117,7 +117,7 @@ export const it = {
       ALL: 'Tutti',
       BTE_TUBE: 'BTE con tubetto',
       RIC_RITE: 'RIC / RITE',
-      ITE: 'ITE (endouricolare)',
+      ITE: 'ITE (endoauricolare)',
       REPLACEABLE_BATTERY: 'Batteria sostituibile',
       RECHARGEABLE: 'Ricaricabile',
       WAX_FILTER: 'Filtro cerume',
@@ -142,7 +142,7 @@ export const it = {
     permissionUndetermined: 'Autorizzazione non ancora richiesta',
     permissionUnsupported: 'Non supportata su questa piattaforma',
     permissionExplanation:
-      'Serve l’autorizzazione alle notifiche per ricordarti le date di controllo e manutenzione. Le notifiche sono usate solo per le attività pianificate dei dispositivi che hai aggiunto.',
+      'L’autorizzazione alle notifiche è necessaria per i promemoria di controllo e manutenzione e per i consigli giornalieri che scegli di attivare. Puoi attivare o disattivare separatamente le notifiche dei consigli giornalieri.',
     requestPermission: 'Consenti le notifiche',
     permissionStatus: 'Stato: {state}',
     maintenanceTime: 'Orario delle notifiche',
@@ -150,7 +150,7 @@ export const it = {
       'I promemoria di controllo e manutenzione vengono inviati nel giorno previsto all’orario scelto sotto.',
     timeSaved: 'Orario delle notifiche salvato e promemoria aggiornati.',
     webUnsupported:
-      'Le notifiche non sono supportate nell’anteprima web. Puoi usarle su un dispositivo Android o iOS.',
+      'Le notifiche non sono supportate nell’anteprima web. Puoi usarle su un dispositivo Android.',
     dailyKnowledgeSection: 'Consiglio giornaliero',
     dailyKnowledgeOffHelp: 'I consigli giornalieri sono disattivati. Puoi attivarli qui sotto.',
     openSystemSettings: 'Apri le impostazioni di sistema',
@@ -191,10 +191,10 @@ export const it = {
   legal: {
     privacy: {
       title: 'Informativa sulla privacy',
-      banner: 'In questa versione i tuoi dati sono memorizzati solo sul tuo dispositivo.',
+      banner: 'In questa versione i registri che inserisci restano sul tuo dispositivo.',
       storageHeading: 'Dove sono memorizzati i tuoi dati?',
       storageBody:
-        'Tutte le informazioni inserite in FixHear (dispositivi, controlli, manutenzione e assistenza) sono memorizzate solo nel database locale del telefono. In questa versione nessun dato viene inviato in internet né conservato su un server.',
+        'I registri di dispositivi, controlli, manutenzione e assistenza inseriti in FixHear restano solo nel database locale del telefono. FixHear non invia questi registri a un proprio server. Il backup avviene solo se avvii tu una condivisione. I dati tecnici che il fornitore di annunci può trattare sono descritti a parte nella sezione pubblicità più sotto.',
       accountHeading: 'Account e iscrizione',
       accountBody:
         'L’app non richiede iscrizione né accesso. Non raccoglie dati di identità personale.',
@@ -251,7 +251,7 @@ export const it = {
       paragraph1:
         'FixHear è un’app gratuita che aiuta chi usa un apparecchio acustico a seguire i dispositivi, i controlli periodici, la manutenzione e i problemi più comuni.',
       paragraph2:
-        'L’app non richiede una connessione a internet; tutti i tuoi dati restano solo sul dispositivo.',
+        'I registri che inserisci restano sul telefono in questa versione. Mostrare annunci può richiedere una connessione a internet; i dati tecnici del fornitore di annunci sono riassunti nell’Informativa sulla privacy.',
       paragraph3:
         'Questa app non è uno strumento medico né un dispositivo medico certificato. Per la frequenza dei controlli e le impostazioni del dispositivo consulta sempre lo specialista dell’udito.',
       paragraph4:
@@ -524,12 +524,12 @@ export const it = {
           {
             instruction: 'Controlla la batteria o il livello di carica',
             detail:
-              'Nei dispositivi a batteria sostituiscila con una nuova. Nei ricaricabili inserisci il dispositivo nel caricatore e verifica che l’indicatore di carica sia acceso.',
+              'Controlla lo stato della batteria o della carica indicato dal dispositivo secondo il manuale d’uso. Se il problema continua, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla se filtro, tubetto o cupola sono ostruiti',
             detail:
-              'Il cerume può ostruire filtro, tubetto o cupola. Se c’è sporco visibile, pulisci delicatamente con lo strumento consigliato dal produttore o sostituisci il filtro.',
+              'Senza smontare il dispositivo o le sue parti, controlla se ci sono sporco o danni visibili dall’esterno. Non inserire strumenti di pulizia nelle aperture. Se c’è un problema, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla il volume',
@@ -539,7 +539,7 @@ export const it = {
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
         ],
       },
@@ -554,22 +554,22 @@ export const it = {
           {
             instruction: 'Controlla se filtro, tubetto o cupola sono ostruiti',
             detail:
-              'Il cerume può ostruire filtro, tubetto o cupola. Se c’è sporco visibile, pulisci delicatamente con lo strumento consigliato dal produttore o sostituisci il filtro.',
+              'Senza smontare il dispositivo o le sue parti, controlla se ci sono sporco o danni visibili dall’esterno. Non inserire strumenti di pulizia nelle aperture. Se c’è un problema, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla la batteria o il livello di carica',
             detail:
-              'Nei dispositivi a batteria sostituiscila con una nuova. Nei ricaricabili inserisci il dispositivo nel caricatore e verifica che l’indicatore di carica sia acceso.',
+              'Controlla lo stato della batteria o della carica indicato dal dispositivo secondo il manuale d’uso. Se il problema continua, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla l’inserimento della chiocciola',
             detail:
-              'Assicurati che la chiocciola o la cupola siano ben inserite nell’orecchio. Un inserimento errato può ridurre il suono.',
+              'Controlla la posizione del dispositivo nell’orecchio secondo il modo d’uso che ti è stato mostrato. Non separare le parti e non forzare il dispositivo. Se il problema continua, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
         ],
       },
@@ -580,27 +580,27 @@ export const it = {
           {
             instruction: 'Controlla la batteria o il livello di carica',
             detail:
-              'Nei dispositivi a batteria sostituiscila con una nuova. Nei ricaricabili inserisci il dispositivo nel caricatore e verifica che l’indicatore di carica sia acceso.',
+              'Controlla lo stato della batteria o della carica indicato dal dispositivo secondo il manuale d’uso. Se il problema continua, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla se filtro, tubetto o cupola sono ostruiti',
             detail:
-              'Il cerume può ostruire filtro, tubetto o cupola. Se c’è sporco visibile, pulisci delicatamente con lo strumento consigliato dal produttore o sostituisci il filtro.',
+              'Senza smontare il dispositivo o le sue parti, controlla se ci sono sporco o danni visibili dall’esterno. Non inserire strumenti di pulizia nelle aperture. Se c’è un problema, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla l’umidità',
             detail:
-              'Lascia il dispositivo per la notte in una scatola di essiccazione o con una capsula deumidificante. L’umidità può causare interruzioni del suono.',
+              'Se noti umidità, segui il metodo di asciugatura adatto indicato nel manuale del dispositivo. Se non sei sicuro che l’accessorio di asciugatura sia compatibile, chiedi al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Spegni e riaccendi la connessione del telefono',
             detail:
-              'Spegni il Bluetooth del telefono, attendi qualche secondo e riaccendilo. Se serve, rimuovi il dispositivo dall’elenco Bluetooth e abbinarlo di nuovo.',
+              'Spegni il Bluetooth del telefono, attendi qualche secondo e riaccendilo. Segui le istruzioni di abbinamento del telefono e del dispositivo.',
           },
         ],
       },
@@ -611,12 +611,12 @@ export const it = {
           {
             instruction: 'Controlla l’inserimento della chiocciola',
             detail:
-              'Togli la chiocciola e reinseriscila. Una chiocciola non ben inserita può dare una sensazione di eco.',
+              'Controlla la posizione del dispositivo nell’orecchio secondo il modo d’uso che ti è stato mostrato. Non separare le parti e non forzare il dispositivo. Se il problema continua, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla se filtro, tubetto o cupola sono ostruiti',
             detail:
-              'Il cerume può ostruire filtro, tubetto o cupola. Se c’è sporco visibile, pulisci delicatamente con lo strumento consigliato dal produttore o sostituisci il filtro.',
+              'Senza smontare il dispositivo o le sue parti, controlla se ci sono sporco o danni visibili dall’esterno. Non inserire strumenti di pulizia nelle aperture. Se c’è un problema, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Rivedi le impostazioni del suono',
@@ -626,7 +626,7 @@ export const it = {
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
         ],
       },
@@ -646,7 +646,7 @@ export const it = {
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
         ],
       },
@@ -657,12 +657,12 @@ export const it = {
           {
             instruction: 'Controlla che il dispositivo sia ben inserito nell’orecchio',
             detail:
-              'Togli chiocciola o cupola e reinseriscile. Un inserimento allentato è la causa più comune del fischio.',
+              'Controlla la posizione del dispositivo nell’orecchio secondo il modo d’uso che ti è stato mostrato. Non separare le parti e non forzare il dispositivo. Se il problema continua, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla se filtro, tubetto o cupola sono ostruiti',
             detail:
-              'Il cerume può ostruire filtro, tubetto o cupola. Se c’è sporco visibile, pulisci delicatamente con lo strumento consigliato dal produttore o sostituisci il filtro.',
+              'Senza smontare il dispositivo o le sue parti, controlla se ci sono sporco o danni visibili dall’esterno. Non inserire strumenti di pulizia nelle aperture. Se c’è un problema, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Controlla il volume',
@@ -692,12 +692,12 @@ export const it = {
           {
             instruction: 'Pulisci i contatti di ricarica con un panno asciutto',
             detail:
-              'Se sui contatti del dispositivo e dello slot c’è sporco o umidità, pulisci delicatamente con un panno asciutto e morbido.',
+              'Scollega il caricatore dalla corrente. Pulisci delicatamente i punti di contatto esterni del dispositivo e della sede con un panno asciutto e morbido, secondo le istruzioni del produttore. Non lavarli e non smontare le parti.',
           },
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
         ],
       },
@@ -712,17 +712,17 @@ export const it = {
           {
             instruction: 'Spegni e riaccendi la connessione del telefono',
             detail:
-              'Spegni il Bluetooth del telefono, attendi qualche secondo e riaccendilo. Se serve, rimuovi il dispositivo dall’elenco Bluetooth e abbinalo di nuovo.',
+              'Spegni il Bluetooth del telefono, attendi qualche secondo e riaccendilo. Segui le istruzioni di abbinamento del telefono e del dispositivo.',
           },
           {
             instruction: 'Riavvia il dispositivo',
             detail:
-              'Spegni il dispositivo, attendi 10 secondi e riaccendilo. Nei dispositivi a batteria puoi estrarre la batteria e reinserirla.',
+              'Il metodo di riavvio dipende dal modello. Se esiste un metodo applicabile senza togliere parti, segui il manuale del produttore; se non sei sicuro, rivolgiti al centro dove hai ricevuto il dispositivo.',
           },
           {
             instruction: 'Abbina di nuovo il dispositivo',
             detail:
-              'Rimuovi (dimentica) il dispositivo dall’elenco Bluetooth del telefono e ripeti i passaggi di abbinamento nell’app del produttore.',
+              'Ricollega dispositivo e telefono seguendo le istruzioni di abbinamento del produttore o del telefono. Non per tutti i modelli è necessario rimuoverlo dall’elenco.',
           },
           {
             instruction: 'Riavvia il telefono',
