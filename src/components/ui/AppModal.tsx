@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, fontSize, MIN_TOUCH_SIZE, radius, spacing } from '@/constants/theme';
 
@@ -21,13 +22,24 @@ interface Props extends PropsWithChildren {
 
 /** Form içerikleri için ortak modal pencere. */
 export function AppModal({ visible, title, onClose, children }: Props) {
+  const insets = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.overlay}
+        style={[styles.overlay, { paddingTop: insets.top }]}
       >
-        <View style={styles.sheet} accessibilityViewIsModal>
+        <View
+          style={[
+            styles.sheet,
+            {
+              paddingBottom: insets.bottom,
+              marginLeft: insets.left,
+              marginRight: insets.right,
+            },
+          ]}
+          accessibilityViewIsModal
+        >
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
             <Pressable

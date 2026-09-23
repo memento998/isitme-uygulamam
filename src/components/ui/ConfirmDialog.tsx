@@ -1,4 +1,5 @@
 import { Modal, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, fontSize, radius, spacing } from '@/constants/theme';
 import { Button } from './Button';
@@ -25,9 +26,20 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: Props) {
+  const insets = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
-      <View style={styles.overlay}>
+      <View
+        style={[
+          styles.overlay,
+          {
+            paddingTop: Math.max(spacing.xl, insets.top),
+            paddingBottom: Math.max(spacing.xl, insets.bottom),
+            paddingLeft: Math.max(spacing.xl, insets.left),
+            paddingRight: Math.max(spacing.xl, insets.right),
+          },
+        ]}
+      >
         <View style={styles.dialog} accessibilityViewIsModal>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{message}</Text>

@@ -95,7 +95,12 @@ export function HeaderSectionBar() {
   };
 
   return (
-    <View style={[styles.safe, { paddingTop: insets.top }]}>
+    <View
+      style={[
+        styles.safe,
+        { paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right },
+      ]}
+    >
       <View style={styles.tabs} accessibilityRole="tablist">
         {HEADER_SECTIONS.map((item) => {
           const active = item.match(pathname);
