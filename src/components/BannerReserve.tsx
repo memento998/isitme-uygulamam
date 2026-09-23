@@ -21,6 +21,8 @@ export function BannerReserve() {
         {
           height: BANNER_RESERVE_HEIGHT + insets.bottom,
           paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
         },
       ]}
     >

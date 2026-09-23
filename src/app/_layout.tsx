@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { KnowledgeNotificationBridge } from '@/components/KnowledgeNotificationBridge';
 import { colors } from '@/constants/theme';
@@ -19,6 +20,13 @@ export default function RootLayout() {
 
 function RootLayoutInner() {
   const { messages } = useI18n();
+  const insets = useSafeAreaInsets();
+  const sceneStyle = {
+    backgroundColor: colors.background,
+    paddingBottom: insets.bottom,
+    paddingLeft: insets.left,
+    paddingRight: insets.right,
+  };
 
   useEffect(() => {
     configureNotifications();
@@ -42,10 +50,13 @@ function RootLayoutInner() {
           headerTintColor: colors.primary,
           headerTitleStyle: { color: colors.text, fontWeight: '700' },
           headerBackTitle: messages.common.back,
-          contentStyle: { backgroundColor: colors.background },
+          contentStyle: sceneStyle,
         }}
       >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}
+        />
         <Stack.Screen name="device/new" options={{ title: messages.deviceForm.titleNew, presentation: 'modal' }} />
         <Stack.Screen name="device/[id]/index" options={{ title: messages.deviceDetail.screenTitle }} />
         <Stack.Screen
